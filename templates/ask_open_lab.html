@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.uid }}
+        <div>
+            {{ form.lab.label }}:{{ form.lab }}{{ form.lab.errors }}
+        </div>
+        <div>
+            <div>
+                {{ form.begin_date.label }}:{{ form.begin_date }}{{ form.begin_date.errors }}
+            </div>
+            <div>
+                {{ form.begin_time.label }}:{{ form.begin_time }}{{ form.begin_time.errors }}
+            </div>
+        </div>
+
+        <div>
+            <div>
+                {{ form.end_date.label }}:{{ form.end_date }}{{ form.end_time.errors }}
+            </div>
+            <div>
+                {{ form.end_time.label }}:{{ form.end_time }}{{ form.end_time.errors }}
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

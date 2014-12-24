@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{#    {{ uname }} Login Successful#}
+{#    {% for p in perm %}#}
+{#        <p>{{ p }}</p>#}
+{#    {% endfor %}#}
+<div class="navigator">
+    {% for perm in perm_list %}
+        <a href={{ perm.url }}>{{ perm.pname }}</a>
+    {% endfor %}
+</div>
+
+</body>
+</html>
