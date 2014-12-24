@@ -17,11 +17,6 @@ from labmanageproject.my_form import *
 def check_perm(perm):
     def decorator(func):
         def wrapper(request, *args, **kwargs):
-            session_key = ['uid', 'uname', 'perm_list']
-            for key in session_key:
-                if key not in request.session:
-                    return login(request)
-
             for t in request.session['perm_list']:
                 t = t['url']
                 pattern = re.compile(r'^' + t + '*')
@@ -33,6 +28,18 @@ def check_perm(perm):
         return wrapper
 
     return decorator
+
+
+def check_logged(func):
+    def wrapper(request, *args, **kwargs):
+        session_key = ['uid', 'uname', 'perm_list']
+        for key in session_key:
+            if key not in request.session:
+                return login(request)
+        else:
+            return func(request, *args, **kwargs)
+
+    return wrapper
 
 
 def login(request):
@@ -64,6 +71,7 @@ def home(request):
     return render(request, 'home.html', locals())
 
 
+@check_logged
 @check_perm('预约实验室')
 def ask_open_lab(request):
     if request.method == 'POST':

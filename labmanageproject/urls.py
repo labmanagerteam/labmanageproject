@@ -14,5 +14,5 @@ urlpatterns = patterns('',
 
                        url(r'^login/$', login),
                        url(r'^home/$', home),
-                       url(r'^ask_open_lab/$', ask_open_lab)
+                       url(r'^ask_open_lab/$', ask_open_lab),
 )
