@@ -10,7 +10,7 @@
     <form action="" method="post">{% csrf_token %}
         {{ form.uid }}
         <div>
-            {{ form.lab.label }}:{{ form.lab }}{{ form.lab.errors }}
+            {{ form.lab_id.label }}:{{ form.lab_id }}{{ form.lab_id.errors }}
         </div>
         <div>
             <div>
@@ -23,11 +23,14 @@
 
         <div>
             <div>
-                {{ form.end_date.label }}:{{ form.end_date }}{{ form.end_time.errors }}
+                {{ form.end_date.label }}:{{ form.end_date }}{{ form.end_date.errors }}
             </div>
             <div>
                 {{ form.end_time.label }}:{{ form.end_time }}{{ form.end_time.errors }}
             </div>
+        </div>
+        <div>
+            <input type="submit" value="提交">
         </div>
     </form>
 </div>

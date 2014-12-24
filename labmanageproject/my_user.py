@@ -2,12 +2,11 @@
 __author__ = 'wlw'
 
 from labmanageproject.my_db import get_user, get_uer_identity_perm, get_user_perm
-
-import re
+from labmanageproject.my_filter import *
 
 
 def check_user(uid, password):
-    return get_user(uid, password)
+    return get_user(filter_result_dict_list(['uname']), uid, password)
 
 
 def union_perm_list(a, b):
@@ -28,8 +27,8 @@ def get_perm_list(uid):
     #     perm.append(t[0])
     # return perm
 
-    identity_perm_list = get_uer_identity_perm(uid)
-    user_perm_list = get_user_perm(uid)
+    identity_perm_list = get_uer_identity_perm(filter_result_tuple_list(['pname', 'url']), uid)
+    user_perm_list = get_user_perm(filter_result_dict_list(['pname', 'url']), uid)
     perm_list = union_perm_list(identity_perm_list, user_perm_list)
     return perm_list
 

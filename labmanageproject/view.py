@@ -8,38 +8,11 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import render
 
-from django.contrib.sessions.models import Session
 
 from labmanageproject.my_user import check_user, get_perm_list
 from labmanageproject.my_form import *
-
-
-def check_perm(perm):
-    def decorator(func):
-        def wrapper(request, *args, **kwargs):
-            for t in request.session['perm_list']:
-                t = t['url']
-                pattern = re.compile(r'^' + t + '*')
-                if pattern.match(request.path):
-                    return func(request, *args, **kwargs)
-            else:
-                return render(request, 'out_perm.html', locals())
-
-        return wrapper
-
-    return decorator
-
-
-def check_logged(func):
-    def wrapper(request, *args, **kwargs):
-        session_key = ['uid', 'uname', 'perm_list']
-        for key in session_key:
-            if key not in request.session:
-                return login(request)
-        else:
-            return func(request, *args, **kwargs)
-
-    return wrapper
+from labmanageproject.my_decorator import *
+import labmanageproject.my_lab as lab
 
 
 def login(request):
@@ -75,9 +48,13 @@ def home(request):
 @check_perm('预约实验室')
 def ask_open_lab(request):
     if request.method == 'POST':
-        pass
+        form = ask_open_lab_form(request.POST)
+        if form.is_valid():
+            if lab.check_lab_not_open(form.cleaned_data):
+                return render(request, 'success_submit.html', {'success_message': '成功预约了实验室，请等待管理员审核'})
     else:
         form = ask_open_lab_form(initial={'uid': request.session['uid']})
+    # print form.as_p()
     return render(request, 'ask_open_lab.html', locals())
 
 
