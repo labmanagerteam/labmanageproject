@@ -7,6 +7,9 @@
 <body>
 
 <div>
+    {% if form.errors %}
+        <p>{{ form.errors }}</p>
+    {% endif %}
     <form action="" method="post">{% csrf_token %}
         {{ form.uid }}
         <div>
@@ -28,6 +31,10 @@
             <div>
                 {{ form.end_time.label }}:{{ form.end_time }}{{ form.end_time.errors }}
             </div>
+        </div>
+
+        <div>
+            {{ form.week_day.label }}:{{ form.week_day }}{{ form.week_day.errors }}
         </div>
         <div>
             <input type="submit" value="提交">
