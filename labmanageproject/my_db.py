@@ -4,7 +4,6 @@ __author__ = 'wlw'
 from django.db import connection, transaction
 import exceptions
 
-
 def do_sql(sql, param):
     cursor = connection.cursor()
     cursor.execute(sql, param)
@@ -49,67 +48,84 @@ def get_uer_identity_perm(my_filter, uid):
     return my_filter(cursor.fetchall())
 
 
-class lab():
-    BEGIN_DATE_TIME = "begin_time"
-    END_DATE_TIME = "end_time"
-    UID = "uid"
-    LAB_ID = "lab_id"
-    EXAMINE_STATUS = "examine_status"
-
-    STATUS = {
-        'accept': "通过",
-        'wait': "待审核",
-        'refuse': "拒绝",
-    }
-
-    def __init__(self):
-        raise exceptions.Exception("这个类不应该实例化")
+def get_identity_id_by_name(gname):
+    sql = "select gid from identity where gname=%s"
+    cursor = do_sql(sql, gname)
+    return cursor.fetchall()[0][0]
 
 
-    @staticmethod
-    def get_lab_open(my_filter, attribute_value_dict):
-        """dict_list_filter should use ['uname','lab','begin_date_time','end_date_time']"""
-        attribute_sql_dict = {
-            lab.BEGIN_DATE_TIME: " lo.end_time>%s ",
-            lab.END_DATE_TIME: " lo.begin_time<%s ",
-            lab.UID: " lo.uid=%s ",
-            lab.LAB_ID: " lo.lab_id=%s ",
-            lab.EXAMINE_STATUS: " examine_status=%s ",
-        }
-        attribute_value_list = []
-        sql = "select u.uname,l.lab_name,lo.begin_time,lo.end_time from lab_open lo,lab l,user u where"
-        # print attribute_value_dict
-        for (key, value) in attribute_value_dict.items():
-            sql += attribute_sql_dict[key] + "and"
-            attribute_value_list.append(value)
-        sql = sql[0:len(sql) - 3]
-        sql += "and lo.uid=u.uid and lo.lab_id=l.lab_id"
-        print sql
-        cursor = do_sql(sql, attribute_value_list)
-        return my_filter(cursor.fetchall())
+def get_department_id_by_name(dname):
+    sql = "select gid from department where dname=%s"
+    cursor = do_sql(sql, [dname])
+    return cursor.fetchall()[0][0]
+
+
+def get_card_number(uid):
+    return "11223344"
+
+
+def add_department(did, dname):
+    sql = "insert into department(did,dname) values(%s,%s)"
+    do_sql(sql, [did, dname])
+
+
+class user_db():
 
     @staticmethod
-    def get_lab(my_filter):
-        """dict_list_filter should use ['lab_id']"""
-        sql = "select lab_id,lab_name from lab"
-        cursor = do_sql(sql, [])
-        return my_filter(cursor.fetchall())
+    def add_student(uid, uname, password, grade, did):
+        with transaction.atomic():
+            gid = get_identity_id_by_name("student")
+            sql = "insert into user(uid,uname,password,card_number,gid) " \
+                  "VALUES(%s,%s,%s,%s,%s)"
+            do_sql(sql, [uid, uname, password, get_card_number(uid), gid])
+            sql = "insert into student(uid,did,grade) values(%s,%s,%s)"
+            do_sql(sql, [uid, did, grade])
 
     @staticmethod
-    def add_open_lab(attribute_value_dict):
-        sql = "insert into lab_open(%s) values(%s)"
-        name_sql = ""
-        value_sql = ""
-        value_list = []
-        for key, value in attribute_value_dict.items():
-            name_sql += key + ","
-            value_sql += "%s,"
-            value_list.append(value)
+    def add_student_list(student_list):
+        pass
 
-        name_sql = name_sql[0:len(name_sql) - 1]
-        value_sql = value_sql[0:len(value_sql) - 1]
+    @staticmethod
+    def check_password(uid, password):
+        sql = "select uname from user where uid=%s and password = %s"
+        cursor = do_sql(sql, [uid, password])
+        result = cursor.fetchall()
+        return result[0][0]
 
-        print sql % (name_sql, value_sql)
+    def __init__(self, s_dict):
+        pass
 
-        do_sql(sql % (name_sql, value_sql), value_list)
 
+class lab_db():
+    @staticmethod
+    def add_lab_center(lcid, lcname):
+        sql = "insert into lab_center(lcid, lcname) values(%s,%s)"
+        do_sql(sql, [lcid, lcname])
+
+    @staticmethod
+    def add_lab(lid, lname, lcid):
+        sql = "insert into lab(lid, lname, lcid) values(%s,%s,%s)"
+        do_sql(sql, [lid, lname, lcid])
+
+    @staticmethod
+    def get_all_lab_center():
+        sql = "select * from lab_center"
+        result = do_sql(sql, [])
+        return result.fetchall()
+
+    @staticmethod
+    def get_all_lab_by_lcid(lcid):
+        sql = "select lid,lname from lab where lcid=%s"
+        result = do_sql(sql, [lcid])
+        return result.fetchall()
+
+    @staticmethod
+    def add_open_lab(lid, uid, begin_date_time, end_date_time, detail_list):
+        with transaction.atomic():
+            sql = "insert into open_lab(olid, lid, uid, begin_date_time, end_date_time)" \
+                  "values(NULL,%s,%s,%s,%s)"
+            do_sql(sql, [lid, uid, begin_date_time, end_date_time])
+
+            for detail in detail_list:
+                sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time)" \
+                      "values(NULL,%s,%s,%s,%s,%s)"

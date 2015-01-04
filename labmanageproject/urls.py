@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from labmanageproject.view import *
+from labmanageproject.test_db import test_db
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
@@ -12,7 +13,5 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
                        # url(r'^admin/', include(admin.site.urls)),
 
-                       url(r'^login/$', login),
-                       url(r'^home/$', home),
-                       url(r'^ask_open_lab/$', ask_open_lab),
+                       url(r'^test_db/$', test_db),
 )
