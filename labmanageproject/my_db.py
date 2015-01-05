@@ -4,6 +4,7 @@ __author__ = 'wlw'
 from django.db import connection, transaction
 import exceptions
 
+
 def do_sql(sql, param):
     cursor = connection.cursor()
     cursor.execute(sql, param)
@@ -50,7 +51,7 @@ def get_uer_identity_perm(my_filter, uid):
 
 def get_identity_id_by_name(gname):
     sql = "select gid from identity where gname=%s"
-    cursor = do_sql(sql, gname)
+    cursor = do_sql(sql, [gname])
     return cursor.fetchall()[0][0]
 
 
@@ -75,15 +76,53 @@ class user_db():
     def add_student(uid, uname, password, grade, did):
         with transaction.atomic():
             gid = get_identity_id_by_name("student")
-            sql = "insert into user(uid,uname,password,card_number,gid) " \
+            sql = "insert into user(uid,uname,password,card_number) " \
                   "VALUES(%s,%s,%s,%s,%s)"
-            do_sql(sql, [uid, uname, password, get_card_number(uid), gid])
+            do_sql(sql, [uid, uname, password, get_card_number(uid)])
             sql = "insert into student(uid,did,grade) values(%s,%s,%s)"
             do_sql(sql, [uid, did, grade])
+            sql = "insert into user_identity(ugid, uid, gid)" \
+                  "values(NULL, %s, %s)"
+            do_sql(sql, [uid, get_identity_id_by_name('student')])
 
     @staticmethod
     def add_student_list(student_list):
         pass
+
+    @staticmethod
+    def delete_student():
+        pass
+
+    @staticmethod
+    def add_teacher(uid, uname, password, lcid):
+        with transaction.atomic():
+            sql = "insert into user(uid, uname, password, card_number)" \
+                  "values(%s,%s,%s,%s,%s)"
+            do_sql(sql, [uid, uname, password, get_card_number(uid)])
+            sql = "insert into teacher(uid, lcid)" \
+                  "values(%s,%s)"
+            do_sql(sql, [uid, lcid])
+            sql = "insert into user_identity(ugid, uid, gid)" \
+                  "values(NULL, %s, %s)"
+            do_sql(sql, [uid, get_identity_id_by_name('teacher')])
+
+    @staticmethod
+    def add_teacher_list():
+        pass
+
+    @staticmethod
+    def add_administer(uid, uname, password, lcid):
+        with transaction.atomic():
+            sql = "insert into user(uid, uname, password, card_number)" \
+                  "values(%s,%s,%s,%s,%s)"
+            do_sql(sql, [uid, uname, password, get_card_number(uid)])
+            sql = "insert into teacher(uid, lcid)" \
+                  "values(%s,%s)"
+            do_sql(sql, [uid, lcid])
+            sql = "insert into user_identity(ugid, uid, gid)" \
+                  "values(NULL, %s, %s)"
+            do_sql(sql, [uid, get_identity_id_by_name('administer')])
+
 
     @staticmethod
     def check_password(uid, password):
@@ -92,7 +131,7 @@ class user_db():
         result = cursor.fetchall()
         return result[0][0]
 
-    def __init__(self, s_dict):
+    def __init__(self):
         pass
 
 
@@ -108,6 +147,11 @@ class lab_db():
         do_sql(sql, [lid, lname, lcid])
 
     @staticmethod
+    def delete_lab_by_lid(lid):
+        sql = "delete from lab where lid = %s"
+        do_sql(sql, lid)
+
+    @staticmethod
     def get_all_lab_center():
         sql = "select * from lab_center"
         result = do_sql(sql, [])
@@ -120,12 +164,19 @@ class lab_db():
         return result.fetchall()
 
     @staticmethod
-    def add_open_lab(lid, uid, begin_date_time, end_date_time, detail_list):
+    def add_open_lab(olid, lcid, uid, begin_date_time, end_date_time, detail_list):
         with transaction.atomic():
-            sql = "insert into open_lab(olid, lid, uid, begin_date_time, end_date_time)" \
-                  "values(NULL,%s,%s,%s,%s)"
-            do_sql(sql, [lid, uid, begin_date_time, end_date_time])
+            sql = "insert into open_lab(olid, lcid, uid, begin_date_time, end_date_time)" \
+                  "values(%s,%s,%s,%s,%s)"
+            do_sql(sql, [olid, lcid, uid, begin_date_time, end_date_time])
 
             for detail in detail_list:
                 sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time)" \
-                      "values(NULL,%s,%s,%s,%s,%s)"
+                      "values(NULL,%s,%s,%s,%s)"
+                do_sql(sql, [olid, detail[0], detail[1], detail[2]])
+
+    @staticmethod
+    def get_open_lab_by_uid(uid):
+        sql = "select * from open_lab where uid=%s"
+        result = do_sql(sql, [uid])
+        return result.fetchall()
