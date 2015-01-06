@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-from labmanageproject.view import *
+from labmanageproject.user_view import *
 from labmanageproject.test_db import test_db
-from django.conf.urls import patterns, include, url
+from labmanageproject.lab_view import *
 
+from django.conf.urls import patterns, include, url
+# from django.conf.urls.static import static
 from django.contrib import admin
+# from django.conf import settings
 
 admin.autodiscover()
 
@@ -14,4 +17,7 @@ urlpatterns = patterns('',
                        # url(r'^admin/', include(admin.site.urls)),
 
                        url(r'^test_db/$', test_db),
+                       url(r'^$', login),
+                       url(r'^open_lab/$', open_lab),
+                       url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view)
 )

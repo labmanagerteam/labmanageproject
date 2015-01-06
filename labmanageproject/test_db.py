@@ -4,13 +4,6 @@ from django.shortcuts import render_to_response
 import django.utils.timezone as timezone
 
 
-def test_get_identity_id_by_name():
-    print "test_get_group_id"
-    print get_identity_id_by_name("student")
-    print get_identity_id_by_name("teacher")
-    print get_identity_id_by_name("administer")
-
-
 def test_add_department():
     print "test_add_department"
     add_department("1", "软件学院")
@@ -96,7 +89,6 @@ def test_ld_open_lab_by_uid():
 
 def test_db(request):
     print "begin"
-    test_get_identity_id_by_name()
     # test_add_department()
     # test_ud_add_stu()
     test_check_password()
