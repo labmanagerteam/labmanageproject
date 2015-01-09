@@ -9,3 +9,7 @@ class NotPostException(Exception):
 
 class NotFillFieldError(Exception):
     pass
+
+
+class FormInValidError(Exception):
+    pass

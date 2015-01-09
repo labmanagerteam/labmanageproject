@@ -9,12 +9,13 @@
 </head>
 <body>
 <form action="" method="post">{% csrf_token %}
+    {{ form.uid }}
     <div>
         <div>
             开放计划名称：
         </div>
         <div>
-            <input name="olname" type="input"/>
+            {{ form.olname }}
         </div>
     </div>
 
@@ -23,25 +24,7 @@
             实验中心：
         </div>
         <div>
-            <select name="lcid" id="lcid" value="">
-                {% for lc in lc_list %}
-
-                    <option value="{{ lc.lcid }}">{{ lc.lcname }}</option>
-
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-
-    <div>
-        <div>
-            开放计划类型：
-        </div>
-        <div>
-            <select name="type" id="type">
-                <option value="1">单次</option>
-                <option value="2">循环</option>
-            </select>
+            {{ form.lcid }}
         </div>
     </div>
 
@@ -53,8 +36,31 @@
                 <th>开始时间</th>
                 <th>结束时间</th>
                 <th></th>
-                <th></th>
             </tr>
+
+            {% for in_form in form_set %}
+                <tr>
+                    <td>
+                        {{ in_form.lid }}
+                    </td>
+
+                    <td>
+                        {{ in_form.date }}
+                    </td>
+
+                    <td>
+                        {{ in_form.begin_time }}
+                    </td>
+
+                    <td>
+                        {{ in_form.end_time }}
+                    </td>
+
+                    <td>
+                        <input class="delete_one_detail" type="button" value="删除"/>
+                    </td>
+                </tr>
+            {% endfor %}
 
             <tr>
                 <td><input type="button" id="add_button" value="向开放计划中增加一个实验室"/></td>
@@ -62,7 +68,7 @@
         </table>
     </div>
     <div>
-        <input type="button" id="submit" value="提交"/>
+        <input type="submit" value="提交"/>
     </div>
 </form>
 </body>

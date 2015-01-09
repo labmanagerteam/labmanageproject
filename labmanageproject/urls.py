@@ -19,5 +19,8 @@ urlpatterns = patterns('',
                        url(r'^test_db/$', test_db),
                        url(r'^$', login),
                        url(r'^open_lab/$', open_lab),
-                       url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view)
+                       url(r'^open_lab2/$', open_lab2),
+                       url(r'^send_open_lab/$', send_open_lab),
+                       url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view),
+                       url(r'^check_open_lab/$', check_open_lab),
 )

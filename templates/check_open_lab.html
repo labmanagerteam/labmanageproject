@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    {% load staticfiles %}
+    <script src="{% static "js/check_open_lab.js" %}"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <th>开放计划名称</th>
+        <th>申请人</th>
+        <th>实验中心</th>
+        <th>开放计划类型</th>
+        <th>计划开始时间</th>
+        <th>计划结束时间</th>
+        <th></th>
+    </tr>
+</table>
+
+<input type="button" id="more" value="加载更多待审核计划"/>
+</body>
+</html>

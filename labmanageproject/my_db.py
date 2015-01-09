@@ -6,6 +6,7 @@ import exceptions
 
 
 def do_sql(sql, param):
+    print sql
     cursor = connection.cursor()
     cursor.execute(sql, param)
     return cursor
@@ -69,11 +70,14 @@ add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
 add_teacher_table = add_method('teacher', ['uid', 'lcid'])
 add_student_table = add_method('student', ['uid', 'did', 'grade'])
 add_administer_table = add_method('administer', ['uid', 'lcid'])
+add_open_lab_table = add_method('open_lab', ['olid', 'lcid', 'uid', 'begin_date_time',
+                                             'end_date_time', 'status', 'olname', 'type'])
 
 get_user_table = get_method('user')
 get_student_table = get_method('student')
 get_teacher_table = get_method('teacher')
 get_administer_table = get_method('administer')
+get_lab_center_table = get_method('lab_center')
 
 
 class user_db():
@@ -147,6 +151,21 @@ class user_db():
         pass
 
 
+class user():
+    UID = 'uid'
+
+
+class lab_center():
+    LCID = 'lcid'
+    LCNAME = 'LCNAME'
+
+
+class open_lab():
+    OLID = 'olid'
+    LCID = lab_center.LCID
+    UID = 'uid'
+
+
 class lab_db():
     @staticmethod
     def add_lab_center(lcid, lcname):
@@ -170,22 +189,38 @@ class lab_db():
         return result.fetchall()
 
     @staticmethod
+    def get_lab_center_by_lcid(lcid):
+        return get_lab_center_table(**{lab_center.LCID: lcid})
+
+    @staticmethod
     def get_all_lab_by_lcid(lcid):
         sql = "select lid,lname from lab where lcid=%s"
         result = do_sql(sql, [lcid])
         return result.fetchall()
 
     @staticmethod
-    def add_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, detail_list):
-        with transaction.atomic():
-            sql = "insert into open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time)" \
-                  "values(%s,%s,%s,%s,%s,%s)"
-            do_sql(sql, [olid, lcid, olname, uid, begin_date_time, end_date_time])
+    def get_checked_open_lab(lid, begin_time, end_time):
+        sql = 'select ol.olname,  ol.begin_date_time, ol.end_date_time, ol.status, ol.type ' \
+              'from open_lab ol, open_lab_detail old ' \
+              'where ol.olid=old.olid and ol.status="通过" and old.begin_time<%s and old.end_time>%s and old.lid=%s'
 
-            for detail in detail_list:
-                sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time)" \
-                      "values(NULL,%s,%s,%s,%s)"
-                do_sql(sql, [olid, detail[0], detail[1], detail[2]])
+        return do_sql(sql, [end_time, begin_time, lid]).fetchall()
+
+    @staticmethod
+    def get_open_lab():
+        pass
+
+
+    @staticmethod
+    def add_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, type, detail_list):
+        sql = "insert into open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, type)" \
+              "values(%s,%s,%s,%s,%s,%s,%s)"
+        do_sql(sql, [olid, lcid, olname, uid, begin_date_time, end_date_time, type])
+
+        for detail in detail_list:
+            sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time)" \
+                  "values(NULL,%s,%s,%s,%s)"
+            do_sql(sql, [olid, detail[0], detail[1], detail[2]])
 
     @staticmethod
     def get_open_lab_by_uid(uid):
