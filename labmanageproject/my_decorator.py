@@ -2,8 +2,9 @@
 __author__ = 'wlw'
 
 from django.shortcuts import render
+from django.http.response import HttpResponse
 import re
-
+import json
 
 def check_perm(perm):
     def decorator(func):
@@ -31,3 +32,21 @@ def check_logged(func):
             return func(request, *args, **kwargs)
 
     return wrapper
+
+
+def check_post_form(name_list):
+    def decorator(func):
+        def wrapper(request, *args, **kwargs):
+            if request.method != 'POST':
+                return HttpResponse(json.dumps({'result': "the method is not post"}))
+            else:
+                for name in name_list:
+                    if name not in request.POST:
+                        return HttpResponse(json.dumps({'result': "left one attr" + name}))
+                    if not request.POST[name]:
+                        return HttpResponse(json.dumps({'result': name + " is blank"}))
+                return func(request, *args, **kwargs)
+
+        return wrapper
+
+    return decorator

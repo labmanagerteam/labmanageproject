@@ -30,3 +30,20 @@ def filter_result_tuple_tuple():
         return result
 
     return f
+
+
+def filter_result_dict_list_trans_date(r_name):
+    from datetime import datetime
+
+    def f(result):
+        r = []
+        for tr in result:
+            t_dict = {}
+            for (name, value) in zip(r_name, tr):
+                if type(value) is datetime:
+                    value = value.strftime('%Y-%m-%d %H:%M:%S')
+                t_dict[name] = value
+            r.append(t_dict)
+        return r
+
+    return f

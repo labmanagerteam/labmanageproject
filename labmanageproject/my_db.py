@@ -6,7 +6,7 @@ import exceptions
 
 
 def do_sql(sql, param):
-    print sql
+    print "sql:" + sql
     cursor = connection.cursor()
     cursor.execute(sql, param)
     return cursor
@@ -42,6 +42,15 @@ def get_method(tname):
         inner_sql = sql
         v_list = []
         for (key, value) in kwargs.items():
+            # if key == open_lab.BEGIN_DATE_TIME:
+            # inner_sql += open_lab.END_DATE_TIME + ">%s and"
+            # elif key == open_lab.END_DATE_TIME:
+            #     pass
+            # elif key == open_lab_detail.BEGIN_TIME:
+            #     pass
+            # elif key == open_lab_detail.END_TIME:
+            #     pass
+            # else:
             inner_sql += key + "=%s and"
             v_list.append(value)
         inner_sql += " 1=1"
@@ -50,6 +59,29 @@ def get_method(tname):
         return result.fetchall()
 
     return get
+
+
+def update_mothed(tname):
+    sql = "update " + tname + " set "
+
+    def update(update_dict, where_dict):
+        inner_sql = sql
+        value_list = []
+        update_str = ""
+        for (key, value) in update_dict.items():
+            update_str += key + "=%s "
+            value_list.append(value)
+        inner_sql += update_str + " where "
+        where_sql = ""
+        for (key, value) in where_dict.items():
+            where_sql += key + "=%s and "
+            value_list.append(value)
+        where_sql += " 1=1 "
+        inner_sql += where_sql
+        do_sql(inner_sql, value_list)
+
+    return update
+
 
 def get_department_id_by_name(dname):
     sql = "select gid from department where dname=%s"
@@ -66,6 +98,49 @@ def add_department(did, dname):
     do_sql(sql, [did, dname])
 
 
+class user():
+    UID = 'uid'
+    UNAME = 'uname'
+
+
+class lab_center():
+    LCID = 'lcid'
+    LCNAME = 'LCNAME'
+
+
+class lab():
+    LID = 'lid'
+    LNAME = 'lname'
+    LCID = lab_center.LCID
+    LNUMBER = 'number'
+
+
+class open_lab():
+    OLID = 'olid'
+    LCID = lab_center.LCID
+    UID = 'uid'
+    STATUS = 'status'
+    OLNAME = 'olname'
+    TYPE = 'type'
+    BEGIN_DATE_TIME = 'begin_date_time'
+    END_DATE_TIME = 'end_date_time'
+    ACCEPT = "通过"
+    REFUSE = "拒绝"
+    WAIT = "未审核"
+
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed("open_lab")(update_dict, where_dict)
+
+
+class open_lab_detail:
+    OLID = open_lab.OLID
+    LID = lab.LID
+    BEGIN_TIME = 'begin_time'
+    END_TIME = 'end_time'
+    OLDID = 'oldid'
+
+
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
 add_teacher_table = add_method('teacher', ['uid', 'lcid'])
 add_student_table = add_method('student', ['uid', 'did', 'grade'])
@@ -78,6 +153,10 @@ get_student_table = get_method('student')
 get_teacher_table = get_method('teacher')
 get_administer_table = get_method('administer')
 get_lab_center_table = get_method('lab_center')
+
+
+update_open_lab_table = update_mothed('open_lab')
+LIMIT = 'limit'
 
 
 class user_db():
@@ -151,21 +230,6 @@ class user_db():
         pass
 
 
-class user():
-    UID = 'uid'
-
-
-class lab_center():
-    LCID = 'lcid'
-    LCNAME = 'LCNAME'
-
-
-class open_lab():
-    OLID = 'olid'
-    LCID = lab_center.LCID
-    UID = 'uid'
-
-
 class lab_db():
     @staticmethod
     def add_lab_center(lcid, lcname):
@@ -207,9 +271,62 @@ class lab_db():
         return do_sql(sql, [end_time, begin_time, lid]).fetchall()
 
     @staticmethod
-    def get_open_lab():
-        pass
+    def get_all_unchecked_open_lab(begin_line_number, page_size):
+        print type(begin_line_number)
+        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+              'from open_lab ol, user u, lab_center lc ' \
+              'where ol.status="未审核" and ol.lcid=lc.lcid and ol.uid=u.uid ' \
+              'limit %s,%s'
+        return do_sql(sql, [begin_line_number, page_size]).fetchall()
 
+    @staticmethod
+    def get_conflict_open_lab(lid, begin_time, end_time, status):
+        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+              'from open_lab ol, open_lab_detail old, user u, lab_center lc ' \
+              'where ol.olid=old.olid and ol.status=%s and old.begin_time<%s and old.end_time>%s and old.lid=%s ' \
+              'and u.uid=ol.uid and lc.lcid=ol.lcid'
+        return do_sql(sql, [status, begin_time, end_time, lid])
+
+    @staticmethod
+    def get_open_lab(**kwargs):
+
+        inner_sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+                    'from open_lab ol, user u, lab_center lc ' \
+                    'where '
+        value_list = []
+        for (key, value) in kwargs.items():
+            if key == open_lab.BEGIN_DATE_TIME:
+                inner_sql += "ol." + open_lab.END_DATE_TIME + ">%s and "
+            elif key == open_lab.END_DATE_TIME:
+                inner_sql += "ol." + open_lab.BEGIN_DATE_TIME + "<%s and "
+            elif key == "limit":
+                continue
+            else:
+                inner_sql += "ol." + key + "=%s and "
+            value_list.append(value)
+        inner_sql += 'ol.lcid=lc.lcid and ol.uid=u.uid '
+        if LIMIT in kwargs:
+            inner_sql += "limit %s,%s"
+            value_list.append(kwargs[LIMIT][0])
+            value_list.append(kwargs[LIMIT][1])
+        return do_sql(inner_sql, value_list).fetchall()
+
+    @staticmethod
+    def get_open_lab_detail(**kwargs):
+        inner_sql = 'select l.lname, old.begin_time, old.end_time, l.number, old.oldid ' \
+                    'from open_lab_detail old, lab l ' \
+                    'where '
+        value_list = []
+        for (key, value) in kwargs.items():
+            if key == open_lab_detail.BEGIN_TIME:
+                inner_sql += "old." + open_lab_detail.END_TIME + '>%s and '
+            elif key == open_lab_detail.END_TIME:
+                inner_sql += "old." + open_lab_detail.BEGIN_TIME + '<%s and '
+            else:
+                inner_sql += "old." + key + '=%s and '
+            value_list.append(value)
+        inner_sql += 'old.lid=l.lid '
+        return do_sql(inner_sql, value_list).fetchall()
 
     @staticmethod
     def add_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, type, detail_list):
@@ -227,3 +344,8 @@ class lab_db():
         sql = "select * from open_lab where uid=%s"
         result = do_sql(sql, [uid])
         return result.fetchall()
+
+
+    @staticmethod
+    def get_all_checked_open_lab(line_number, page_size):
+        return lab_db.get_open_lab(**{LIMIT: [int(line_number), int(page_size)], open_lab.STATUS: open_lab.ACCEPT})

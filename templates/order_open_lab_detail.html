@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/order_open_lab_detail.js" %}"></script>
+{% endblock %}
+
+{% block body %}
+    {% load display %}
+    {% display_open_lab_body this_open_lab %}
+    <table>
+        <tr>
+            {% display_open_lab_detail_title %}
+            <th></th>
+        </tr>
+
+        {% for detail in this_open_lab_detail_list %}
+            <tr>
+                {% display_open_one_lab_detail detail %}
+                <td><input class="order" type="button" value="预约"/></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

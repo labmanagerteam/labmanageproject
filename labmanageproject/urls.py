@@ -10,6 +10,9 @@ from django.contrib import admin
 
 admin.autodiscover()
 
+check_open_lab_str = r"^check_open_lab"
+order_open_lab_str = r"^order_open_lab"
+
 urlpatterns = patterns('',
                        # Examples:
                        # url(r'^$', 'labmanageproject.views.home', name='home'),
@@ -18,9 +21,17 @@ urlpatterns = patterns('',
 
                        url(r'^test_db/$', test_db),
                        url(r'^$', login),
+                       url(r'^logout/$', logout),
                        url(r'^open_lab/$', open_lab),
-                       url(r'^open_lab2/$', open_lab2),
                        url(r'^send_open_lab/$', send_open_lab),
                        url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view),
-                       url(r'^check_open_lab/$', check_open_lab),
+                       url(check_open_lab_str + r'/$', check_open_lab),
+                       url(check_open_lab_str + r'/get_uncheck_open_lab/$', get_uncheck_open_lab),
+                       url(check_open_lab_str + r'/detail/(.*)/$', get_detail_open_lab),
+                       url(check_open_lab_str + r'/accept/$', accept_open_lab_view),
+                       url(check_open_lab_str + r'/refuse/$', refuse_open_lab_view),
+                       url(order_open_lab_str + r"/(\d+)/$", order_open_lab_view),
+                       url(order_open_lab_str + r'/detail/(.+)/$', order_open_lab_detail_view),
+                       url(order_open_lab_str + r'/order/$', order_view),
 )
+

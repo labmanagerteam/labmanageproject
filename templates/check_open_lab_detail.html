@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    {% load display %}
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    {% load staticfiles %}
+    <script src="{% static "js/check_open_lab_detail.js" %}"></script>
+    <title></title>
+</head>
+<body>
+{% csrf_token %}
+<div id="now_open_lab">
+    {% display_total_open_lab this_open_lab this_open_lab_detail %}
+    {#        <p>开放计划</p>#}
+    {#        {% display_open_lab_body this_open_lab %}#}
+    {#        {% display_open_lab_detail this_open_lab_detail this_open_lab.type %}#}
+    {#        <p>具体细节</p>#}
+</div>
+
+<div id="conflict_list">
+    {% if not conflict_list %}
+        <p>没有冲突的计划</p>
+    {% else %}
+        <p>冲突的计划</p>
+        <div>
+            {% for conflict in conflict_list %}
+                <div>
+                    {% display_open_lab_body conflict.body %}
+                    {% display_open_lab_detail conflict.detail conflict.body.type %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<input type="button" id="accept" value="通过"/>
+<input type="button" id="refuse" value="拒绝"/>
+</body>
+</html>
