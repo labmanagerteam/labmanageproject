@@ -48,6 +48,10 @@ filter_open_lab = filter_result_dict_list_trans_date([OLNAME, UNAME, LCNAME, TYP
 
 filter_open_lab_detail = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID])
 
+filter_open_lab_detail_no_name = filter_result_dict_list([OLDID, OLID, LID, BEGIN_TIME, END_TIME, LNUMBER])
+
+filter_lab = filter_result_dict_list([LID, LNAME, LCID, LNUMBER])
+
 
 def get_all_unchecked_open_lab(begin_line_number, page_size):
     result = {
@@ -108,3 +112,18 @@ def refuse_open_lab(now_olid):
 def get_all_checked_open_lab(begin_line_number, page_size):
     r = filter_open_lab(lab_db.get_all_checked_open_lab(begin_line_number, page_size))
     return r
+
+
+def user_order(oldid, uid):
+    with transaction.atomic():
+        detail = filter_open_lab_detail_no_name(lab_db.get_open_lab_detail_by_oldid(oldid))[0]
+        lab = filter_lab(lab_db.get_lab_by_lid(detail[LID]))[0]
+        if int(lab[LNUMBER]) <= int(detail[LNUMBER]):
+            return [False, "这个实验室已经预约完了"]
+        else:
+            lab_db.add_user_order(oldid, uid)
+            return [True]
+
+
+def check_order_condition(oldid, uid):
+    return True

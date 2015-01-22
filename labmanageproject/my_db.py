@@ -23,14 +23,7 @@ def add_method(tname, name_list):
     print sql
 
     def add(value_list):
-        v_list = value_list[0]
-        inner_sql = sql
-        for v in value_list[1:len(value_list)]:
-            v_list.append(v)
-            inner_sql += "," + value
-        print inner_sql
-        print v_list
-        do_sql(inner_sql, v_list)
+        do_sql(sql, value_list)
 
     return add
 
@@ -114,6 +107,10 @@ class lab():
     LCID = lab_center.LCID
     LNUMBER = 'number'
 
+    @staticmethod
+    def get(**kwargs):
+        return get_method('lab')(**kwargs)
+
 
 class open_lab():
     OLID = 'olid'
@@ -139,6 +136,23 @@ class open_lab_detail:
     BEGIN_TIME = 'begin_time'
     END_TIME = 'end_time'
     OLDID = 'oldid'
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('open_lab_detail')(**kwargs)
+
+
+class user_order:
+    ORDER_ID = 'order_id'
+    UID = user.UID
+    OLDID = open_lab_detail.OLDID
+    STATE = 'state'
+    NAME_LIST = [ORDER_ID, UID, OLDID, STATE]
+
+    @staticmethod
+    def add(*args):
+        sql = "insert into user_order(order_id,uid,oldid,state)values(NULL,%s,%s,%s)"
+        do_sql(sql, args)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
@@ -349,3 +363,16 @@ class lab_db():
     @staticmethod
     def get_all_checked_open_lab(line_number, page_size):
         return lab_db.get_open_lab(**{LIMIT: [int(line_number), int(page_size)], open_lab.STATUS: open_lab.ACCEPT})
+
+
+    @staticmethod
+    def get_open_lab_detail_by_oldid(oldid):
+        return open_lab_detail.get(**{open_lab_detail.OLDID: oldid})
+
+    @staticmethod
+    def get_lab_by_lid(lid):
+        return lab.get(**{lab.LID: lid})
+
+    @staticmethod
+    def add_user_order(oldid, uid):
+        user_order.add(*[uid, oldid, "未审核"])

@@ -10,6 +10,10 @@ from labmanageproject.lab_manage import *
 from labmanageproject.my_decorator import *
 
 
+def get_uid(request):
+    return request.session['my_user']['uid']
+
+
 def open_lab(request):
     print "open_lab"
     if request.method == 'POST':
@@ -124,5 +128,12 @@ def order_open_lab_detail_view(request, olid):
     return render(request, "order_open_lab_detail.html", locals())
 
 
+@check_post_form({'oldid'})
 def order_view(request):
-    return HttpResponse(json.dumps({'result': 'success'}))
+    oldid = request.POST['oldid']
+    uid = get_uid(request)
+    if check_order_condition(oldid, uid):
+        user_order(oldid, uid)
+        return HttpResponse(json.dumps({'result': 'success'}))
+    else:
+        return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
