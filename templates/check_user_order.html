@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+
+    {% load staticfiles %}
+
+
+{% endblock %}
+
+{% block body %}
+
+    {% if my_order_list %}
+        {% load display %}
+        <table>
+            <tr>
+                {% display_order_title %}
+                <th></th>
+            </tr>
+
+            {% display_order_body my_order_list extra %}
+        </table>
+    {% else %}
+        <p>暂无</p>
+    {% endif %}
+
+{% endblock %}

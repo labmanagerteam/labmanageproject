@@ -137,3 +137,31 @@ def order_view(request):
         return HttpResponse(json.dumps({'result': 'success'}))
     else:
         return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
+
+
+def check_user_order_view(request):
+    my_order_list = get_my_unchecked_order(get_uid(request))
+    print "my_order_list: %s" % my_order_list
+    extra = u'<td><input type="button" class="accept" value="同意"/><input type="button" class="refuse" value="拒绝"/></td>'
+    return render(request, "check_user_order.html", locals())
+
+
+def check_user_order_reflect_view(request):
+    pass
+
+
+def my_open_lab_view(request):
+    open_lab_list = get_my_open_lab(get_uid(request))
+    return render(request, "my_open_lab.html", locals())
+
+
+def my_open_lab_detail_view(request, olid):
+    old_list = get_open_lab_detail_by_olid(olid)
+
+    if old_list:
+        for old in old_list:
+            oldid = old[OLDID]
+            oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
+            return render(request, )
+    else:
+        return render(request, "error.html", {'error': 'no the oldid'})

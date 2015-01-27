@@ -12,6 +12,8 @@ admin.autodiscover()
 
 check_open_lab_str = r"^check_open_lab"
 order_open_lab_str = r"^order_open_lab"
+check_user_order = r"^check_order"
+my_open_lab = r"^my_open_lab"
 
 urlpatterns = patterns('',
                        # Examples:
@@ -33,5 +35,10 @@ urlpatterns = patterns('',
                        url(order_open_lab_str + r"/(\d+)/$", order_open_lab_view),
                        url(order_open_lab_str + r'/detail/(.+)/$', order_open_lab_detail_view),
                        url(order_open_lab_str + r'/order/$', order_view),
+                       url(check_user_order + r'/$', check_user_order_view),
+                       url(check_user_order + r'/reflect/$', check_user_order_reflect_view),
+                       url(my_open_lab + r'/$', my_open_lab_view),
+                       url(my_open_lab + r'/detail/(.+)$', my_open_lab_detail_view),
+
 )
 

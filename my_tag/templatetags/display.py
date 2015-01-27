@@ -7,7 +7,7 @@ from labmanageproject.lab_manage import *
 register = template.Library()
 
 OPEN_LAB_TITLE_LIST = [u'开放计划名称', u'申请人', u'实验中心', u'开放计划类型', u'开放计划类型', u'计划结束时间']
-OPEN_LAB_TITLE_LIST = [u'实验室', u'日期', u'开始时间', u'结束时间']
+OPEN_LAB_DETAIL_TITLE_LIST = [u'实验室', u'日期', u'开始时间', u'结束时间']
 
 
 def wrap_by_th(a):
@@ -26,7 +26,7 @@ def display_open_lab_title():
 @register.simple_tag
 def display_open_lab_detail_title():
     mstr = u""
-    for n in OPEN_LAB_TITLE_LIST:
+    for n in OPEN_LAB_DETAIL_TITLE_LIST:
         mstr += wrap_by_th(n)
     return mstr
 
@@ -191,6 +191,10 @@ def wrap_by_td(a):
     return u"<td>%s</td>" % a
 
 
+def wrap_by_tr(a):
+    return u"<tr>%s</tr>" % a
+
+
 OPEN_LAB_NAME_LIST = [OLNAME, UNAME, LCNAME, TYPE, BEGIN_DATE_TIME, END_DATE_TIME]
 
 
@@ -201,3 +205,71 @@ def display_open_lab_in_oneline(open_lab):
         one_line += wrap_by_td(open_lab[n])
     print "display_open_lab_in_oneline:%s" % one_line
     return one_line
+
+
+def display_title(titls_list):
+    s = u""
+    for t in titls_list:
+        s += wrap_by_th(t)
+    return s
+
+
+ORDER_CHECK_TITLE_LIST = [u'开放计划名称', u'实验中心', u'实验室', u'申请人学号', u'申请人姓名']
+
+
+@register.simple_tag
+def display_order_title():
+    return display_title(ORDER_CHECK_TITLE_LIST)
+
+
+def pack_order_one_line(body, extra_body):
+    one_line = u'<td>' \
+               u'<input type="hidden" name="order_id" value="%s"/>' \
+               u'<input type="hidden" name="uid" value="%s"/>' \
+               u'%s' \
+               u'</td>' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>' \
+               u'%s'
+
+    return one_line % (body[ORDER_ID], body[UID], body[OLNAME], body[LCNAME]
+                       , body[LNAME], body[UID], body[UNAME], extra_body)
+
+
+def pack_order_list(body, extra_body):
+    s = u''
+    for b in body:
+        s += wrap_by_tr(pack_order_one_line(b, extra_body))
+
+    return s
+
+
+class DispOrderBodyNode(template.Node):
+    def __init__(self, body, extra_body):
+        self.body = body
+        self.extra_body = extra_body
+
+    def render(self, context):
+        body = get_context(context, self.body)
+        extra_body = get_context(context, self.extra_body)
+        # extra_body = self.extra_body
+
+        return pack_order_list(body, extra_body)
+
+
+@register.tag(name='display_order_body')
+def display_open_lab_detail(parser, token):
+    try:
+        tag_name, body, extra_body = token.split_contents()
+        print '%s' % tag_name
+        print 'detail:%s' % body
+        print 'type: %s' % extra_body
+        #
+        # raise Exception('can not in part')
+    except ValueError:
+        msg = '%r tag requires two arguments' % token.split_contents()[0]
+        raise template.TemplateSyntaxError(msg)
+
+    return DispOrderBodyNode(body, extra_body)

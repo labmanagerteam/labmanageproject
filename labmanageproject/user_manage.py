@@ -21,23 +21,33 @@ def check_password(uid, password):
 
 
 def get_perm_list(uid):
+    URL = 'url'
+    PNAME = 'pname'
     teacher_perm = [
         {
-            'url': '/open_lab',
-            'pname': '开放实验室'
+            URL: '/open_lab',
+            PNAME: '开放实验室'
+        },
+        {
+            URL: '/check_order',
+            PNAME: '审核学生预约'
+        },
+        {
+            URL: '/my_open_lab',
+            PNAME: '我的开放计划'
         }
     ]
     student_perm = [
         {
-            'url': '/order_open_lab/0/',
-            'pname': '预约实验室'
+            URL: '/order_open_lab/0/',
+            PNAME: '预约实验室'
         }
     ]
 
     administer_perm = [
         {
-            'url': '/check_open_lab',
-            'pname': '审核开放计划'
+            URL: '/check_open_lab',
+            PNAME: '审核开放计划'
         }
     ]
 

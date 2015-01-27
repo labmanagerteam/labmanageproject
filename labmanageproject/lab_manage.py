@@ -7,7 +7,7 @@ from django.forms.formsets import BaseFormSet
 from django.db import transaction
 import django.utils.timezone as timezone
 
-from labmanageproject.my_db import lab_db, open_lab, lab, open_lab_detail
+from labmanageproject.my_db import lab_db, open_lab, lab, open_lab_detail, user_order
 from labmanageproject.my_filter import filter_result_dict_list, filter_result_tuple_list, \
     filter_result_dict_list_trans_date
 from labmanageproject.my_exception import FormInValidError
@@ -32,6 +32,7 @@ ACCEPT = open_lab.ACCEPT
 REFUSE = open_lab.REFUSE
 LNUMBER = lab.LNUMBER
 OLDID = open_lab_detail.OLDID
+ORDER_ID = user_order.ORDER_ID
 
 def get_all_lab_center():
     m_filter = filter_result_dict_list([LCID, LCNAME])
@@ -51,6 +52,8 @@ filter_open_lab_detail = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, L
 filter_open_lab_detail_no_name = filter_result_dict_list([OLDID, OLID, LID, BEGIN_TIME, END_TIME, LNUMBER])
 
 filter_lab = filter_result_dict_list([LID, LNAME, LCID, LNUMBER])
+
+filter_user_order = filter_result_dict_list(user_order.NAME_LIST)
 
 
 def get_all_unchecked_open_lab(begin_line_number, page_size):
@@ -127,3 +130,18 @@ def user_order(oldid, uid):
 
 def check_order_condition(oldid, uid):
     return True
+
+
+def get_my_open_lab(uid):
+    return filter_open_lab(lab_db.get_open_lab(**{UID: uid}))
+
+
+def get_unchecked_order_by_oldid(oldid):
+    return filter_user_order(user_order.get(**{user_order.OLDID: oldid, user_order.STATE: user_order.WAIT}))
+
+
+filter_order = filter_result_dict_list([OLID, OLDID, OLNAME, UID, ORDER_ID, UNAME, LNAME, LCNAME])
+
+
+def get_my_unchecked_order(uid):
+    return filter_order(lab_db.get_order_to_my_open_lab(uid))

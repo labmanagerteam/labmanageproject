@@ -148,11 +148,18 @@ class user_order:
     OLDID = open_lab_detail.OLDID
     STATE = 'state'
     NAME_LIST = [ORDER_ID, UID, OLDID, STATE]
+    ACCEPT = "通过"
+    REFUSE = "拒绝"
+    WAIT = "未审核"
 
     @staticmethod
     def add(*args):
         sql = "insert into user_order(order_id,uid,oldid,state)values(NULL,%s,%s,%s)"
         do_sql(sql, args)
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('user_order')(**kwargs)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
@@ -376,3 +383,13 @@ class lab_db():
     @staticmethod
     def add_user_order(oldid, uid):
         user_order.add(*[uid, oldid, "未审核"])
+
+
+    @staticmethod
+    def get_order_to_my_open_lab(uid):
+        sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
+              "u.uname, l.lname, lc.lcname " \
+              "from user_order uo, open_lab ol, open_lab_detail old, user u, lab l, lab_center lc " \
+              "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid " \
+              "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid"
+        return do_sql(sql, [uid]).fetchall()
