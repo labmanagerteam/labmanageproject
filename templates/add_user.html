@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+
+    {% load staticfiles %}
+    <script src="{% static "js/add.js" %}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <select id="catagory">
+        {% for l in add_list %}
+            <option value="{ l.val }">{ l.name }</option>
+        {% endfor %}
+    </select>
+
+    <div id="one_item">
+
+    </div>
+
+    <div id="list_item">
+        <form enctype="multipart/form-data" method="post" action="">
+            <input type="file"/>
+        </form>
+    </div>
+
+{% endblock %}

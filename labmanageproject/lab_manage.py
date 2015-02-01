@@ -141,7 +141,27 @@ def get_unchecked_order_by_oldid(oldid):
 
 
 filter_order = filter_result_dict_list([OLID, OLDID, OLNAME, UID, ORDER_ID, UNAME, LNAME, LCNAME])
+filter_open_lab_detail_table = filter_result_dict_list(open_lab_detail.NAME_LIST)
 
 
 def get_my_unchecked_order(uid):
     return filter_order(lab_db.get_order_to_my_open_lab(uid))
+
+
+def accept_order(order_id):
+    with transaction.atomic():
+        oldid = filter_user_order(user_order.get(**{ORDER_ID: order_id}))[0][OLDID]
+        open_lab_detail_one = filter_open_lab_detail_table(open_lab_detail.get(**{OLDID: oldid}))[0]
+        now_number = int(open_lab_detail_one[LNUMBER])
+        max_number = filter_lab(lab.get(**{LID: open_lab_detail_one[LID]}))[0][LNUMBER]
+        if int(open_lab_detail[LNUMBER]) > int(max_number):
+            return {'result': 'error', 'msg': '该实验室已满'}
+        else:
+            user_order.update({user_order.STATE: user_order.ACCEPT}, {user_order.ORDER_ID: order_id})
+            open_lab_detail.update({LNUMBER: str(now_number + 1)}, {OLDID: open_lab_detail_one[OLDID]})
+            return {'result': 'success', 'msg': '已经同意'}
+
+
+def refuse_order(order_id):
+    user_order.update({user_order.STATE: user_order.REFUSE}, {user_order.ORDER_ID: order_id})
+    return {'result': 'success', 'msg': '已经成功拒绝'}

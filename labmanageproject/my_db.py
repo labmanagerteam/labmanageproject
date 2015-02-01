@@ -136,10 +136,16 @@ class open_lab_detail:
     BEGIN_TIME = 'begin_time'
     END_TIME = 'end_time'
     OLDID = 'oldid'
+    LNUMBER = lab.LNUMBER
+    NAME_LIST = [OLDID, OLID, LID, BEGIN_TIME, END_TIME, LNUMBER]
 
     @staticmethod
     def get(**kwargs):
         return get_method('open_lab_detail')(**kwargs)
+
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed("open_lab_detail")(update_dict, where_dict)
 
 
 class user_order:
@@ -160,6 +166,11 @@ class user_order:
     @staticmethod
     def get(**kwargs):
         return get_method('user_order')(**kwargs)
+
+
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed('user_order')(update_dict, where_dict)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])

@@ -9,7 +9,6 @@ var reflect = function ($this, action) {
         data: {
             csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
             order_id: $this.closest('tr').find('input[name="order_id"]').val(),
-            uid: $this.closest('tr').find('input[name="uid"]').val(),
             action: action
         },
         type: 'post',

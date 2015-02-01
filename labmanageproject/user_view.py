@@ -35,3 +35,17 @@ def login(request):
 def logout(request):
     del request.session['my_user']
     return HttpResponseRedirect('/')
+
+
+def add_user_view(request):
+    add_list = [
+        {
+            'val': '1',
+            'name': 'student'
+        },
+        {
+            'val': '2',
+            'name': 'teacher'
+        }
+    ]
+    return render(request, "add_user.html", locals())

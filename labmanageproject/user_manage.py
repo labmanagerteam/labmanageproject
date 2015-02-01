@@ -66,4 +66,3 @@ def get_perm_list(uid):
 
     perm_list.append({'url': '/logout', 'pname': '退出'})
     return perm_list
-

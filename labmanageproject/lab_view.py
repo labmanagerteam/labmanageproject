@@ -146,8 +146,17 @@ def check_user_order_view(request):
     return render(request, "check_user_order.html", locals())
 
 
+@check_post_form({'action', 'order_id'})
 def check_user_order_reflect_view(request):
-    pass
+    action = request.POST['action']
+    order_id = request.POST['order_id']
+
+    if action == 'accept':
+        return HttpResponse(accept_order(order_id))
+    elif action == 'refuse':
+        return HttpResponse(refuse_order(order_id))
+    else:
+        raise Exception("check_user_order_reflect_view shold not in")
 
 
 def my_open_lab_view(request):
