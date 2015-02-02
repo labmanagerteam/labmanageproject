@@ -39,7 +39,7 @@ def send_open_lab(request):
     lid = request.POST.getlist('lid[]', [])
     begin_time = request.POST.getlist('begin_time[]', [])
     end_time = request.POST.getlist('end_time[]', [])
-    result = check_open_lab(olname, request.session['my_user']['uid'], lcid, lid, begin_time, end_time)
+    result = add_open_lab(olname, request.session['my_user']['uid'], lcid, lid, begin_time, end_time)
     return HttpResponse(json.dumps(result))
 
 
@@ -133,7 +133,7 @@ def order_view(request):
     oldid = request.POST['oldid']
     uid = get_uid(request)
     if check_order_condition(oldid, uid):
-        user_order(oldid, uid)
+        do_user_order(oldid, uid)
         return HttpResponse(json.dumps({'result': 'success'}))
     else:
         return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
@@ -152,9 +152,9 @@ def check_user_order_reflect_view(request):
     order_id = request.POST['order_id']
 
     if action == 'accept':
-        return HttpResponse(accept_order(order_id))
+        return HttpResponse(json.dumps(accept_order(order_id)))
     elif action == 'refuse':
-        return HttpResponse(refuse_order(order_id))
+        return HttpResponse(json.dumps(refuse_order(order_id)))
     else:
         raise Exception("check_user_order_reflect_view shold not in")
 

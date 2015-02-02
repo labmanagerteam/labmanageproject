@@ -167,7 +167,6 @@ class user_order:
     def get(**kwargs):
         return get_method('user_order')(**kwargs)
 
-
     @staticmethod
     def update(update_dict, where_dict):
         update_mothed('user_order')(update_dict, where_dict)
@@ -402,5 +401,6 @@ class lab_db():
               "u.uname, l.lname, lc.lcname " \
               "from user_order uo, open_lab ol, open_lab_detail old, user u, lab l, lab_center lc " \
               "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid " \
-              "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid"
-        return do_sql(sql, [uid]).fetchall()
+              "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid " \
+              "and uo.state=%s"
+        return do_sql(sql, [uid, user_order.WAIT]).fetchall()

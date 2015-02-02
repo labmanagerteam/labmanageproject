@@ -14,10 +14,15 @@ var reflect = function ($this, action) {
         type: 'post',
         dataType: 'json',
         success: function (data) {
-
+            if (data['result'] == 'error') {
+                confirm(data['msg']);
+                $this.closest('tr').remove();
+            } else if (data['result'] == 'success') {
+                $this.closest('tr').remove();
+            }
         },
         error: function () {
-
+            alert("网络有问题，请稍后再试");
         }
     });
 };

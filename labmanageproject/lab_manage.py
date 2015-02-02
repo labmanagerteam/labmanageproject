@@ -34,6 +34,72 @@ LNUMBER = lab.LNUMBER
 OLDID = open_lab_detail.OLDID
 ORDER_ID = user_order.ORDER_ID
 
+
+def add_open_lab(*args):
+    error = [{'result': 'e'}]
+    for a in args:
+        if not a:
+            return error
+
+    olname = args[0]
+    uid = args[1]
+    lcid = args[2]
+    lid = args[3]
+    begin_time = args[4]
+    end_time = args[5]
+
+    if not lab_db.get_lab_center_by_lcid(lcid):
+        print 'no that lcid'
+        return error
+
+    if len(lid) != len(begin_time) or len(lid) != len(end_time):
+        print 'no the same length'
+        return error
+
+    s_lid = [a for (a, b) in lab_db.get_all_lab_by_lcid(lcid)]
+    print s_lid
+    for l in lid:
+        if l not in s_lid:
+            print 'no that lid'
+            return error
+
+    import datetime
+
+    for i in xrange(len(begin_time)):
+        try:
+            begin_time[i] = timezone.make_aware(datetime.datetime.strptime(begin_time[i], '%Y-%m-%d %H'),
+                                                timezone.get_current_timezone())
+            end_time[i] = timezone.make_aware(datetime.datetime.strptime(end_time[i], '%Y-%m-%d %H'),
+                                              timezone.get_current_timezone())
+        except ValueError:
+            print 'join error'
+            return error
+
+    index = 0
+    join_list = []
+    with transaction.atomic():
+        for (l, b, e) in zip(lid, begin_time, end_time):
+            if lab_db.get_checked_open_lab(l, b, e):
+                join_list.append({'result': index})
+            index += 1
+        if join_list:
+            return join_list
+        else:
+            begin_date_time = begin_time[0]
+            for b in begin_time:
+                if begin_date_time > b:
+                    begin_date_time = b
+
+            end_date_time = end_time[0]
+            for e in end_time:
+                if e > end_date_time:
+                    end_date_time = e
+            olid = uid + timezone.now().strftime('%Y %m %d %H %M %S')
+            detail_list = [[l, b, e] for (l, b, e) in zip(lid, begin_time, end_time)]
+            lab_db.add_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, "单次", detail_list)
+            return [{'result': 's'}]
+
+
 def get_all_lab_center():
     m_filter = filter_result_dict_list([LCID, LCNAME])
     return m_filter(lab_db.get_all_lab_center())
@@ -117,7 +183,7 @@ def get_all_checked_open_lab(begin_line_number, page_size):
     return r
 
 
-def user_order(oldid, uid):
+def do_user_order(oldid, uid):
     with transaction.atomic():
         detail = filter_open_lab_detail_no_name(lab_db.get_open_lab_detail_by_oldid(oldid))[0]
         lab = filter_lab(lab_db.get_lab_by_lid(detail[LID]))[0]
@@ -150,11 +216,13 @@ def get_my_unchecked_order(uid):
 
 def accept_order(order_id):
     with transaction.atomic():
+        # user_order.get(**{ORDER_ID: order_id})
         oldid = filter_user_order(user_order.get(**{ORDER_ID: order_id}))[0][OLDID]
+        # return {'result': 'error', 'msg': '该实验室已满'}
         open_lab_detail_one = filter_open_lab_detail_table(open_lab_detail.get(**{OLDID: oldid}))[0]
         now_number = int(open_lab_detail_one[LNUMBER])
         max_number = filter_lab(lab.get(**{LID: open_lab_detail_one[LID]}))[0][LNUMBER]
-        if int(open_lab_detail[LNUMBER]) > int(max_number):
+        if int(open_lab_detail_one[LNUMBER]) > int(max_number):
             return {'result': 'error', 'msg': '该实验室已满'}
         else:
             user_order.update({user_order.STATE: user_order.ACCEPT}, {user_order.ORDER_ID: order_id})
