@@ -5,6 +5,19 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
 from labmanageproject.user_manage import *
+from labmanageproject.my_decorator import *
+from labmanageproject.error_code import *
+
+
+def get_post(request, name_list):
+    value_list = []
+    for name in name_list:
+        value_list.append(request.POST[name])
+    return value_list
+
+
+def create_json_return(d):
+    return HttpResponse(json.dumps(d))
 
 
 def login(request):
@@ -40,12 +53,48 @@ def logout(request):
 def add_user_view(request):
     add_list = [
         {
-            'val': '1',
+            'val': '0',
             'name': 'student'
         },
         {
-            'val': '2',
+            'val': '1',
             'name': 'teacher'
         }
     ]
     return render(request, "add_user.html", locals())
+
+
+student_distribute_list = ['uid', 'uname', 'card_number', 'grade', 'did']
+
+
+@check_post_form(student_distribute_list)
+def add_one_student_view(request):
+    value_list = get_post(request, student_distribute_list)
+    error_code = add_one_student_action(*value_list)
+    if error_code:
+        error_message = generate_error_message(error_code)
+        return create_json_return({'result': 'error', 'msg': error_message})
+    else:
+        return create_json_return({'result': 'success'})
+
+
+def add_student_list_view(request):
+    pass
+
+
+teacher_distribute_list = ['uid', 'uname', 'password', 'lcid', 'card_number']
+
+
+@check_post_form(teacher_distribute_list)
+def add_one_teacher_view(request):
+    value_list = get_post(request, teacher_distribute_list)
+    error_code = add_one_teacher_action(*value_list)
+    if error_code:
+        error_message = generate_error_message(error_code)
+        return create_json_return({'result': 'error', 'msg': error_message})
+    else:
+        return create_json_return({'result': 'success'})
+
+
+def add_teacher_list_view(request):
+    pass

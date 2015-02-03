@@ -41,6 +41,9 @@ urlpatterns = patterns('',
                        url(my_open_lab + r'/$', my_open_lab_view),
                        url(my_open_lab + r'/detail/(.+)$', my_open_lab_detail_view),
                        url(add_user + r'/$', add_user_view),
-
+                       url(add_user + r'/one_student/$', add_one_student_view),
+                       url(add_user + r'/student_list/$', add_student_list_view),
+                       url(add_user + r'/one_teacher/$', add_one_teacher_view),
+                       url(add_user + r'/teacher_list/$', add_teacher_list_view)
 )
 

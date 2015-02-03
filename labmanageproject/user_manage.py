@@ -2,7 +2,8 @@
 __author__ = 'wlw'
 from django import forms
 
-from labmanageproject.my_db import user_db
+from labmanageproject.my_db import user_db, get_user_table, get_department_table, get_lab_center_table
+from labmanageproject.error_code import *
 
 
 class login_form(forms.Form):
@@ -48,6 +49,10 @@ def get_perm_list(uid):
         {
             URL: '/check_open_lab',
             PNAME: '审核开放计划'
+        },
+        {
+            URL: '/add_user',
+            PNAME: '添加用户'
         }
     ]
 
@@ -66,3 +71,24 @@ def get_perm_list(uid):
 
     perm_list.append({'url': '/logout', 'pname': '退出'})
     return perm_list
+
+
+def add_student_list_action(student_list):
+    user_db.add_student_list()
+
+
+def add_one_student_action(uid, uname, password, card_number, grade, did):
+    if get_user_table(**{'uid': uid}):
+        return HAVE_USR
+    elif not get_department_table(**{'did': did}):
+        return NO_THAT_DEPARTMENT
+
+    user_db.add_student(uid, uname, password, card_number, grade, did)
+
+
+def add_one_teacher_action(uid, uname, password, lcid, card_number):
+    if get_user_table(**{'uid': uid}):
+        return HAVE_USR
+    elif not get_lab_center_table(**{'lcid': lcid}):
+        return NO_THAT_LAB_CENTER
+    user_db.add_teacher(uid, uname, password, lcid, card_number)

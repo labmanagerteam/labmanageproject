@@ -4,23 +4,34 @@
 
     {% load staticfiles %}
     <script src="{% static "js/add.js" %}"></script>
+    <script src="{% static "js/jquery.form.js" %}"></script>
 {% endblock %}
 
 {% block body %}
 
     <select id="catagory">
         {% for l in add_list %}
-            <option value="{ l.val }">{ l.name }</option>
+            <option value="{{ l.val }}">{{ l.name }}</option>
         {% endfor %}
     </select>
 
     <div id="one_item">
+        <form id="one_form" method="post" action="">
+            {% csrf_token %}
+            <div class="change_field">
 
+            </div>
+            <input type="submit" value="添加"/>
+        </form>
     </div>
 
     <div id="list_item">
-        <form enctype="multipart/form-data" method="post" action="">
+        <p>批量导入</p>
+
+        <form id="list_form" enctype="multipart/form-data" method="post" action="">
+            {% csrf_token %}
             <input type="file"/>
+            <input type="submit" value="提交"/>
         </form>
     </div>
 

@@ -91,6 +91,12 @@ def add_department(did, dname):
     do_sql(sql, [did, dname])
 
 
+class department():
+    DID = 'did'
+    DNAME = 'dname'
+
+
+
 class user():
     UID = 'uid'
     UNAME = 'uname'
@@ -184,6 +190,7 @@ get_student_table = get_method('student')
 get_teacher_table = get_method('teacher')
 get_administer_table = get_method('administer')
 get_lab_center_table = get_method('lab_center')
+get_department_table = get_method('department')
 
 
 update_open_lab_table = update_mothed('open_lab')
@@ -193,28 +200,30 @@ LIMIT = 'limit'
 class user_db():
 
     @staticmethod
-    def add_student(uid, uname, password, grade, did):
+    def add_student(uid, uname, password, card_number, grade, did):
         with transaction.atomic():
             sql = "insert into user(uid,uname,password,card_number) " \
                   "VALUES(%s,%s,%s,%s,%s)"
-            do_sql(sql, [uid, uname, password, get_card_number(uid)])
+            do_sql(sql, [uid, uname, password, card_number])
             sql = "insert into student(uid,did,grade) values(%s,%s,%s)"
             do_sql(sql, [uid, did, grade])
 
     @staticmethod
-    def add_student_list(student_list):
-        pass
+    def add_student_list(uid_list, uname_list, password_list, card_number_list, grade_list, did_list):
+        with transaction.atomic():
+            value_list = []
+            sql = "insert into user(uid,uname,password,card_number) "
 
     @staticmethod
     def delete_student():
         pass
 
     @staticmethod
-    def add_teacher(uid, uname, password, lcid):
+    def add_teacher(uid, uname, password, lcid, card_number):
         with transaction.atomic():
             sql = "insert into user(uid, uname, password, card_number)" \
-                  "values(%s,%s,%s,%s,%s)"
-            do_sql(sql, [uid, uname, password, get_card_number(uid)])
+                  "values(%s,%s,%s,%s)"
+            do_sql(sql, [uid, uname, password, card_number])
             sql = "insert into teacher(uid, lcid)" \
                   "values(%s,%s)"
             do_sql(sql, [uid, lcid])
