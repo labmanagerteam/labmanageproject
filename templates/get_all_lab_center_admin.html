@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+
+{% endblock %}
+
+{% block body %}
+
+    <table>
+        <tr>
+            <th>工号</th>
+            <th>姓名</th>
+            <th>卡号</th>
+            <th>实验中兴名称</th>
+        </tr>
+        {% for r in result %}
+            <tr>
+                <td>{{ r.uid }}</td>
+                <td>{{ r.uname }}</td>
+                <td>{{ r.card_number }}</td>
+                <td>{{ r.lcname }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

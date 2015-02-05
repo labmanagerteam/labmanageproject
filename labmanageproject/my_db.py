@@ -107,11 +107,12 @@ class department():
 class user():
     UID = 'uid'
     UNAME = 'uname'
+    CARD_NUMBER = 'card_number'
 
 
 class lab_center():
     LCID = 'lcid'
-    LCNAME = 'LCNAME'
+    LCNAME = 'lcname'
 
     @staticmethod
     def add(value_list):
@@ -313,6 +314,14 @@ class user_db():
     def __init__(self):
         pass
 
+    @staticmethod
+    def get_all_lab_center_admin():
+        sql = "select u.uid, u.uname, u.card_number, lc.lcname " \
+              "from user u, lab_center lc, administer a " \
+              "where u.uid=a.uid and lc.lcid=a.lcid"
+
+        return do_sql(sql, []).fetchall()
+
 
 class lab_db():
     @staticmethod
@@ -342,7 +351,7 @@ class lab_db():
 
     @staticmethod
     def get_all_lab_by_lcid(lcid):
-        sql = "select lid,lname from lab where lcid=%s"
+        sql = "select lid,lname,number from lab where lcid=%s"
         result = do_sql(sql, [lcid])
         return result.fetchall()
 
@@ -471,5 +480,5 @@ class lab_db():
                                     timezone.get_current_timezone())
         end = timezone.make_aware(timezone.datetime(n.year, n.month, n.day) + timezone.timedelta(days=1),
                                   timezone.get_current_timezone())
-        return do_sql(sql, [user_order.ACCEPT, end, begin])
+        return do_sql(sql, [user_order.ACCEPT, end, begin]).fetchall()
 

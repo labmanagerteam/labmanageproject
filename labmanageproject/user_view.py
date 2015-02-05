@@ -240,3 +240,25 @@ def add_one_department_view(request):
 
 def add_one_admin_view(request):
     return add_one_teacher_view(request, True)
+
+
+def get_all_lab_center_admin_view(request):
+    result = get_all_lab_center_admin_action()
+    print result
+    return render(request, "get_all_lab_center_admin.html", locals())
+
+
+def get_all_lab_center_view(request):
+    lab_center_list = get_all_lab_center_action()
+    return render(request, "get_all_lab_center.html", locals())
+
+
+def get_one_lab_center_detail_view(request, lcid):
+    one_lab_center = {
+        'lcid': lcid,
+        'lcname': get_lab_center_table(**{'lcid': lcid})[0][1]
+    }
+
+    lab_list = get_lab_by_lcid(lcid)
+
+    return render(request, "get_lab_center_detail.html", locals())

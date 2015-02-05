@@ -7,6 +7,7 @@ from labmanageproject.error_code import *
 from django.db import transaction
 from labmanageproject.my_check import *
 from labmanageproject.my_exception import *
+from labmanageproject.my_filter import *
 
 
 class login_form(forms.Form):
@@ -63,6 +64,14 @@ def get_perm_list(uid):
         {
             URL: '/add',
             PNAME: '添加'
+        },
+        {
+            URL: '/get_all_lab_center_admin',
+            PNAME: '查看中心管理员'
+        },
+        {
+            URL: '/get_all_lab_center',
+            PNAME: '查看所有实验中心'
         }
     ]
 
@@ -165,3 +174,18 @@ def add_one_lab_center_action(lcid, lcname):
 
 def add_one_department_action(did, dname):
     department.add([did, dname])
+
+
+def get_all_lab_center_admin_action():
+    filter_in_this = filter_result_dict_list([user.UID, user.UNAME, user.CARD_NUMBER, lab_center.LCNAME])
+    return filter_in_this(user_db.get_all_lab_center_admin())
+
+
+def get_all_lab_center_action():
+    lab_center_filter = filter_result_dict_list([lab_center.LCID, lab_center.LCNAME])
+    return lab_center_filter(lab_db.get_all_lab_center())
+
+
+def get_lab_by_lcid(lcid):
+    lab_filter = filter_result_dict_list([lab.LID, lab.LNAME, lab.LNUMBER])
+    return lab_filter(lab_db.get_all_lab_by_lcid(lcid))

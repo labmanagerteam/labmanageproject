@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+
+{% endblock %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>实验中心编号</th>
+            <th>实验中心名称</th>
+            <th></th>
+        </tr>
+
+        {% for r in lab_center_list %}
+            <tr>
+                <td>{{ r.lcid }}</td>
+                <td>{{ r.lcname }}</td>
+                <td><a href="{{ r.lcid }}">详情</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

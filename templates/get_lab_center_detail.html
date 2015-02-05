@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block staticfiles %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <p>实验中心</p>
+        <table>
+            <tr>
+                <th>编号</th>
+                <td>{{ one_lab_center.lcid }}</td>
+            </tr>
+
+            <tr>
+                <th>名称</th>
+                <td>{{ one_lab_center.lcname }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <p>实验室</p>
+        <table>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>容纳人数</th>
+            </tr>
+
+            {% for l in lab_list %}
+                <tr>
+                    <td>{{ l.lid }}</td>
+                    <td>{{ l.lname }}</td>
+                    <td>{{ l.number }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
