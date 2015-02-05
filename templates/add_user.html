@@ -28,9 +28,10 @@
     <div id="list_item">
         <p>批量导入</p>
 
+        <p><a id="download" href="">模板下载</a></p>
         <form id="list_form" enctype="multipart/form-data" method="post" action="">
             {% csrf_token %}
-            <input type="file"/>
+            <input type="file" name="user_list"/>
             <input type="submit" value="提交"/>
         </form>
     </div>

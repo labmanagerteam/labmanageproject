@@ -5,6 +5,11 @@ from django.db import connection, transaction
 import exceptions
 
 
+def join_list(a, b):
+    for t in b:
+        a.append(t)
+    return a
+
 def do_sql(sql, param):
     print "sql:" + sql
     cursor = connection.cursor()
@@ -203,16 +208,27 @@ class user_db():
     def add_student(uid, uname, password, card_number, grade, did):
         with transaction.atomic():
             sql = "insert into user(uid,uname,password,card_number) " \
-                  "VALUES(%s,%s,%s,%s,%s)"
+                  "VALUES(%s,%s,%s,%s)"
             do_sql(sql, [uid, uname, password, card_number])
             sql = "insert into student(uid,did,grade) values(%s,%s,%s)"
             do_sql(sql, [uid, did, grade])
 
     @staticmethod
-    def add_student_list(uid_list, uname_list, password_list, card_number_list, grade_list, did_list):
-        with transaction.atomic():
-            value_list = []
-            sql = "insert into user(uid,uname,password,card_number) "
+    def add_student_list(student_list):
+        print "add_student_list"
+        sql1 = "insert into user(uid,uname,password,card_number) " \
+               "VALUES(%s,%s,%s,%s)"
+        sql2 = "insert into student(uid,did,grade) values(%s,%s,%s)"
+        first_student = student_list[0]
+        value1 = [first_student[0], first_student[1], first_student[2], first_student[3]]
+        value2 = [first_student[0], first_student[4], first_student[5]]
+        for student in student_list[1:len(student_list)]:
+            sql1 += ",(%s,%s,%s,%s)"
+            sql2 += ",(%s,%s,%s)"
+            value1 = join_list(value1, [student[0], student[1], student[2], student[3]])
+            value2 = join_list(value2, [student[0], student[4], student[5]])
+        do_sql(sql1, value1)
+        do_sql(sql2, value2)
 
     @staticmethod
     def delete_student():
@@ -229,8 +245,23 @@ class user_db():
             do_sql(sql, [uid, lcid])
 
     @staticmethod
-    def add_teacher_list():
-        pass
+    def add_teacher_list(teacher_list):
+        print "add_teacher_list"
+        sql1 = "insert into user(uid, uname, password, card_number)" \
+               "values(%s,%s,%s,%s)"
+        value1 = [teacher_list[0][0], teacher_list[0][1], teacher_list[0][2], teacher_list[0][3]]
+        sql2 = "insert into teacher(uid, lcid)" \
+               "values(%s,%s)"
+        value2 = [teacher_list[0][0], teacher_list[0][4]]
+        print "wrap sql"
+        for teacher in teacher_list[1:len(teacher_list)]:
+            sql1 += ",(%s,%s,%s,%s)"
+            sql2 += ",(%s,%s)"
+            value1 = join_list(value1, [teacher[0], teacher[1], teacher[2], teacher[3]])
+            value2 = join_list(value2, [teacher[0], teacher[4]])
+        print "do_sql"
+        do_sql(sql1, value1)
+        do_sql(sql2, value2)
 
     @staticmethod
     def add_administer(uid, uname, password, lcid):

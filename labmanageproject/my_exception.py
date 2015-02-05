@@ -13,3 +13,9 @@ class NotFillFieldError(Exception):
 
 class FormInValidError(Exception):
     pass
+
+
+class MyBaseException(Exception):
+    def __init__(self, error_code):
+        super(MyBaseException, self).__init__()
+        self.error_code = error_code

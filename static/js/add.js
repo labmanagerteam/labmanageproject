@@ -57,6 +57,13 @@ var one_url_list = [
     '/add_user/one_teacher/'
 ];
 
+var STATIC = '/static';
+
+var download_url = [
+    STATIC + '/xlsx/add_student_list.xlsx',
+    STATIC + '/xlsx/add_teacher_list.xlsx'
+];
+
 var generate_one_line = function (val) {
     console.log("generate one line");
     var one_line = list[val];
@@ -68,14 +75,29 @@ var generate_one_line = function (val) {
 };
 
 var generate_list_url = function (val) {
-    var list_url = ['/add_user/student_list/', '/add_user/teacher_list'];
+    var list_url = ['/add_user/student_list/', '/add_user/teacher_list/'];
     var url = list_url[val];
     $('#list_item form').attr("action", url);
+    $('#download').attr("href", download_url[val]);
 };
 
 var generate = function (val) {
     generate_one_line(val);
     generate_list_url(val);
+};
+
+options = {
+    dataType: 'json',
+    success: function (data) {
+        if (data['result'] == 'success') {
+            confirm("添加成功");
+        } else {
+            confirm(data['msg']);
+        }
+    },
+    error: function () {
+        alert("网络异常，请稍后再试");
+    }
 };
 
 $(document).ready(function () {
@@ -89,29 +111,12 @@ $(document).ready(function () {
     });
 
     $(document).on('submit', '#one_form', function () {
-        $(this).ajaxSubmit({
-            dataType: 'json',
-            success: function (data) {
-                if (data['result'] == 'success') {
-                    confirm("添加成功");
-                } else {
-                    confirm(data['msg']);
-                }
-            },
-            error: function () {
-                alert("网络异常，请稍后再试");
-            }
-        });
+        $(this).ajaxSubmit(options);
         return false;
     });
 
     $(document).on('submit', '#list_form', function () {
-        $(this).ajaxSubmit({
-            dataType: 'json',
-            success: function (data) {
-
-            }
-        });
+        $(this).ajaxSubmit(options);
         return false;
     });
 });

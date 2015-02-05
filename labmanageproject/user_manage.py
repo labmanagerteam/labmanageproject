@@ -4,6 +4,9 @@ from django import forms
 
 from labmanageproject.my_db import user_db, get_user_table, get_department_table, get_lab_center_table
 from labmanageproject.error_code import *
+from django.db import transaction
+from labmanageproject.my_check import *
+from labmanageproject.my_exception import *
 
 
 class login_form(forms.Form):
@@ -73,8 +76,30 @@ def get_perm_list(uid):
     return perm_list
 
 
+def check_student(uid, did):
+    check_no_uid(uid)
+    check_department(did)
+
+
 def add_student_list_action(student_list):
-    user_db.add_student_list()
+    NUM_UID = 0
+    NUM_DID = 4
+
+    num = 0
+    try:
+        with transaction.atomic():
+            print "student_list: %s" % student_list
+            for student in student_list:
+                check_student(student[NUM_UID], student[NUM_DID])
+                check_no_empty_in_list(student)
+                check_distribute_number(student, 6)
+                num += 1
+            user_db.add_student_list(student_list)
+    except MyBaseException, e:
+        raise e
+    except Exception, e:
+        print e.message
+        return [num, e.message]
 
 
 def add_one_student_action(uid, uname, password, card_number, grade, did):
@@ -86,9 +111,34 @@ def add_one_student_action(uid, uname, password, card_number, grade, did):
     user_db.add_student(uid, uname, password, card_number, grade, did)
 
 
+def check_teacher(uid, lcid):
+    check_no_uid(uid)
+    check_lab_center(lcid)
+
+
 def add_one_teacher_action(uid, uname, password, lcid, card_number):
     if get_user_table(**{'uid': uid}):
         return HAVE_USR
     elif not get_lab_center_table(**{'lcid': lcid}):
         return NO_THAT_LAB_CENTER
     user_db.add_teacher(uid, uname, password, lcid, card_number)
+
+
+def add_teacher_list_action(teacher_list):
+    NUM_UID = 0
+    NUM_LCID = 4
+    num = 0
+    try:
+        print "teacher_list:%s" % teacher_list
+        with transaction.atomic():
+            for teacher in teacher_list:
+                check_teacher(teacher[NUM_UID], teacher[NUM_LCID])
+                num += 1
+                check_no_empty_in_list(teacher)
+                check_distribute_number(teacher, 5)
+            user_db.add_teacher_list(teacher_list)
+    except MyBaseException, e:
+        raise e
+    except Exception, e:
+        print e.message
+        return [num, e.message]

@@ -7,7 +7,8 @@ from django.http import HttpResponseRedirect
 from labmanageproject.user_manage import *
 from labmanageproject.my_decorator import *
 from labmanageproject.error_code import *
-
+from tempfile import NamedTemporaryFile
+from openpyxl import load_workbook
 
 def get_post(request, name_list):
     value_list = []
@@ -18,6 +19,19 @@ def get_post(request, name_list):
 
 def create_json_return(d):
     return HttpResponse(json.dumps(d))
+
+
+def do_with_xlsx(handler, f):
+    temp = NamedTemporaryFile(suffix='.xlsx')
+    try:
+        temp.write(f)
+        print u"temp_name:%s" % temp.name
+        name = u"%s" % temp.name
+        temp.seek(0)
+        wb = load_workbook(filename=name, use_iterators=True)
+        handler(wb)
+    finally:
+        temp.close()
 
 
 def login(request):
@@ -64,6 +78,27 @@ def add_user_view(request):
     return render(request, "add_user.html", locals())
 
 
+def wrap_row(row):
+    def to_str(a):
+        if type(a) != type(u""):
+            return str(a).split('.')[0]
+        else:
+            return a
+
+    l = []
+    print "wrap_row"
+    print row
+    try:
+        for cell in row:
+            print type(cell.internal_value)
+            l.append(to_str(cell.internal_value))
+            print cell.internal_value
+        print "wrap_row ended"
+    except Exception, e:
+        print e.message
+    return l
+
+
 student_distribute_list = ['uid', 'uname', 'card_number', 'grade', 'did']
 
 
@@ -79,7 +114,31 @@ def add_one_student_view(request):
 
 
 def add_student_list_view(request):
-    pass
+    f = request.FILES['user_list']
+
+    def add_student_list_handler(wb):
+        ws = wb.get_sheet_by_name(name='Sheet1')
+        first = True
+        print ws
+        student_list = []
+        for row in ws.iter_rows():
+            if first:
+                first = False
+                continue
+            else:
+                student_list.append(wrap_row(row))
+                # print row
+                wrap_row(row)
+                print "one_student added"
+        add_student_list_action(student_list)
+
+    print "add_student_list_view"
+    try:
+        do_with_xlsx(add_student_list_handler, f.read())
+    except MyBaseException, e:
+        error_message = generate_error_message(e.error_code)
+        return create_json_return({'result': 'error', 'msg': error_message})
+    return create_json_return({'result': 'success'})
 
 
 teacher_distribute_list = ['uid', 'uname', 'password', 'lcid', 'card_number']
@@ -97,4 +156,31 @@ def add_one_teacher_view(request):
 
 
 def add_teacher_list_view(request):
-    pass
+    f = request.FILES['user_list']
+
+    def test_handler(wb):
+        ws = wb.get_sheet_by_name(name='Sheet1')
+        for row in ws.iter_rows():
+            for cell in row:
+                print cell.internal_value
+
+    def add_teacher_list_handler(wb):
+
+        ws = wb.get_sheet_by_name(name='Sheet1')
+        first = True
+        teacher_list = []
+        for row in ws.iter_rows():
+            if first:
+                first = False
+                continue
+            else:
+                teacher_list.append(wrap_row(row))
+        add_teacher_list_action(teacher_list)
+
+    print "add_teacher_list_view"
+    try:
+        do_with_xlsx(add_teacher_list_handler, f.read())
+    except MyBaseException, e:
+        error_message = generate_error_message(e.error_code)
+        return create_json_return({'result': 'error', 'msg': error_message})
+    return create_json_return({'result': 'success'})
