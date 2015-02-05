@@ -145,9 +145,9 @@ teacher_distribute_list = ['uid', 'uname', 'password', 'lcid', 'card_number']
 
 
 @check_post_form(teacher_distribute_list)
-def add_one_teacher_view(request):
+def add_one_teacher_view(request, is_admin=False):
     value_list = get_post(request, teacher_distribute_list)
-    error_code = add_one_teacher_action(*value_list)
+    error_code = add_one_teacher_action(*value_list, is_admin=is_admin)
     if error_code:
         error_message = generate_error_message(error_code)
         return create_json_return({'result': 'error', 'msg': error_message})
@@ -199,6 +199,10 @@ def add_view(request):
         {
             'val': '4',
             'name': '院系'
+        },
+        {
+            'val': '5',
+            'name': '院系管理员'
         }
     ]
     return render(request, "add_user.html", locals())
@@ -232,3 +236,7 @@ department_dist_list = ['did', 'dname']
 def add_one_department_view(request):
     add_one_department_action(*get_post(request, department_dist_list))
     return create_json_return({'result': 'success'})
+
+
+def add_one_admin_view(request):
+    return add_one_teacher_view(request, True)

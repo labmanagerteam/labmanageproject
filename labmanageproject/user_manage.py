@@ -127,12 +127,12 @@ def check_teacher(uid, lcid):
     check_lab_center(lcid)
 
 
-def add_one_teacher_action(uid, uname, password, lcid, card_number):
+def add_one_teacher_action(uid, uname, password, lcid, card_number, is_admin):
     if get_user_table(**{'uid': uid}):
         return HAVE_USR
     elif not get_lab_center_table(**{'lcid': lcid}):
         return NO_THAT_LAB_CENTER
-    user_db.add_teacher(uid, uname, password, lcid, card_number)
+    user_db.add_teacher(uid, uname, password, lcid, card_number, is_admin)
 
 
 def add_teacher_list_action(teacher_list):

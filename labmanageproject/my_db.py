@@ -244,7 +244,7 @@ class user_db():
         pass
 
     @staticmethod
-    def add_teacher(uid, uname, password, lcid, card_number):
+    def add_teacher(uid, uname, password, lcid, card_number, is_admin):
         with transaction.atomic():
             sql = "insert into user(uid, uname, password, card_number)" \
                   "values(%s,%s,%s,%s)"
@@ -252,6 +252,10 @@ class user_db():
             sql = "insert into teacher(uid, lcid)" \
                   "values(%s,%s)"
             do_sql(sql, [uid, lcid])
+            if is_admin:
+                sql = "insert into administer(uid, lcid)" \
+                      "values(%s,%s)"
+                do_sql(sql, [uid, lcid])
 
     @staticmethod
     def add_teacher_list(teacher_list):
@@ -453,3 +457,19 @@ class lab_db():
               "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid " \
               "and uo.state=%s"
         return do_sql(sql, [uid, user_order.WAIT]).fetchall()
+
+    @staticmethod
+    def get_today_order():
+        sql = "select u.card_number, old.oldid, old.lid " \
+              "from user u, open_lab_detail old, user_order uo " \
+              "where u.uid=uo.uid and old.oldid=uo.oldid " \
+              " and uo.state=%s and old.begin_time<%s and old.end_time > %s"
+        import django.utils.timezone as timezone
+
+        n = timezone.now()
+        begin = timezone.make_aware(timezone.datetime(n.year, n.month, n.day),
+                                    timezone.get_current_timezone())
+        end = timezone.make_aware(timezone.datetime(n.year, n.month, n.day) + timezone.timedelta(days=1),
+                                  timezone.get_current_timezone())
+        return do_sql(sql, [user_order.ACCEPT, end, begin])
+

@@ -174,3 +174,7 @@ def my_open_lab_detail_view(request, olid):
             return render(request, )
     else:
         return render(request, "error.html", {'error': 'no the oldid'})
+
+
+def today_order_view(request):
+    return HttpResponse(json.dumps(get_today_order()))

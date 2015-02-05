@@ -233,3 +233,10 @@ def accept_order(order_id):
 def refuse_order(order_id):
     user_order.update({user_order.STATE: user_order.REFUSE}, {user_order.ORDER_ID: order_id})
     return {'result': 'success', 'msg': '已经成功拒绝'}
+
+
+filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid'])
+
+
+def get_today_order():
+    return filter_today_order(lab_db.get_today_order())

@@ -50,5 +50,7 @@ urlpatterns = patterns('',
                        url(add + '/one_lab/$', add_one_lab_view),
                        url(add + '/one_lab_center/$', add_one_lab_center_view),
                        url(add + '/one_department/$', add_one_department_view),
+                       url(add + '/one_admin/$', add_one_admin_view),
+                       url('^today_order/$', today_order_view)
 )
 

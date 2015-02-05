@@ -2,6 +2,25 @@
  * Created by wlw on 15-2-1.
  */
 
+var teacher_str = '<tr>' +
+    '<th>工号</th>' +
+    '<td><input name="uid" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>姓名</th>' +
+    '<td><input name="uname" /></td>' +
+    '</tr>' +
+    '<th>密码</th>' +
+    '<td><input name="password"/></td>' +
+    '</tr>' +
+    '<th>卡号</th>' +
+    '<td><input name="card_number"/></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>实验中心代码</th>' +
+    '<td><input name="lcid"/></td>' +
+    '</tr>'
+
 var list = [
     '<table>' +
     '<tr>' +
@@ -31,24 +50,7 @@ var list = [
     '</table>',
 
     '<table>' +
-    '<tr>' +
-    '<th>工号</th>' +
-    '<td><input name="uid" /></td>' +
-    '</tr>' +
-    '<tr>' +
-    '<th>姓名</th>' +
-    '<td><input name="uname" /></td>' +
-    '</tr>' +
-    '<th>密码</th>' +
-    '<td><input name="password"/></td>' +
-    '</tr>' +
-    '<th>卡号</th>' +
-    '<td><input name="card_number"/></td>' +
-    '</tr>' +
-    '<tr>' +
-    '<th>实验中心代码</th>' +
-    '<td><input name="lcid"/></td>' +
-    '</tr>' +
+    teacher_str +
     '</table>',
 
     '<table>' +
@@ -89,6 +91,10 @@ var list = [
     '<th>院系名称</th>' +
     '<td><input name="dname" /></td>' +
     '</tr>' +
+    '</table>',
+
+    '<table>' +
+    teacher_str +
     '</table>'
 ];
 
@@ -97,7 +103,8 @@ var one_url_list = [
     '/add_user/one_teacher/',
     '/add/one_lab/',
     '/add/one_lab_center/',
-    '/add/one_department/'
+    '/add/one_department/',
+    '/add/one_admin/'
 ];
 
 var STATIC = '/static';
