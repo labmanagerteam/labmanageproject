@@ -184,3 +184,51 @@ def add_teacher_list_view(request):
         error_message = generate_error_message(e.error_code)
         return create_json_return({'result': 'error', 'msg': error_message})
     return create_json_return({'result': 'success'})
+
+
+def add_view(request):
+    add_list = [
+        {
+            'val': '2',
+            'name': '实验室'
+        },
+        {
+            'val': '3',
+            'name': '实验中心'
+        },
+        {
+            'val': '4',
+            'name': '院系'
+        }
+    ]
+    return render(request, "add_user.html", locals())
+
+
+lab_distribution_list = ['lid', 'lname', 'lcid', 'lnumber']
+
+
+@check_post_form(lab_distribution_list)
+def add_one_lab_view(request):
+    l = get_post(request, lab_distribution_list)
+    add_one_lab_action_action(*l)
+    return create_json_return({'result': 'success'})
+
+
+lab_center_dist_list = ['lcid', 'lcname']
+
+
+@check_post_form(lab_center_dist_list)
+def add_one_lab_center_view(request):
+    print('add_one_lab_center')
+    l = get_post(request, lab_center_dist_list)
+    add_one_lab_center_action(*l)
+    return create_json_return({'result': 'success'})
+
+
+department_dist_list = ['did', 'dname']
+
+
+@check_post_form(department_dist_list)
+def add_one_department_view(request):
+    add_one_department_action(*get_post(request, department_dist_list))
+    return create_json_return({'result': 'success'})

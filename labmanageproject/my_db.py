@@ -100,7 +100,9 @@ class department():
     DID = 'did'
     DNAME = 'dname'
 
-
+    @staticmethod
+    def add(value_list):
+        add_method('department', [department.DID, department.DNAME])(value_list)
 
 class user():
     UID = 'uid'
@@ -111,6 +113,9 @@ class lab_center():
     LCID = 'lcid'
     LCNAME = 'LCNAME'
 
+    @staticmethod
+    def add(value_list):
+        add_method('lab_center', [lab_center.LCID, lab_center.LCNAME])(value_list)
 
 class lab():
     LID = 'lid'
@@ -121,6 +126,10 @@ class lab():
     @staticmethod
     def get(**kwargs):
         return get_method('lab')(**kwargs)
+
+    @staticmethod
+    def add(value_list):
+        add_method('lab', [lab.LID, lab.LNAME, lab.LCID, lab.LNUMBER])(value_list)
 
 
 class open_lab():

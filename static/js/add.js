@@ -49,12 +49,55 @@ var list = [
     '<th>实验中心代码</th>' +
     '<td><input name="lcid"/></td>' +
     '</tr>' +
+    '</table>',
+
+    '<table>' +
+    '<tr>' +
+    '<th>实验中心编码</th>' +
+    '<td><input name="lcid" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>实验室编码</th>' +
+    '<td><input name="lid" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>实验室名称</th>' +
+    '<td><input name="lname" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>可容纳人数</th>' +
+    '<td><input name="lnumber" /></td>' +
+    '</table>',
+
+    '<table>' +
+    '<tr>' +
+    '<th>实验中心编码</th>' +
+    '<td><input name="lcid" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>实验中心名称</th>' +
+    '<td><input name="lcname" /></td>' +
+    '</tr>' +
+    '</table>',
+
+    '<table>' +
+    '<tr>' +
+    '<th>院系编码</th>' +
+    '<td><input name="did" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>院系名称</th>' +
+    '<td><input name="dname" /></td>' +
+    '</tr>' +
     '</table>'
 ];
 
 var one_url_list = [
     '/add_user/one_student/',
-    '/add_user/one_teacher/'
+    '/add_user/one_teacher/',
+    '/add/one_lab/',
+    '/add/one_lab_center/',
+    '/add/one_department/'
 ];
 
 var STATIC = '/static';

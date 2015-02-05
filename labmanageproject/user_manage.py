@@ -59,6 +59,13 @@ def get_perm_list(uid):
         }
     ]
 
+    super_admin_perm = [
+        {
+            URL: '/add',
+            PNAME: '添加'
+        }
+    ]
+
     perm_list = []
     if user_db.is_student(uid):
         perm_list = student_perm
@@ -70,6 +77,10 @@ def get_perm_list(uid):
 
         if user_db.is_administer(uid):
             for p in administer_perm:
+                perm_list.append(p)
+
+        if uid == '0':
+            for p in super_admin_perm:
                 perm_list.append(p)
 
     perm_list.append({'url': '/logout', 'pname': '退出'})
@@ -142,3 +153,15 @@ def add_teacher_list_action(teacher_list):
     except Exception, e:
         print e.message
         return [num, e.message]
+
+
+def add_one_lab_action_action(lcid, lid, lname, lnumber):
+    lab.add([lcid, lid, lname, lnumber])
+
+
+def add_one_lab_center_action(lcid, lcname):
+    lab_center.add([lcid, lcname])
+
+
+def add_one_department_action(did, dname):
+    department.add([did, dname])

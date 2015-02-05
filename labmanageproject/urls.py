@@ -15,6 +15,7 @@ order_open_lab_str = r"^order_open_lab"
 check_user_order = r"^check_order"
 my_open_lab = r"^my_open_lab"
 add_user = r'^add_user'
+add = r'^add'
 
 urlpatterns = patterns('',
                        # Examples:
@@ -44,6 +45,10 @@ urlpatterns = patterns('',
                        url(add_user + r'/one_student/$', add_one_student_view),
                        url(add_user + r'/student_list/$', add_student_list_view),
                        url(add_user + r'/one_teacher/$', add_one_teacher_view),
-                       url(add_user + r'/teacher_list/$', add_teacher_list_view)
+                       url(add_user + r'/teacher_list/$', add_teacher_list_view),
+                       url(add + '/$', add_view),
+                       url(add + '/one_lab/$', add_one_lab_view),
+                       url(add + '/one_lab_center/$', add_one_lab_center_view),
+                       url(add + '/one_department/$', add_one_department_view),
 )
 
