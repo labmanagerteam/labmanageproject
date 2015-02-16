@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+{% extends "base.html" %}
+
+{% block staticfiles %}
     {% load staticfiles %}
     <script src="{% static "js/open_lab.js" %}"></script>
-    <title></title>
-</head>
-<body>
-<form action="" method="post">{% csrf_token %}
+{% endblock %}
+
+{% block body %}
+    <form action="" method="post" class="ui-widget">{% csrf_token %}
+        <div style="width: 200px">
     <div>
-        <div>
+        <div class="ui-widget-header">
             开放计划名称：
         </div>
         <div>
@@ -19,7 +18,7 @@
     </div>
 
     <div>
-        <div>
+        <div class="ui-widget-header">
             实验中心：
         </div>
         <div>
@@ -34,7 +33,7 @@
     </div>
 
     <div>
-        <div>
+        <div class="ui-widget-header">
             开放计划类型：
         </div>
         <div>
@@ -44,7 +43,7 @@
             </select>
         </div>
     </div>
-
+        </div>
     <div>
         <table id="detail_table">
             <tr>
@@ -65,5 +64,4 @@
         <input type="button" id="submit" value="提交"/>
     </div>
 </form>
-</body>
-</html>
+{% endblock %}

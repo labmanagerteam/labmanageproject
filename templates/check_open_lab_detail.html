@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    {% load display %}
+{% extends "base.html" %}
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+{% block staticfiles %}
     {% load staticfiles %}
     <script src="{% static "js/check_open_lab_detail.js" %}"></script>
-    <title></title>
-</head>
-<body>
-{% csrf_token %}
+{% endblock %}
+
+{% block body %}
 <div id="now_open_lab">
+    {% load display %}
     {% display_total_open_lab this_open_lab this_open_lab_detail %}
     {#        <p>开放计划</p>#}
     {#        {% display_open_lab_body this_open_lab %}#}
@@ -37,5 +33,5 @@
 
 <input type="button" id="accept" value="通过"/>
 <input type="button" id="refuse" value="拒绝"/>
-</body>
-</html>
+
+{% endblock %}

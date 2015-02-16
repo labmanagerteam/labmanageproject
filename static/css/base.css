@@ -1,0 +1,27 @@
+select {
+    width: 200px;
+}
+
+#header {
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    margin-top: -30px;
+    height: 10%;
+    background-color: #e2e5e7;
+}
+
+#body {
+    margin-top: 2.5%;
+}
+
+.navigator {
+    z-index: 1;
+    position: fixed;
+    height: 400px;
+    width: 10%;
+}
+
+#content {
+    margin-left: 12.5%;
+}

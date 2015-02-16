@@ -168,4 +168,7 @@
       <primary-key name="PRIMARY" columns="order_id"/>
     </table>
   </data-source>
+  <data-source name="MySQL - labmanage@eelab.nju.edu.cn" uuid="b9872ac3-71c4-4d13-b4d4-7e4d3ef8fc4c">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
 </component>

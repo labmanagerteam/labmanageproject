@@ -203,7 +203,7 @@ def display_open_lab_in_oneline(open_lab):
     one_line = u'<input type="hidden" name="olid" value="%s" />' % open_lab[OLID]
     for n in OPEN_LAB_NAME_LIST:
         one_line += wrap_by_td(open_lab[n])
-    print "display_open_lab_in_oneline:%s" % one_line
+    # print u"display_open_lab_in_oneline:%s" % one_line
     return one_line
 
 

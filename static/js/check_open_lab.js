@@ -13,7 +13,7 @@ var wrap_one_line = function (one_item) {
         '<td>' + one_item['begin_date_time'] + '</td>' +
         '<td>' + one_item['end_date_time'] + '</td>' +
         '<td>' +
-        '<a href="detail/' + one_item['olid'] + '/">详情</a>' +
+        '<a class="button" href="detail/' + one_item['olid'] + '/">详情</a>' +
         '</td>' +
         '</tr>';
     console.log('one_line:' + one_line)
@@ -69,7 +69,7 @@ var add_more_open_lab = function () {
                 alert("something error");
             } else if (data['result'] == 'no_more') {
                 $('#more').remove();
-                $('body').append(no_more);
+                $('#content').append(no_more);
             } else if (data['result'] == 'success') {
                 console.log('append');
                 var inner_line = '';
@@ -81,6 +81,7 @@ var add_more_open_lab = function () {
             } else {
                 console.log("no use part");
             }
+            $('.button').button();
         },
         error: function () {
             error_handle();

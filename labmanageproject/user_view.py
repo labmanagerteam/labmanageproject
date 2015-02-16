@@ -35,6 +35,9 @@ def do_with_xlsx(handler, f):
 
 
 def login(request):
+    if 'my_user' in request.session:
+        return render(request, "home.html", locals())
+
     login_error = False
     if request.method == 'POST':
         form = login_form(request.POST)

@@ -145,6 +145,8 @@ $(document).ready(function () {
     $('#add_button').click(function () {
         console.log("begin add");
         $(this).closest('tr').before(one_line);
+        $('select').selectmenu();
+        $('input[type="button"]').button();
         console.log("end add");
     });
 
@@ -154,10 +156,12 @@ $(document).ready(function () {
         console.log("end delete this detail");
     });
 
-    $lcid.change(function () {
-        get_lab($(this).val());
-        $('.detail_one_line').remove();
-        console.log('remove all');
+    $lcid.selectmenu({
+        change: function (event, ui) {
+            get_lab($(this).val());
+            $('.detail_one_line').remove();
+            console.log('remove all');
+        }
     });
 
     $(document).on('blur', 'input', function () {

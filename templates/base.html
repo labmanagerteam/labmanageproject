@@ -4,15 +4,50 @@
     <meta charset="UTF-8">
     <title>实验室管理系统</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    {% load staticfiles %}
+    <script src="{% static "js/jquery-ui.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.structure.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.theme.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}"/>
+    <script>
+
+        var table_add_class = function () {
+            $('table').addClass('ui-widget');
+            $('td').addClass('ui-widget-content');
+            $('th').addClass('ui-widget-header');
+        };
+
+        $(document).ready(function () {
+            $('.menu').menu();
+            $('.button').button();
+            table_add_class();
+            $('input[type="button"]').button();
+            $('select').selectmenu();
+        });
+    </script>
     {% block staticfiles %}{% endblock %}
 </head>
 <body>
+{% if perm_list %}
+    <div id="header">
+
+    </div>
+{% endif %}
+<div id="body">
 {% csrf_token %}
+    {% if perm_list %}
 <div class="navigator">
+    <ul class="menu">
     {% for perm in perm_list %}
-        <a href={{ perm.url }}>{{ perm.pname }}</a>
+        <li><a href={{ perm.url }}>{{ perm.pname }}</a></li>
     {% endfor %}
+    </ul>
 </div>
+    {% endif %}
+    <div id="content">
 {% block body %}{% endblock %}
+    </div>
+</div>
 </body>
 </html>

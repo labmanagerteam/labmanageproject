@@ -134,6 +134,8 @@ var generate_list_url = function (val) {
 var generate = function (val) {
     generate_one_line(val);
     generate_list_url(val);
+
+    table_add_class();
 };
 
 options = {
@@ -155,9 +157,11 @@ $(document).ready(function () {
     var $cato = $('#catagory');
     generate($cato.val());
 
-    $cato.change(function () {
+    $cato.selectmenu({
+        change: function () {
         var val = $(this).val();
         generate(val);
+        }
     });
 
     $(document).on('submit', '#one_form', function () {

@@ -7,26 +7,26 @@
 
 {% block body %}
     {% load display %}
-    <table>
-        <tr>
+    <table class="ui-widget">
+        <tr class="ui-widget-header">
             {% display_open_lab_title %}
             <th></th>
         </tr>
         {% for n in now_r %}
 
-            <tr>
+            <tr class="ui-widget-content">
                 {% display_open_lab_in_oneline n %}
-                <td><a href="/order_open_lab/detail/{{ n.olid }}">详情</a></td>
+                <td><a class="button" href="/order_open_lab/detail/{{ n.olid }}">详情</a></td>
             </tr>
 
         {% endfor %}
     </table>
     {% if prev_r %}
-        <a href={{ prev_r }}>上一页</a>
+        <a class="button" href={{ prev_r }}>上一页</a>
     {% endif %}
 
     {% if next_r %}
-        <a href={{ next_r }}>下一页</a>
+        <a class="button" href={{ next_r }}>下一页</a>
     {% endif %}
 
 {% endblock %}
