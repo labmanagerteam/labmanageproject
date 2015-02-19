@@ -28,9 +28,19 @@ def check_no_uid(uid):
         raise MyBaseException(HAVE_USR)
 
 
+def check_no_uid(uid, num):
+    if get_user_table(**{'uid': uid}):
+        raise MyListException(HAVE_USR, num)
+
+
 def check_lab_center(lcid):
     if not get_lab_center_table(**{'lcid': lcid}):
         raise MyBaseException(NO_THAT_LAB_CENTER)
+
+
+def check_lab_center(lcid, num):
+    if not get_lab_center_table(**{'lcid': lcid}):
+        raise MyListException(NO_THAT_LAB_CENTER, num)
 
 
 def check_department(did):
@@ -42,6 +52,12 @@ def check_no_empty_in_list(l):
     for a in l:
         if not a:
             raise MyBaseException(HAVE_EMPTY)
+
+
+def check_no_empty_in_list(l, num):
+    for a in l:
+        if not a:
+            raise MyListException(HAVE_EMPTY, num)
 
 
 def check_distribute_number(l, num):

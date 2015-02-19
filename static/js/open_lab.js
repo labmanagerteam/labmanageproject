@@ -3,7 +3,7 @@
  */
 
 var create_time = function (name) {
-    var time = '<select name="' + name + '">';
+    var time = '<select class="number_menu" name="' + name + '">';
     var i = 8;
     while (i <= 22) {
         time += '<option value="' + i + '">' + i + '</option>';
@@ -26,7 +26,7 @@ var get_lab = function (lcid) {
         success: function (data) {
             var inner_line = '<tr class="detail_one_line">' +
                 '<td>' +
-                '<select name="lid">';
+                '<select class="selectmenu" name="lid">';
             for (var i in data) {
                 console.log(data[i]['lid'] + ': ' + data[i]['lname']);
                 inner_line += '<option value="' + data[i]['lid'] + '">' +
@@ -145,7 +145,8 @@ $(document).ready(function () {
     $('#add_button').click(function () {
         console.log("begin add");
         $(this).closest('tr').before(one_line);
-        $('select').selectmenu();
+        $('.selectmenu').selectmenu();
+        $('.number_menu').selectmenu().selectmenu("menuWidget").addClass("overflow");
         $('input[type="button"]').button();
         console.log("end add");
     });

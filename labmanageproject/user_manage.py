@@ -164,6 +164,68 @@ def add_teacher_list_action(teacher_list):
         return [num, e.message]
 
 
+def add_list_factory(do_function, check_function):
+    def add_list(to_add_list):
+        num = 0
+        try:
+            with transaction.atomic():
+                for t in to_add_list:
+                    check_function(t, num)
+                    num += 1
+                do_function(to_add_list)
+        except MyListException, e:
+            raise e
+        except Exception, e:
+            print e.message
+            raise e
+
+    return add_list
+
+
+def check_lab_center_one_item(one_item, num):
+    check_no_empty_in_list(one_item, num)
+    if lab_center.get(**{'lcid': one_item[0]}):
+        raise MyListException(HAVE_LAB_CENTER, num)
+
+
+add_lab_center_list_action = add_list_factory(lab_center.add_list, check_lab_center_one_item)
+
+
+def check_lab_one_item(one_item, num):
+    check_no_empty_in_list(one_item, num)
+    check_lab_center(one_item[2], num)
+    if lab.get(**{'lid': one_item[0]}):
+        raise MyListException(HAVE_LAB, num)
+
+
+add_lab_list_action = add_list_factory(lab.add_list, check_lab_one_item)
+
+
+def check_department_oneitem(oneitem, num):
+    check_no_empty_in_list(oneitem, num)
+    if department.get(**{'did': oneitem[0]}):
+        raise MyListException(HAVE_DEPARTMENT, num)
+
+
+add_department_list_action = add_list_factory(department.add_list, check_department_oneitem)
+
+
+def check_admin_oneitem(oneitem, num):
+    check_no_empty_in_list(oneitem, num)
+    check_no_uid(oneitem[0], num)
+    check_lab_center(oneitem[4], num)
+
+
+def add_admin_list(admin_l):
+    with transaction.atomic():
+        for admin in admin_l:
+            add_one_teacher_action(admin[0], admin[1], admin[2], admin[4], admin[3], is_admin=True)
+
+
+add_admin_list_action = add_list_factory(add_admin_list, check_admin_oneitem)
+
+
+
 def add_one_lab_action_action(lcid, lid, lname, lnumber):
     lab.add([lcid, lid, lname, lnumber])
 

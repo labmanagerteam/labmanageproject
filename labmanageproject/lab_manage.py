@@ -56,7 +56,7 @@ def add_open_lab(*args):
         print 'no the same length'
         return error
 
-    s_lid = [a for (a, b) in lab_db.get_all_lab_by_lcid(lcid)]
+    s_lid = [a for (a, b, c) in lab_db.get_all_lab_by_lcid(lcid)]
     print s_lid
     for l in lid:
         if l not in s_lid:

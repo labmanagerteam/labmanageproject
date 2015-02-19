@@ -55,16 +55,16 @@ var list = [
 
     '<table>' +
     '<tr>' +
-    '<th>实验中心编码</th>' +
-    '<td><input name="lcid" /></td>' +
-    '</tr>' +
-    '<tr>' +
     '<th>实验室编码</th>' +
     '<td><input name="lid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>实验室名称</th>' +
     '<td><input name="lname" /></td>' +
+    '</tr>' +
+    '<tr>' +
+    '<th>实验中心编码</th>' +
+    '<td><input name="lcid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>可容纳人数</th>' +
@@ -111,7 +111,11 @@ var STATIC = '/static';
 
 var download_url = [
     STATIC + '/xlsx/add_student_list.xlsx',
-    STATIC + '/xlsx/add_teacher_list.xlsx'
+    STATIC + '/xlsx/add_teacher_list.xlsx',
+    STATIC + '/xlsx/add_lab_list.xlsx',
+    STATIC + '/xlsx/add_lab_center_list.xlsx',
+    STATIC + '/xlsx/add_department_list.xlsx',
+    STATIC + '/xlsx/add_admin_list.xlsx'
 ];
 
 var generate_one_line = function (val) {
@@ -125,7 +129,14 @@ var generate_one_line = function (val) {
 };
 
 var generate_list_url = function (val) {
-    var list_url = ['/add_user/student_list/', '/add_user/teacher_list/'];
+    var list_url = [
+        '/add_user/student_list/',
+        '/add_user/teacher_list/',
+        '/add/lab_list/',
+        '/add/lab_center_list/',
+        '/add/department_list/',
+        '/add/admin_list/'
+    ];
     var url = list_url[val];
     $('#list_item form').attr("action", url);
     $('#download').attr("href", download_url[val]);

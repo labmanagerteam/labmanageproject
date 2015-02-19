@@ -33,6 +33,27 @@ def add_method(tname, name_list):
     return add
 
 
+def add_list_method(tname, name_list):
+    sql = "insert into " + tname + "(" + name_list[0]
+    value = "(%s"
+    for name in name_list[1:len(name_list)]:
+        sql += "," + name
+        value += ",%s"
+    value += ")"
+    sql += ")" + "values"
+    print sql
+
+    def add_list(value_list):
+        v_list = value_list[0]
+        inner_sql = sql + value
+        for v in value_list[1:len(value_list)]:
+            v_list = join_list(v_list, v)
+            inner_sql += "," + value
+        do_sql(inner_sql, v_list)
+
+    return add_list
+
+
 def get_method(tname):
     sql = "select * from " + tname + " where "
 
@@ -104,6 +125,15 @@ class department():
     def add(value_list):
         add_method('department', [department.DID, department.DNAME])(value_list)
 
+    @staticmethod
+    def get(**kwargs):
+        return get_method('department')(**kwargs)
+
+    @staticmethod
+    def add_list(value_list):
+        add_method('department', [department.DID, department.DNAME])(value_list)
+
+
 class user():
     UID = 'uid'
     UNAME = 'uname'
@@ -118,6 +148,15 @@ class lab_center():
     def add(value_list):
         add_method('lab_center', [lab_center.LCID, lab_center.LCNAME])(value_list)
 
+    @staticmethod
+    def add_list(value_list):
+        add_list_method('lab_center', [lab_center.LCID, lab_center.LCNAME])(value_list)
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('lab_center')(**kwargs)
+
+
 class lab():
     LID = 'lid'
     LNAME = 'lname'
@@ -131,6 +170,10 @@ class lab():
     @staticmethod
     def add(value_list):
         add_method('lab', [lab.LID, lab.LNAME, lab.LCID, lab.LNUMBER])(value_list)
+
+    @staticmethod
+    def add_list(value_list):
+        add_list_method('lab', [lab.LID, lab.LNAME, lab.LCID, lab.LNUMBER])(value_list)
 
 
 class open_lab():

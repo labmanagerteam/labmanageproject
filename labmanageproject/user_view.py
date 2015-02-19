@@ -21,19 +21,6 @@ def create_json_return(d):
     return HttpResponse(json.dumps(d))
 
 
-def do_with_xlsx(handler, f):
-    temp = NamedTemporaryFile(suffix='.xlsx')
-    try:
-        temp.write(f)
-        print u"temp_name:%s" % temp.name
-        name = u"%s" % temp.name
-        temp.seek(0)
-        wb = load_workbook(filename=name, use_iterators=True)
-        handler(wb)
-    finally:
-        temp.close()
-
-
 def login(request):
     if 'my_user' in request.session:
         return render(request, "home.html", locals())
@@ -138,10 +125,12 @@ def add_student_list_view(request):
     print "add_student_list_view"
     try:
         do_with_xlsx(add_student_list_handler, f.read())
-    except MyBaseException, e:
+        return create_json_return({'result': 'success'})
+    except MyListException, e:
         error_message = generate_error_message(e.error_code)
         return create_json_return({'result': 'error', 'msg': error_message})
-    return create_json_return({'result': 'success'})
+    except Exception, e:
+        return create_json_return({'result': 'error', 'msg': e.message})
 
 
 teacher_distribute_list = ['uid', 'uname', 'password', 'lcid', 'card_number']
@@ -205,7 +194,7 @@ def add_view(request):
         },
         {
             'val': '5',
-            'name': '院系管理员'
+            'name': '实验中心管理员'
         }
     ]
     return render(request, "add_user.html", locals())
@@ -265,3 +254,53 @@ def get_one_lab_center_detail_view(request, lcid):
     lab_list = get_lab_by_lcid(lcid)
 
     return render(request, "get_lab_center_detail.html", locals())
+
+
+def do_with_xlsx(handler, f):
+    temp = NamedTemporaryFile(suffix='.xlsx')
+    try:
+        temp.write(f)
+        print u"temp_name:%s" % temp.name
+        name = u"%s" % temp.name
+        temp.seek(0)
+        wb = load_workbook(filename=name, use_iterators=True)
+        handler(wb)
+    finally:
+        temp.close()
+
+
+def add_list_view_factory(name, do_function):
+    def add_list(request):
+        f = request.FILES['user_list']
+
+        def add_list_handler(wb):
+            ws = wb.get_sheet_by_name(name='Sheet1')
+            first = True
+            print ws
+            student_list = []
+            for row in ws.iter_rows():
+                if first:
+                    first = False
+                    continue
+                else:
+                    student_list.append(wrap_row(row))
+                    # print row
+                    wrap_row(row)
+                    print "one_student added"
+            do_function(student_list)
+
+        print name
+        try:
+            do_with_xlsx(add_list_handler, f.read())
+        except MyListException, e:
+            error_message = generate_error_message(e.error_code, e.num)
+            return create_json_return({'result': 'error', 'msg': error_message})
+        return create_json_return({'result': 'success'})
+
+    return add_list
+
+
+add_lab_center_list_view = add_list_view_factory('add_lab_center_list', add_lab_center_list_action)
+add_lab_list_view = add_list_view_factory('add_lab_list', add_lab_list_action)
+add_department_list_view = add_list_view_factory('add_department_list', add_department_list_action)
+add_admin_list_view = add_list_view_factory('add_admin_list_view', add_admin_list_action)
