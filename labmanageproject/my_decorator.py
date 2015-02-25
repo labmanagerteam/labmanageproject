@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponse
 import re
 import json
+from labmanageproject.user_manage import check_password
 
 def check_perm(perm):
     def decorator(func):
@@ -24,12 +25,15 @@ def check_perm(perm):
 
 def check_logged(func):
     def wrapper(request, *args, **kwargs):
-        session_key = ['uid', 'uname', 'perm_list']
+        session_key = ['uid', 'uname', 'perm_list', 'identity', 'password']
         for key in session_key:
             if key not in request.session:
-                return render(request, "not_log.html")
-        else:
-            return func(request, *args, **kwargs)
+                return render(request, "not_log.html", {'msg': "你没有登陆或登陆超时，请重新登陆"})
+
+        if not check_password(request.session['uid'], request.session['password']):
+            return render(request, "not_log.html", {'msg': "密码已经改变请重新改变"})
+
+        return func(request, *args, **kwargs)
 
     return wrapper
 

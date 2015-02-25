@@ -9,9 +9,10 @@ LEFT_DISTRIBUTE = 5
 HAVE_LAB_CENTER = 6
 HAVE_LAB = 7
 HAVE_DEPARTMENT = 8
+NO_USER = 9
 
 
-def generate_error_message(error_code):
+def generate_error_message(error_code, num='false'):
     d = {
         HAVE_USR: '该用户已存在',
         NO_THAT_DEPARTMENT: '不存在这个院系代码',
@@ -21,11 +22,10 @@ def generate_error_message(error_code):
         HAVE_LAB_CENTER: '该实验中心以存在',
         HAVE_LAB: '该实验室以存在',
         HAVE_DEPARTMENT: '该院系已存在',
+        NO_USER: '该用户不存在',
     }
 
-    return d[error_code]
-
-
-def generate_error_message(error_code, num):
-    msg = generate_error_message(error_code)
-    return "第%d行:%s" % (num, msg)
+    if num == 'false':
+        return d[error_code]
+    else:
+        return "第%d行:%s" % (num, d[error_code])

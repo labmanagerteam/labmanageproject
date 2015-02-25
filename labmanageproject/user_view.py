@@ -7,18 +7,9 @@ from django.http import HttpResponseRedirect
 from labmanageproject.user_manage import *
 from labmanageproject.my_decorator import *
 from labmanageproject.error_code import *
+from labmanageproject.utility import *
 from tempfile import NamedTemporaryFile
 from openpyxl import load_workbook
-
-def get_post(request, name_list):
-    value_list = []
-    for name in name_list:
-        value_list.append(request.POST[name])
-    return value_list
-
-
-def create_json_return(d):
-    return HttpResponse(json.dumps(d))
 
 
 def login(request):
@@ -33,11 +24,13 @@ def login(request):
             uname = check_password(cd['uid'], cd['password'])
             # print uname
             if uname:
-                perm_list = get_perm_list(cd['uid'])
+                [perm_list, identity_list] = get_perm_list(cd['uid'])
                 my_user = {
                     'perm_list': perm_list,
                     'uname': uname,
-                    'uid': cd['uid']
+                    'uid': cd['uid'],
+                    'identity': identity_list,
+                    'password': cd['password'],
                 }
                 request.session['my_user'] = my_user
                 return render(request, 'home.html', locals())
@@ -65,7 +58,7 @@ def add_user_view(request):
             'name': 'teacher'
         }
     ]
-    return render(request, "add_user.html", locals())
+    return render(request, "add_user2.html", locals())
 
 
 def wrap_row(row):
@@ -197,7 +190,7 @@ def add_view(request):
             'name': '实验中心管理员'
         }
     ]
-    return render(request, "add_user.html", locals())
+    return render(request, "add_user2.html", locals())
 
 
 lab_distribution_list = ['lid', 'lname', 'lcid', 'lnumber']
@@ -238,6 +231,27 @@ def get_all_lab_center_admin_view(request):
     result = get_all_lab_center_admin_action()
     print result
     return render(request, "get_all_lab_center_admin.html", locals())
+
+
+@check_post_form({'delid'})
+def delete_one_lab_center_admin_view(request):
+    [uid] = get_post(request, ['delid'])
+    delete_one_admin_action(uid)
+    return create_json_return({'result': 'success'})
+
+
+def delete_one_item_view_factory(delete_action):
+    @check_post_form({'delid'})
+    def delete(request):
+        [delete_id] = get_post(request, ['delid'])
+        delete_action(delete_id)
+        return create_json_return({'result': 'success'})
+
+    return delete
+
+
+delete_one_lab_center_view = delete_one_item_view_factory(delete_one_lab_center_action)
+delete_one_lab_view = delete_one_item_view_factory(delete_one_lab_action)
 
 
 def get_all_lab_center_view(request):
@@ -304,3 +318,13 @@ add_lab_center_list_view = add_list_view_factory('add_lab_center_list', add_lab_
 add_lab_list_view = add_list_view_factory('add_lab_list', add_lab_list_action)
 add_department_list_view = add_list_view_factory('add_department_list', add_department_list_action)
 add_admin_list_view = add_list_view_factory('add_admin_list_view', add_admin_list_action)
+
+
+@check_post_form(['uid', 'new_password'])
+def change_admin_password_view(request):
+    [uid, new_password] = get_post(request, ['uid', 'new_password'])
+    try:
+        change_password_action(uid, new_password)
+        return create_json_return({'result': 'success'})
+    except MyBaseException, e:
+        return create_json_return({'result': 'error', 'msg': generate_error_message(e.error_code)})

@@ -2,6 +2,7 @@
 from labmanageproject.user_view import *
 from labmanageproject.test_db import test_db
 from labmanageproject.lab_view import *
+from labmanageproject.semster_view import *
 
 from django.conf.urls import patterns, include, url
 # from django.conf.urls.static import static
@@ -17,6 +18,8 @@ my_open_lab = r"^my_open_lab"
 add_user = r'^add_user'
 add = r'^add'
 get_all_lc_center_str = r'^get_all_lab_center'
+get_all_lc_center_admin_str = r'^get_all_lab_center_admin'
+set_semster_str = r'^set_semster'
 
 urlpatterns = patterns('',
                        # Examples:
@@ -57,8 +60,14 @@ urlpatterns = patterns('',
                        url(add + '/department_list/$', add_department_list_view),
                        url(add + '/admin_list/$', add_admin_list_view),
                        url('^today_order/$', today_order_view),
-                       url('^get_all_lab_center_admin/$', get_all_lab_center_admin_view),
+                       url(get_all_lc_center_admin_str + '/$', get_all_lab_center_admin_view),
+                       url(get_all_lc_center_admin_str + '/delete/$', delete_one_lab_center_admin_view),
+                       url(get_all_lc_center_admin_str + '/change_password/$', change_admin_password_view),
                        url(get_all_lc_center_str + '/$', get_all_lab_center_view),
+                       url(get_all_lc_center_str + '/delete/$', delete_one_lab_center_view),
                        url(get_all_lc_center_str + '/(.+)/$', get_one_lab_center_detail_view),
+                       url(get_all_lc_center_str + '/.+/delete/$', delete_one_lab_view),
+                       url(set_semster_str + '/$', set_semster_view),
+                       url(set_semster_str + '/do/$', do_set_semster_view),
 )
 

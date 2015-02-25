@@ -1,24 +1,105 @@
 {% extends "base.html" %}
 
 {% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/jquery.form.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.delete').click(function () {
+                do_delete($(this), 'delete/', function () {
+                    $(this).closest('tr').remove();
+                });
+            });
 
+            $('#change_dialog form').submit(function () {
+                $(this).ajaxSubmit({
+                    dataType: 'json',
+                    success: function (data) {
+                        success_handler_g(data, '修改成功', function () {
+                            {#                            $('#change_dialog').close();#}
+                        })
+                    },
+                    error: function () {
+                        error_handler_g();
+                    }
+                });
+                return false;
+            });
+        });
+
+        var fill_info = function ($this) {
+            $('#change_dialog div p').empty();
+            $tr = $this.closest('tr');
+            var v_list = [];
+            $tr.find('td').each(function () {
+                var content = $(this).html();
+                console.log("inner_html:" + content);
+                v_list.push(content);
+                $(this).append(content);
+            });
+            var index = 0;
+            $('#change_dialog div p').each(function () {
+                console.log("append:" + v_list[index]);
+                $(this).append(v_list[index]);
+                ++index;
+            });
+
+            console.log("uid" + $tr.find('.del_id').val());
+            $('#change_dialog input[name="uid"]').val($tr.find('.del_id').val());
+        };
+    </script>
+
+    {% load staticfiles %}
+    <script src="{% static "js/change_info.js" %}"></script>
 {% endblock %}
 
 {% block body %}
+
+    <div id="change_dialog" title="设置新密码">
+        用户信息：
+        <input type="hidden" class="change_id" value="{{ r.uid }}"/>
+
+        <div><label>工号:</label>
+
+            <p style="display: inline-block"></p></div>
+        <div><label>姓名:</label>
+
+            <p style="display: inline-block"></p></div>
+        <div><label>卡号:</label>
+
+            <p style="display: inline-block"></p></div>
+        <div><label>实验中心名称:</label>
+
+            <p style="display: inline-block"></p></div>
+
+        设置新密码：
+        <form method="post" action="change_password/">
+            {% csrf_token %}
+            <input type="hidden" name="uid"/>
+
+            <div><label>新密码:</label><input name="new_password"/></div>
+            <input type="submit" id="submit_change" style="display: none"/>
+        </form>
+    </div>
 
     <table>
         <tr>
             <th>工号</th>
             <th>姓名</th>
             <th>卡号</th>
-            <th>实验中兴名称</th>
+            <th>实验中心名称</th>
+            <th></th>
+            <th></th>
         </tr>
         {% for r in result %}
             <tr>
+                <input type="hidden" class="del_id" value="{{ r.uid }}"/>
                 <td>{{ r.uid }}</td>
                 <td>{{ r.uname }}</td>
                 <td>{{ r.card_number }}</td>
                 <td>{{ r.lcname }}</td>
+                <td><input type="button" class="button delete" value="删除"/></td>
+                <td><input type="button" class="button change_info_button" value="设置新密码"/></td>
             </tr>
         {% endfor %}
     </table>

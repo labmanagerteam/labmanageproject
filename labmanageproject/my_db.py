@@ -102,6 +102,26 @@ def update_mothed(tname):
     return update
 
 
+def delete_method(tname):
+    sql = "delete from " + tname + " where "
+
+    def delete(where_dict):
+        inner_sql = sql
+        where_sql = ""
+        value_list = []
+
+        for (key, value) in where_dict.items():
+            where_sql += key + "=%s and "
+            value_list.append(value)
+
+        where_sql += " 1=1 "
+        inner_sql += where_sql
+
+        do_sql(inner_sql, value_list)
+
+    return delete
+
+
 def get_department_id_by_name(dname):
     sql = "select gid from department where dname=%s"
     cursor = do_sql(sql, [dname])
@@ -138,6 +158,10 @@ class user():
     UID = 'uid'
     UNAME = 'uname'
     CARD_NUMBER = 'card_number'
+
+    @staticmethod
+    def delete(where_dict):
+        delete_method('user')(where_dict)
 
 
 class lab_center():
@@ -236,6 +260,21 @@ class user_order:
         update_mothed('user_order')(update_dict, where_dict)
 
 
+class semister:
+    DATE = 'date'
+    WEEK_NUMBER = 'week_number'
+    WEEKDAY = 'weekday'
+    NAME_LIST = [DATE, WEEK_NUMBER, WEEKDAY]
+
+    @staticmethod
+    def add_list(value_list):
+        add_list_method('semister', semister.NAME_LIST)(value_list)
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('semister')(**kwargs)
+
+
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
 add_teacher_table = add_method('teacher', ['uid', 'lcid'])
 add_student_table = add_method('student', ['uid', 'did', 'grade'])
@@ -253,6 +292,9 @@ get_department_table = get_method('department')
 
 update_open_lab_table = update_mothed('open_lab')
 LIMIT = 'limit'
+
+delete_administer_table = delete_method('administer')
+delete_teacher_table = delete_method('teacher')
 
 
 class user_db():
@@ -364,6 +406,14 @@ class user_db():
               "where u.uid=a.uid and lc.lcid=a.lcid"
 
         return do_sql(sql, []).fetchall()
+
+    @staticmethod
+    def change_password(uid, new_password):
+        sql = "update user " \
+              "set password=%s " \
+              "where uid=%s"
+
+        do_sql(sql, [new_password, uid])
 
 
 class lab_db():

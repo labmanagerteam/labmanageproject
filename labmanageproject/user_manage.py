@@ -67,33 +67,42 @@ def get_perm_list(uid):
         },
         {
             URL: '/get_all_lab_center_admin',
-            PNAME: '查看中心管理员'
+            PNAME: '管理中心管理员'
         },
         {
             URL: '/get_all_lab_center',
-            PNAME: '查看所有实验中心'
+            PNAME: '管理所有实验中心'
+        },
+        {
+            URL: '/set_semster',
+            PNAME: '设置学期起止时间'
         }
     ]
 
+    identity_list = []
     perm_list = []
     if user_db.is_student(uid):
         perm_list = student_perm
+        identity_list.append('学生')
     else:
         perm_list = []
         if user_db.is_teacher(uid):
+            identity_list.append('教师')
             for p in teacher_perm:
                 perm_list.append(p)
 
         if user_db.is_administer(uid):
+            identity_list.append('实验室管理员')
             for p in administer_perm:
                 perm_list.append(p)
 
         if uid == '0':
+            identity_list.append('超级管理员')
             for p in super_admin_perm:
                 perm_list.append(p)
 
     perm_list.append({'url': '/logout', 'pname': '退出'})
-    return perm_list
+    return [perm_list, identity_list]
 
 
 def check_student(uid, did):
@@ -251,3 +260,25 @@ def get_all_lab_center_action():
 def get_lab_by_lcid(lcid):
     lab_filter = filter_result_dict_list([lab.LID, lab.LNAME, lab.LNUMBER])
     return lab_filter(lab_db.get_all_lab_by_lcid(lcid))
+
+
+def delete_one_admin_action(uid):
+    with transaction.atomic():
+        delete_administer_table({'uid': uid})
+        delete_teacher_table({'uid': uid})
+        user.delete({'uid': uid})
+
+
+def delete_one_lab_center_action(lcid):
+    with transaction.atomic():
+        pass
+
+
+def delete_one_lab_action(lid):
+    pass
+
+
+def change_password_action(uid, new_password):
+    with transaction.atomic():
+        check_uid(uid)
+        user_db.change_password(uid, new_password)

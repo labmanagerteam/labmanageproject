@@ -6,6 +6,9 @@
     {% load staticfiles %}
     <script src="{% static "js/jquery.js" %}"></script>
     <script src="{% static "js/jquery-ui.js" %}"></script>
+    <script src="{% static "js/delete.js" %}"></script>
+    <script src="{% static "js/ajax_handler.js" %}"></script>
+    <script src="{% static "js/form_utility.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.structure.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.theme.css" %}"/>
@@ -24,6 +27,8 @@
             table_add_class();
             $('input[type="button"]').button();
             $('select').selectmenu();
+            $('input[type="date"]').attr("required", "true");
+            $('input[type="text"]').attr("required", "true");
         });
     </script>
     {% block staticfiles %}{% endblock %}
@@ -31,7 +36,16 @@
 <body>
 {% if perm_list %}
     <div id="header">
-
+        <p class="in_header">姓名：{{ uname }} 身份：
+            {% for id in identity %}
+                {% if forloop.first %}
+                    {{ id }}
+                {% else %}
+                    /{{ id }}
+                {% endif %}
+            {% endfor %}
+            当前{{ week }}
+        </p>
     </div>
 {% endif %}
 <div id="body">
