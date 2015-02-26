@@ -20,6 +20,7 @@ add = r'^add'
 get_all_lc_center_str = r'^get_all_lab_center'
 get_all_lc_center_admin_str = r'^get_all_lab_center_admin'
 set_semster_str = r'^set_semster'
+open_lab_str = r'^open_lab'
 
 urlpatterns = patterns('',
                        # Examples:
@@ -30,8 +31,9 @@ urlpatterns = patterns('',
                        url(r'^test_db/$', test_db),
                        url(r'^$', login),
                        url(r'^logout/$', logout),
-                       url(r'^open_lab/$', open_lab),
+                       url(open_lab_str + r'/$', open_lab),
                        url(r'^send_open_lab/$', send_open_lab),
+                       url(open_lab_str + r'/send_circle_open_lab/$', send_circle_open_lab_view),
                        url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view),
                        url(check_open_lab_str + r'/$', check_open_lab),
                        url(check_open_lab_str + r'/get_uncheck_open_lab/$', get_uncheck_open_lab),

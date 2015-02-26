@@ -9,8 +9,8 @@ $(document).ready(function () {
     $form.submit(function () {
         $(this).ajaxSubmit({
             beforeSubmit: function (arr, $form, options) {
-                var begin_date = new Date(get_input('begin_date', arr));
-                var end_date = new Date(get_input('end_date', arr));
+                var begin_date = new Date(get_input('begin_date', arr)[0]);
+                var end_date = new Date(get_input('end_date', arr)[0]);
                 var now = new Date();
                 console.log(begin_date);
                 console.log(end_date);
@@ -43,7 +43,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-
+                success_handler_g(data, "你已成功设置了学期的起止时间", false);
             },
             error: function () {
                 error_handler_g();

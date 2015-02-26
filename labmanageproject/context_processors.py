@@ -2,13 +2,14 @@
 __author__ = 'wlw'
 from labmanageproject.semster_action import get_now_week
 
+
 def my_user_proc(request):
     def now_week():
         a = get_now_week(request)
         if a:
             return '第%s周' % (str(a))
         else:
-            return '在假期内'
+            return False
 
     if 'my_user' not in request.session:
         return {}

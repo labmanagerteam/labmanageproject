@@ -35,3 +35,15 @@ select {
 #change_dialog label {
     width: 100px;
 }
+
+.no_display {
+    display: none;
+}
+
+.w200px {
+    width: 200px;
+}
+
+.w72px {
+    width: 72px;
+}

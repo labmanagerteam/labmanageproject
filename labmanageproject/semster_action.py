@@ -45,4 +45,12 @@ def set_semster_action(begin_date, end_date):
 def get_now_week(request):
     now = datetime.now()
     now = create_local_date(datetime(now.year, now.month, now.day))
-    return semister.get(**{'date': now})[0][1]
+    r = semister.get(**{'date': now})
+    if r:
+        return r[0][1]
+    else:
+        return False
+
+
+def get_max_week():
+    return semister.get_max_week()

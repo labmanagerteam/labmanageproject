@@ -107,8 +107,8 @@ var one_time_handle = function () {
         detail_list.push(new Array(lid, begin_time, end_time));
     });
 
-    var olname = $('input[name="olname"]').val();
-    var lcid = $('select[name="lcid"]').val();
+    var olname = $('#onetime input[name="olname"]').val();
+    var lcid = $('#onetime select[name="lcid"]').val();
 
     console.log('lid_list:' + lid_list);
 
@@ -146,7 +146,9 @@ $(document).ready(function () {
         console.log("begin add");
         $(this).closest('tr').before(one_line);
         $('.selectmenu').selectmenu();
-        $('.number_menu').selectmenu().selectmenu("menuWidget").addClass("overflow");
+        $('.number_menu').each(function () {
+            $(this).selectmenu().selectmenu("menuWidget").addClass("overflow");
+        });
         $('input[type="button"]').button();
         console.log("end add");
     });
@@ -181,7 +183,7 @@ $(document).ready(function () {
     $('#submit').click(function () {
         $('.error').empty();
         var empty = false;
-        $('input').each(function () {
+        $('#onetime input').each(function () {
             if (!$(this).val()) {
                 empty = true;
                 $(this).addClass('empty');
@@ -192,12 +194,8 @@ $(document).ready(function () {
             return;
         }
 
-        var type = $('select[name="type"]').val();
-        if (type == 1) {
-            one_time_handle();
-        } else if (type == 2) {
-            circle_handle();
-        }
+        one_time_handle();
     });
 
+    $('#tabs').tabs();
 });

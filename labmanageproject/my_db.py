@@ -274,6 +274,12 @@ class semister:
     def get(**kwargs):
         return get_method('semister')(**kwargs)
 
+    @staticmethod
+    def get_max_week():
+        sql = "select max(week_number) from semister"
+        print do_sql(sql, []).fetchall()
+        return do_sql(sql, []).fetchall()[0][0]
+
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
 add_teacher_table = add_method('teacher', ['uid', 'lcid'])

@@ -21,14 +21,26 @@
             $('th').addClass('ui-widget-header');
         };
 
+        var add_number_menu = function () {
+            $('.number_menu').each(function () {
+                $(this).selectmenu().selectmenu("menuWidget").addClass("overflow");
+            });
+        };
+
+        var add_no_empty = function () {
+            $('input[type="date"]').attr("required", "true");
+            $('input[type="text"]').attr("required", "true");
+            $('input[type="input"]').attr("required", "true");
+        };
+
         $(document).ready(function () {
             $('.menu').menu();
             $('.button').button();
             table_add_class();
             $('input[type="button"]').button();
             $('select').selectmenu();
-            $('input[type="date"]').attr("required", "true");
-            $('input[type="text"]').attr("required", "true");
+            add_no_empty();
+            add_number_menu();
         });
     </script>
     {% block staticfiles %}{% endblock %}
@@ -44,7 +56,12 @@
                     /{{ id }}
                 {% endif %}
             {% endfor %}
-            当前{{ week }}
+            当前
+            {% if week %}
+                {{ week }}
+            {% else %}
+                在假期内
+            {% endif %}
         </p>
     </div>
 {% endif %}

@@ -8,6 +8,7 @@ import json
 
 from labmanageproject.lab_manage import *
 from labmanageproject.my_decorator import *
+from labmanageproject.semster_action import get_max_week, get_now_week
 
 
 def get_uid(request):
@@ -21,6 +22,14 @@ def open_lab(request):
         print request.POST
     else:
         lc_list = get_all_lab_center()
+
+    week_list = []
+    a = get_now_week(request)
+
+    if a:
+        b = get_max_week()
+        for t in xrange(a, b + 1):
+            week_list.append(t)
 
     return render(request, "open_lab.html", locals())
 
@@ -178,3 +187,7 @@ def my_open_lab_detail_view(request, olid):
 
 def today_order_view(request):
     return HttpResponse(json.dumps(get_today_order()))
+
+
+def send_circle_open_lab_view(request):
+    pass
