@@ -11,7 +11,7 @@ def join_list(a, b):
     return a
 
 def do_sql(sql, param):
-    print "sql:" + sql
+    print "sql:" + sql + "param: %s" % param
     cursor = connection.cursor()
     cursor.execute(sql, param)
     return cursor
@@ -70,7 +70,7 @@ def get_method(tname):
             # elif key == open_lab_detail.END_TIME:
             #     pass
             # else:
-            inner_sql += key + "=%s and"
+            inner_sql += key + "=%s and "
             v_list.append(value)
         inner_sql += " 1=1"
         print inner_sql
@@ -212,10 +212,17 @@ class open_lab():
     ACCEPT = "通过"
     REFUSE = "拒绝"
     WAIT = "未审核"
+    ONE_TIME = "单次"
+    CIRCLE = "循环"
+    NAME_LIST = [OLID, LCID, UID, BEGIN_DATE_TIME, END_DATE_TIME, STATUS, OLNAME, TYPE]
 
     @staticmethod
     def update(update_dict, where_dict):
         update_mothed("open_lab")(update_dict, where_dict)
+
+    @staticmethod
+    def add(value_list):
+        add_method('open_lab', open_lab.NAME_LIST)(value_list)
 
 
 class open_lab_detail:
@@ -279,6 +286,40 @@ class semister:
         sql = "select max(week_number) from semister"
         print do_sql(sql, []).fetchall()
         return do_sql(sql, []).fetchall()[0][0]
+
+    @staticmethod
+    def get_date(**kwargs):
+        r = get_method('semister')(**kwargs)
+        l = []
+        for t in r:
+            l.append(t[0])
+
+        return l
+
+    @staticmethod
+    def get_least_day_in_one_week(week_number):
+        sql = "select min(date) from semister WHERE week_number=%s"
+        return do_sql(sql, [week_number]).fetchall()[0][0]
+
+    @staticmethod
+    def get_max_day_in_one_week(week_number):
+        sql = "select max(date) from semister WHERE week_number=%s"
+        return do_sql(sql, [week_number]).fetchall()[0][0]
+
+
+class circle_open_lab_detail:
+    COLDID = "coldid"
+    OLID = "olid"
+    LID = "lid"
+    WEEKDAY = "weekday"
+    BEGIN_TIME = "begin_time"
+    END_TIME = "end_time"
+    NUMBER = "number"
+    NAME_LIST = [COLDID, OLID, LID, WEEKDAY, BEGIN_TIME, END_TIME, NUMBER]
+
+    @staticmethod
+    def add_list(value_list):
+        add_list_method('circle_open_lab_detail', circle_open_lab_detail.NAME_LIST)(value_list)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
@@ -521,6 +562,10 @@ class lab_db():
         return do_sql(inner_sql, value_list).fetchall()
 
     @staticmethod
+    def get_checked_open_lab_circle_detail():
+        pass
+
+    @staticmethod
     def add_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, type, detail_list):
         sql = "insert into open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, type)" \
               "values(%s,%s,%s,%s,%s,%s,%s)"
@@ -530,6 +575,15 @@ class lab_db():
             sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time)" \
                   "values(NULL,%s,%s,%s,%s)"
             do_sql(sql, [olid, detail[0], detail[1], detail[2]])
+
+    @staticmethod
+    def add_circle_open_lab(olid, lcid, olname, uid, begin_date_time, end_date_time, detail_list):
+        open_lab.add([olid, lcid, uid, begin_date_time, end_date_time, open_lab.WAIT, olname, open_lab.CIRCLE])
+
+        for detail in detail_list:
+            sql = "insert into circle_open_lab_detail(coldid, olid, lid, weekday, begin_time, end_time) " \
+                  "values(NULL, %s, %s, %s, %s, %s)"
+            do_sql(sql, detail)
 
     @staticmethod
     def get_open_lab_by_uid(uid):

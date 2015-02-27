@@ -65,3 +65,12 @@ def check_no_empty_in_list(l, num="false"):
 def check_distribute_number(l, num):
     if len(l) != num:
         raise MyBaseException(LEFT_DISTRIBUTE)
+
+
+def check_lid(lid, num="false"):
+    if num == "false":
+        if not lab.get(**{'lid': lid}):
+            raise MyBaseException(NO_LID)
+    else:
+        if not lab.get(**{'lid': lid}):
+            raise MyListException(NO_LID, num)

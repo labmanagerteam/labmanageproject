@@ -29,7 +29,7 @@ var get_lab_c = function (lcid) {
         dataType: 'json',
         success: function (data) {
             console.log('data:' + data);
-            lab_select += '<select class="selectmenu number_menu" name="lid">';
+            lab_select = '<select class="selectmenu number_menu" name="lid">';
             for (var i in data) {
                 console.log(data[i]['lid'] + ': ' + data[i]['lname']);
                 lab_select += '<option value="' + data[i]['lid'] + '">' +
@@ -89,7 +89,7 @@ $(document).ready(function () {
                 var begin_week_number = get_input('begin_week_number', arr)[0];
                 var end_week_number = get_input('end_week_number', arr)[0];
 
-                if (begin_week_number >= end_week_number) {
+                if (Number(begin_week_number) >= Number(end_week_number)) {
                     alert("结束的周应在开始的周之后");
                     return false;
                 }
@@ -100,23 +100,25 @@ $(document).ready(function () {
                 var end_time_list = get_input('end_time', arr);
 
                 for (var i = 0; i < lid_list.length; ++i) {
-                    if (begin_time_list[i] >= end_time_list[i]) {
+                    if (Number(begin_time_list[i]) >= Number(end_time_list[i])) {
                         alert("开始时间应在结束时间之后");
                     }
                     for (var j = 0; j < i; ++j) {
                         if (lid_list[i] == lid_list[j] && weekday_list[i] == weekday_list[j]) {
-                            if (begin_time_list[i] < end_time_list[j] && end_time_list[i] > begin_time_list[j]) {
-
+                            if (Number(begin_time_list[i]) < Number(end_time_list[j]) &&
+                                Number(end_time_list[i]) > Number(begin_time_list[j])) {
+                                alert("第" + i + "行与第" + j + "行存在时间上的冲突");
+                                return false;
                             }
                         }
                     }
                 }
 
-                return false;
+                return true;
             },
             dataType: 'json',
             success: function (data) {
-
+                success_handler_g(data, "你的开放计划已提交，请等待管理员审核", false);
             },
             error: function () {
                 error_handler_g();

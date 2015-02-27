@@ -42,7 +42,7 @@ def set_semster_action(begin_date, end_date):
     semister.add_list(r)
 
 
-def get_now_week(request):
+def get_now_week(request=""):
     now = datetime.now()
     now = create_local_date(datetime(now.year, now.month, now.day))
     r = semister.get(**{'date': now})

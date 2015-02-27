@@ -12,6 +12,9 @@ from labmanageproject.my_filter import filter_result_dict_list, filter_result_tu
     filter_result_dict_list_trans_date
 from labmanageproject.my_exception import FormInValidError
 from labmanageproject.my_field import my_date_field, my_time_field
+from labmanageproject.my_check import *
+from labmanageproject.semster_action import get_now_week, get_max_week
+from labmanageproject.utility import *
 
 UID = 'uid'
 UNAME = 'uname'
@@ -240,3 +243,88 @@ filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid'])
 
 def get_today_order():
     return filter_today_order(lab_db.get_today_order())
+
+
+def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number,
+                                lid_list, weekday_list, begin_time_list, end_time_list, uid):
+    from datetime import datetime
+
+    if int(begin_week_number) >= int(end_week_number):
+        raise Exception({'msg', "开始星期数比结束的大"})
+
+    if int(end_week_number) > int(get_max_week()):
+        raise Exception({'msg': "end_week_number greater then max"})
+
+    if int(begin_week_number) < int(get_now_week()):
+        raise Exception({'msg': "开始星期数在现在之前"})
+
+    val_list = [lid_list, weekday_list, begin_time_list, end_time_list]
+
+    for t1 in val_list:
+        for t2 in val_list:
+            if len(t1) != len(t2):
+                raise Exception({'msg': 'not equal length'})
+
+    weekday_list = list_to_integer_list(weekday_list)
+    begin_time_list = list_to_integer_list(begin_time_list)
+    end_time_list = list_to_integer_list(end_time_list)
+
+    for w in weekday_list:
+        if w < 0 or w > 6:
+            raise Exception({'msg': 'error'})
+
+    def check_time(l):
+        for tt in l:
+            if tt < 8 or tt > 22:
+                raise Exception('time not in field')
+
+    check_time(begin_time_list)
+    check_time(end_time_list)
+
+    for (a, b) in zip(begin_time_list, end_time_list):
+        if a >= b:
+            raise Exception({'msg': 'begin time greater end time'})
+
+    check_lab_center(lcid)
+    for lid in lid_list:
+        check_lid(lid)
+
+    olid = uid + timezone.now().strftime('%Y %m %d %H %M %S')
+
+    detail_line_list = []
+    for (lid, weekday, begin_time, end_time) in zip(lid_list, weekday_list, begin_time_list, end_time_list):
+        detail_line_list.append([olid, lid, weekday, begin_time, end_time])
+
+    LID_INDEX = 0
+    WEEKDAY_INDEX = 1
+    BEGIN_TIME_INDEX = 2
+    END_TIME_INDEX = 3
+
+    datestring_format = '%Y-%m-%d %H:%M:%S'
+
+    begin_date_time = semister.get_least_day_in_one_week(begin_week_number)
+    end_date_time = semister.get_max_day_in_one_week(end_week_number) + one_day
+
+    with transaction.atomic():
+
+        join_time_list = []
+        index = 1
+
+        for detail in detail_line_list:
+            for week_number in xrange(int(begin_week_number), int(end_week_number) + 1):
+                date = semister.get_date(**{'week_number': week_number, 'weekday': detail[WEEKDAY_INDEX]})
+                if not date:
+                    raise Exception('It is not in the semister')
+                date = date[0]
+                begin_time = create_local_date(datetime(date.year, date.month, date.day, detail[BEGIN_TIME_INDEX]))
+                end_time = create_local_date(datetime(date.year, date.month, date.day, detail[END_TIME_INDEX]))
+                if lab_db.get_checked_open_lab(detail[LID_INDEX], begin_time, end_time):
+                    join_time_list.append(index)
+                    index += 1
+
+                if join_time_list:
+                    raise JoinTimeListException(join_time_list)
+
+        lab_db.add_circle_open_lab(olid, lcid, olname, uid, begin_date_time,
+                                   end_date_time, detail_line_list)
+

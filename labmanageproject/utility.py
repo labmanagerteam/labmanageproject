@@ -32,3 +32,16 @@ def create_local_date(a):
     import django.utils.timezone as timezone
 
     return timezone.make_aware(a, timezone.get_current_timezone())
+
+
+def list_to_integer_list(l):
+    r = []
+    for t in l:
+        r.append(int(t))
+
+    return r
+
+
+from datetime import timedelta
+
+one_day = timedelta(days=1)

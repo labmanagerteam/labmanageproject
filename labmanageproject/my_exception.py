@@ -25,3 +25,9 @@ class MyListException(MyBaseException):
     def __init__(self, error_code, num):
         super(MyListException, self).__init__(error_code)
         self.num = num
+
+
+class JoinTimeListException(Exception):
+    def __init__(self, join_time_list):
+        super(JoinTimeListException, self).__init__()
+        self.join_time_list = join_time_list

@@ -10,6 +10,7 @@ HAVE_LAB_CENTER = 6
 HAVE_LAB = 7
 HAVE_DEPARTMENT = 8
 NO_USER = 9
+NO_LID = 10
 
 
 def generate_error_message(error_code, num='false'):
@@ -23,6 +24,7 @@ def generate_error_message(error_code, num='false'):
         HAVE_LAB: '该实验室以存在',
         HAVE_DEPARTMENT: '该院系已存在',
         NO_USER: '该用户不存在',
+        NO_LID: '不存在这个实验室',
     }
 
     if num == 'false':

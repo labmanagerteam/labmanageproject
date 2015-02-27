@@ -9,7 +9,8 @@ import json
 from labmanageproject.lab_manage import *
 from labmanageproject.my_decorator import *
 from labmanageproject.semster_action import get_max_week, get_now_week
-
+from labmanageproject.utility import *
+from labmanageproject.error_code import *
 
 def get_uid(request):
     return request.session['my_user']['uid']
@@ -189,5 +190,31 @@ def today_order_view(request):
     return HttpResponse(json.dumps(get_today_order()))
 
 
+@check_post_form(['olname', 'lcid', 'begin_week_number', 'end_week_number'])
 def send_circle_open_lab_view(request):
-    pass
+    [olname, lcid, begin_week_number, end_week_number] = get_post(request, ['olname', 'lcid', 'begin_week_number',
+                                                                            'end_week_number'])
+
+    base_name_list = ['lid', 'weekday', 'begin_time', 'end_time']
+    val_list = []
+    for n in base_name_list:
+        t = request.POST.getlist(n, '[]')
+        if not t:
+            return create_error_response({'msg': "%s not can be empty" % n})
+        else:
+            val_list.append(t)
+    [lid_list, weekday_list, begin_time_list, end_time_list] = val_list
+    print "val_list:%s " % val_list
+
+    try:
+        open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number,
+                                    lid_list, weekday_list, begin_time_list, end_time_list, get_uid(request))
+        return success_response
+    except JoinTimeListException, e:
+        return create_error_response({'join_list': e.join_time_list})
+    except MyListException, e:
+        return create_error_response({'msg': generate_error_message(e.error_code, e.num)})
+    except MyBaseException, e:
+        return create_error_response({'msg': generate_error_message(e.error_code)})
+        # except Exception, e:
+        # return create_error_response({'msg': e.message})
