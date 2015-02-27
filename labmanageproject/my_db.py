@@ -242,6 +242,12 @@ class open_lab_detail:
     def update(update_dict, where_dict):
         update_mothed("open_lab_detail")(update_dict, where_dict)
 
+    @staticmethod
+    def add_one(olid, lid, begin_time, end_time, coldid):
+        sql = "insert into open_lab_detail(oldid, olid, lid, begin_time, end_time, coldid) " \
+              "VALUES(NULL, %s, %s, %s, %s, %s)"
+        do_sql(sql, [olid, lid, begin_time, end_time, coldid])
+
 
 class user_order:
     ORDER_ID = 'order_id'
@@ -320,6 +326,10 @@ class circle_open_lab_detail:
     @staticmethod
     def add_list(value_list):
         add_list_method('circle_open_lab_detail', circle_open_lab_detail.NAME_LIST)(value_list)
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('circle_open_lab_detail')(**kwargs)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])
@@ -521,6 +531,10 @@ class lab_db():
         return do_sql(sql, [status, begin_time, end_time, lid])
 
     @staticmethod
+    def get_circle_conflict_open_lab(lid, begin_time, end_time, weekday, b_time, e_time, status):
+        pass
+
+    @staticmethod
     def get_open_lab(**kwargs):
 
         inner_sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
@@ -546,7 +560,7 @@ class lab_db():
 
     @staticmethod
     def get_open_lab_detail(**kwargs):
-        inner_sql = 'select l.lname, old.begin_time, old.end_time, l.number, old.oldid ' \
+        inner_sql = 'select l.lname, old.begin_time, old.end_time, l.number, old.oldid , l.lid ' \
                     'from open_lab_detail old, lab l ' \
                     'where '
         value_list = []
@@ -559,6 +573,24 @@ class lab_db():
                 inner_sql += "old." + key + '=%s and '
             value_list.append(value)
         inner_sql += 'old.lid=l.lid '
+        return do_sql(inner_sql, value_list).fetchall()
+
+    @staticmethod
+    def get_circle_open_lab_detail(**kwargs):
+        inner_sql = 'select l.lname, cold.weekday, cold.begin_time, cold.end_time, l.number, cold.coldid, l.lid ' \
+                    'from circle_open_lab_detail cold, lab l ' \
+                    'where '
+
+        value_list = []
+        for (key, value) in kwargs.items():
+            if key == circle_open_lab_detail.BEGIN_TIME:
+                inner_sql += 'cold.' + circle_open_lab_detail.END_TIME + '>%s and '
+            elif key == circle_open_lab_detail.END_TIME:
+                inner_sql += 'cold.' + circle_open_lab_detail.BEGIN_TIME + '<%s and '
+            else:
+                inner_sql += "cold." + key + '=%s and '
+            value_list.append(value)
+        inner_sql += 'cold.lid=l.lid '
         return do_sql(inner_sql, value_list).fetchall()
 
     @staticmethod

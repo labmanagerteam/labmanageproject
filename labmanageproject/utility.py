@@ -45,3 +45,4 @@ def list_to_integer_list(l):
 from datetime import timedelta
 
 one_day = timedelta(days=1)
+one_week = timedelta(days=7)

@@ -70,14 +70,18 @@ def get_uncheck_open_lab(request):
 def get_detail_open_lab(request, olid):
     import labmanageproject
 
-    this_open_lab = get_open_lab_by_olid(olid)[0]
+    this_open_lab = get_open_lab_by_olid(olid)
     print "this_oben_lab:%s" % this_open_lab
     if not this_open_lab:
         return render(request, 'error.html', {'error': '不存在这个开放计划'})
     else:
+        this_open_lab = this_open_lab[0]
         this_open_lab_detail = get_open_lab_detail_by_olid(olid, this_open_lab[TYPE])
+        change_open_lab_detail = get_open_lab_detail_by_olid(olid, u"单次")
         print "this_open_lab_detail:%s" % this_open_lab_detail
-        conflict_open_lab = get_conflict_open_lab(this_open_lab_detail)
+
+        conflict_open_lab = get_conflict_open_lab(change_open_lab_detail)
+
         print "conflict_open_lab:%s" % conflict_open_lab
         conflict_list = []
         for c in conflict_open_lab:
@@ -216,5 +220,5 @@ def send_circle_open_lab_view(request):
         return create_error_response({'msg': generate_error_message(e.error_code, e.num)})
     except MyBaseException, e:
         return create_error_response({'msg': generate_error_message(e.error_code)})
-        # except Exception, e:
-        # return create_error_response({'msg': e.message})
+    except Exception, e:
+        return create_error_response({'msg': e.message})

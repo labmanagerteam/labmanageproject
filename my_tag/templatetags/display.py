@@ -14,6 +14,11 @@ def wrap_by_th(a):
     return u'<th>%s</th>' % a
 
 
+def wrap_week_day(weekday):
+    d = [u'星期一', u'星期二', u'星期三', u'星期四', u'星期五', u'星期六', u'星期日']
+    return d[int(weekday)]
+
+
 @register.simple_tag
 def display_open_lab_title():
     mstr = u''
@@ -78,6 +83,18 @@ def pack_detail_one_line(d):
                        d[BEGIN_TIME].strftime('%H:00'), d[END_TIME].strftime('%H:00'))
 
 
+def pack_circle_detail_one_line(d):
+    one_line = u'<input type="hidden" name="coldid" value="%s" />' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>' \
+               u'<td>%s</td>'
+    one_line.encode('utf-8')
+    return one_line % (d[circle_open_lab_detail.COLDID], d[LNAME],
+                       wrap_week_day(d[circle_open_lab_detail.WEEKDAY]), d[circle_open_lab_detail.BEGIN_TIME],
+                       d[circle_open_lab_detail.END_TIME])
+
+
 @register.simple_tag
 def display_open_one_lab_detail(detail):
     print "display_open_one_lab_detail"
@@ -109,7 +126,17 @@ def pack_detail_list(detail, mtype):
             detail_list += u'<tr>' + pack_detail_one_line(d) + u'</tr>'
         detail_list += u"</table>"
     elif mtype == u"循环":
-        pass
+        detail_list = u'<table>' \
+                      u'<tr>' \
+                      u'<th>实验室</th>' \
+                      u'<th>星期几</th>' \
+                      u'<th>开始时间</th>' \
+                      u'<th>结束时间</th>' \
+                      u'</tr>'
+        detail_list.encode('utf-8')
+        for d in detail:
+            detail_list += u'<tr>' + pack_circle_detail_one_line(d) + u'</tr>'
+        detail_list += u"</table>"
     else:
         print "no in part"
         pass

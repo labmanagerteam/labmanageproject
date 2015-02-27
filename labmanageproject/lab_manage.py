@@ -116,13 +116,18 @@ def get_all_lab_by_lcid(lcid):
 filter_open_lab = filter_result_dict_list_trans_date([OLNAME, UNAME, LCNAME, TYPE,
                                                       BEGIN_DATE_TIME, END_DATE_TIME, OLID])
 
-filter_open_lab_detail = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID])
+filter_open_lab_detail = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID, LID])
 
 filter_open_lab_detail_no_name = filter_result_dict_list([OLDID, OLID, LID, BEGIN_TIME, END_TIME, LNUMBER])
 
 filter_lab = filter_result_dict_list([LID, LNAME, LCID, LNUMBER])
 
 filter_user_order = filter_result_dict_list(user_order.NAME_LIST)
+
+filter_circle_open_lab_detail = filter_result_dict_list([lab.LNAME, circle_open_lab_detail.WEEKDAY,
+                                                         circle_open_lab_detail.BEGIN_TIME,
+                                                         circle_open_lab_detail.END_TIME,
+                                                         lab.LNUMBER, circle_open_lab_detail.COLDID, LID])
 
 
 def get_all_unchecked_open_lab(begin_line_number, page_size):
@@ -150,7 +155,9 @@ def get_open_lab_detail_by_olid(olid, mtype):
         print "get_open_lab_detail_by_olid:%s" % r
         return r
     elif mtype == u"循环":
-        pass
+        r = filter_circle_open_lab_detail(lab_db.get_circle_open_lab_detail(**{OLID: olid}))
+        print "get_open_lab_detail_by_olid:%s" % r
+        return r
     else:
         return False
 
@@ -159,12 +166,32 @@ def get_conflict_open_lab(open_lab_detail):
     conflic_list = []
     for detail_line in open_lab_detail:
         [conflic_list.append(c) for c in
-         filter_open_lab(lab_db.get_conflict_open_lab(detail_line[LNAME], detail_line[BEGIN_TIME],
+         filter_open_lab(lab_db.get_conflict_open_lab(detail_line[LID], detail_line[BEGIN_TIME],
                                                       detail_line[END_TIME], "未审核"))]
 
     print 'conflic_list:%s' % conflic_list
 
+    circle_conflict_list = []
+
+
     return list(set(conflic_list))
+
+
+# def get_circle_conflict_open_lab(begin_time, end_time, detail_list):
+# conflict_list = []
+#     while begin_time < end_time:
+#         for detail in detail_list:
+#             t = begin_time
+#             for i in xrange(0, int(detail_list[circle_open_lab_detail.WEEKDAY])):
+#                 t += one_day
+#             b_time = t
+#             b_time.hour = detail[circle_open_lab_detail.BEGIN_TIME]
+#             e_time = t
+#             e_time.hour = detail[circle_open_lab_detail.END_TIME]
+#             [conflict_list.append(c) for c
+#              in lab_db.get_conflict_open_lab(detail[LID], create_local_date(b_time),
+#                                              create_local_date(e_time), "未审核")]
+#         begin_time += one_week
 
 
 def accept_open_lab(now_olid, conflict_list):
@@ -295,10 +322,11 @@ def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number
     for (lid, weekday, begin_time, end_time) in zip(lid_list, weekday_list, begin_time_list, end_time_list):
         detail_line_list.append([olid, lid, weekday, begin_time, end_time])
 
-    LID_INDEX = 0
-    WEEKDAY_INDEX = 1
-    BEGIN_TIME_INDEX = 2
-    END_TIME_INDEX = 3
+    OLID_INDEX = 0
+    LID_INDEX = 1
+    WEEKDAY_INDEX = 2
+    BEGIN_TIME_INDEX = 3
+    END_TIME_INDEX = 4
 
     datestring_format = '%Y-%m-%d %H:%M:%S'
 
@@ -322,9 +350,24 @@ def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number
                     join_time_list.append(index)
                     index += 1
 
-                if join_time_list:
-                    raise JoinTimeListException(join_time_list)
+        if join_time_list:
+            raise JoinTimeListException(join_time_list)
 
         lab_db.add_circle_open_lab(olid, lcid, olname, uid, begin_date_time,
                                    end_date_time, detail_line_list)
+
+        for detail in detail_line_list:
+            for week_number in xrange(int(begin_week_number), int(end_week_number) + 1):
+                date = semister.get_date(**{'week_number': week_number, 'weekday': detail[WEEKDAY_INDEX]})
+                if not date:
+                    raise Exception('It is not in the semister')
+                date = date[0]
+                begin_time = create_local_date(datetime(date.year, date.month, date.day, detail[BEGIN_TIME_INDEX]))
+                end_time = create_local_date(datetime(date.year, date.month, date.day, detail[END_TIME_INDEX]))
+                coldid = circle_open_lab_detail.get(**{OLID: olid,
+                                                       LID: detail[LID_INDEX],
+                                                       circle_open_lab_detail.WEEKDAY: detail[WEEKDAY_INDEX],
+                                                       circle_open_lab_detail.BEGIN_TIME: detail[BEGIN_TIME_INDEX],
+                                                       circle_open_lab_detail.END_TIME: detail[END_TIME_INDEX]})[0][0]
+                open_lab_detail.add_one(olid, detail[LID_INDEX], begin_time, end_time, coldid)
 
