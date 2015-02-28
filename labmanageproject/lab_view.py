@@ -260,3 +260,9 @@ def send_circle_open_lab_view(request):
         return create_error_response({'msg': generate_error_message(e.error_code)})
     except Exception, e:
         return create_error_response({'msg': e.message})
+
+
+def my_order_view(request):
+    [my_order, my_circle_order] = get_my_order_action(get_uid(request))
+    my_all_order = join_list(my_order, my_circle_order)
+    return render(request, "my_order.html", locals())

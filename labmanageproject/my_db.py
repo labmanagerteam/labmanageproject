@@ -682,7 +682,7 @@ class lab_db():
     @staticmethod
     def get_order_to_my_open_lab(uid):
         sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
-              "u.uname, l.lname, lc.lcname " \
+              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state " \
               "from user_order uo, open_lab ol, open_lab_detail old, user u, lab l, lab_center lc " \
               "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid and ol.TYPE=%s " \
               "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid " \
@@ -692,12 +692,31 @@ class lab_db():
     @staticmethod
     def get_order_to_my_circle_open_lab(uid):
         sql = "select ol.olid , cold.coldid, ol.olname, co.uid, co.corder_id," \
-              "u.uname, l.lname, lc.lcname " \
+              "u.uname, l.lname, lc.lcname,co.seat_id,co.state " \
               "from circle_order co, open_lab ol, circle_open_lab_detail cold, user u, lab l, lab_center lc " \
               "where ol.uid = %s and ol.olid=cold.olid and cold.coldid=co.coldid and ol.TYPE=%s " \
               "and u.uid=co.uid and lc.lcid=ol.lcid and l.lid=cold.lid " \
               "and co.state=%s"
         return do_sql(sql, [uid, open_lab.CIRCLE, circle_order.WAIT]).fetchall()
+
+    @staticmethod
+    def my_order(uid):
+        sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
+              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state " \
+              "from user_order uo, open_lab_detail old, open_lab ol,user u,lab l,lab_center lc " \
+              'where uo.uid=%s and old.oldid=uo.oldid and ol.olid=old.olid and ol.type="单次"' \
+              'and u.uid=uo.uid and l.lid=old.lid and lc.lcid=ol.lcid'
+
+        return do_sql(sql, [uid]).fetchall()
+
+    @staticmethod
+    def my_circle_order(uid):
+        sql = "select ol.olid , cold.coldid, ol.olname, co.uid, co.corder_id," \
+              "u.uname, l.lname, lc.lcname,co.seat_id,co.state " \
+              'from circle_order co,circle_open_lab_detail cold, open_lab ol,user u,lab l,lab_center lc    ' \
+              'where co.uid=%s and co.coldid=cold.coldid and cold.olid=ol.olid ' \
+              'and u.uid=co.uid and l.lid = cold.lid and lc.lcid=ol.lcid'
+        return do_sql(sql, [uid]).fetchall()
 
     @staticmethod
     def get_today_order():

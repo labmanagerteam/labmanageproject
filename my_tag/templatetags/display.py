@@ -329,3 +329,16 @@ def display_open_lab_detail(parser, token):
         raise template.TemplateSyntaxError(msg)
 
     return DispOrderBodyNode(body, extra_body)
+
+
+@register.simple_tag
+def display_order_body_state(order_body):
+    s = u''
+    for o in order_body:
+        extra = o[STATE]
+        if extra == u"通过":
+            extra += u" 座位号是%s" % o[user_order.SEAT_ID]
+        extra = wrap_by_td(extra)
+        s += wrap_by_tr(pack_order_one_line(o, extra))
+
+    return s

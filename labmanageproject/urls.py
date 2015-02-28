@@ -21,6 +21,7 @@ get_all_lc_center_str = r'^get_all_lab_center'
 get_all_lc_center_admin_str = r'^get_all_lab_center_admin'
 set_semster_str = r'^set_semster'
 open_lab_str = r'^open_lab'
+my_order_str = r'^my_order'
 
 
 urlpatterns = patterns('',
@@ -75,5 +76,6 @@ urlpatterns = patterns('',
                        url(get_all_lc_center_str + '/.+/delete/$', all_check(delete_one_lab_view)),
                        url(set_semster_str + '/$', all_check(set_semster_view)),
                        url(set_semster_str + '/do/$', all_check(do_set_semster_view)),
+                       url(my_order_str + '/$', all_check(my_order_view)),
 )
 

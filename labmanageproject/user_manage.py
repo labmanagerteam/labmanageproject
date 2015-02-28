@@ -46,6 +46,10 @@ def get_perm_list(uid):
         {
             URL: '/order_open_lab',
             PNAME: '预约实验室'
+        },
+        {
+            URL: '/my_order',
+            PNAME: '我的预约'
         }
     ]
 

@@ -285,7 +285,8 @@ def get_unchecked_order_by_oldid(oldid):
     return filter_user_order(user_order.get(**{user_order.OLDID: oldid, user_order.STATE: user_order.WAIT}))
 
 
-filter_order = filter_result_dict_list([OLID, OLDID, OLNAME, UID, ORDER_ID, UNAME, LNAME, LCNAME])
+filter_order = filter_result_dict_list([OLID, OLDID, OLNAME, UID, ORDER_ID,
+                                        UNAME, LNAME, LCNAME, user_order.SEAT_ID, STATE])
 filter_open_lab_detail_table = filter_result_dict_list(open_lab_detail.NAME_LIST)
 
 
@@ -297,7 +298,8 @@ def get_my_unchecked_order(uid):
 
 
 filter_circle_order_display = filter_result_dict_list([OLID, circle_order.COLDID, OLNAME, UID,
-                                                       circle_order.CORDER_ID, UNAME, LNAME, LCNAME])
+                                                       circle_order.CORDER_ID, UNAME, LNAME,
+                                                       LCNAME, circle_order.SEAT_ID, circle_order.STATE])
 
 
 def get_my_unchecked_circle_order(uid):
@@ -483,4 +485,14 @@ def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number
                                                        circle_open_lab_detail.BEGIN_TIME: detail[BEGIN_TIME_INDEX],
                                                        circle_open_lab_detail.END_TIME: detail[END_TIME_INDEX]})[0][0]
                 open_lab_detail.add_one(olid, detail[LID_INDEX], begin_time, end_time, coldid)
+
+
+def get_my_order_action(uid):
+    my_circle_order = filter_circle_order_display(lab_db.my_circle_order(uid))
+    for i in xrange(0, len(my_circle_order)):
+        my_circle_order[i][TYPE] = open_lab.CIRCLE
+    my_order = filter_order(lab_db.my_order(uid))
+    for i in xrange(0, len(my_order)):
+        my_order[i][TYPE] = open_lab.ONE_TIME
+    return [my_order, my_circle_order]
 
