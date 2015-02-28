@@ -36,6 +36,8 @@ REFUSE = open_lab.REFUSE
 LNUMBER = lab.LNUMBER
 OLDID = open_lab_detail.OLDID
 ORDER_ID = user_order.ORDER_ID
+STATE = user_order.STATE
+WAIT = u'未审核'
 
 
 def add_open_lab(*args):
@@ -129,6 +131,8 @@ filter_circle_open_lab_detail = filter_result_dict_list([lab.LNAME, circle_open_
                                                          circle_open_lab_detail.END_TIME,
                                                          lab.LNUMBER, circle_open_lab_detail.COLDID, LID])
 
+filter_noname_circle_open_lab_detail = filter_result_dict_list(circle_open_lab_detail.NAME_LIST)
+
 
 def get_all_unchecked_open_lab(begin_line_number, page_size):
     result = {
@@ -216,16 +220,51 @@ def get_all_checked_open_lab(begin_line_number, page_size):
 def do_user_order(oldid, uid):
     with transaction.atomic():
         detail = filter_open_lab_detail_no_name(lab_db.get_open_lab_detail_by_oldid(oldid))[0]
-        lab = filter_lab(lab_db.get_lab_by_lid(detail[LID]))[0]
-        if int(lab[LNUMBER]) <= int(detail[LNUMBER]):
+        l = filter_lab(lab_db.get_lab_by_lid(detail[LID]))[0]
+        if int(l[LNUMBER]) <= int(detail[LNUMBER]):
             return [False, "这个实验室已经预约完了"]
         else:
             lab_db.add_user_order(oldid, uid)
             return [True]
 
 
+filter_user_order = filter_result_dict_list([ORDER_ID, UID, OLDID, STATE])
+
+
 def check_order_condition(oldid, uid):
+    have_oldid_list = []
+    for a in filter_user_order(
+            join_list(user_order.get(**{UID: uid, STATE: WAIT}), user_order.get(**{UID: uid, STATE: ACCEPT}))):
+        have_oldid_list.append(a[OLDID])
+    have_oldid_list = list(set(have_oldid_list))
+    detail = filter_open_lab_detail(open_lab_detail.get(**{OLDID: oldid}))
+    for o in have_oldid_list:
+        d = filter_open_lab_detail(open_lab_detail.get(**{OLDID: o}))
+        if detail[BEGIN_TIME] < d[END_TIME] and d[BEGIN_TIME] < detail[END_TIME]:
+            raise Exception("这与你已有的预约冲突")
     return True
+
+
+def do_user_circle_order(coldid, uid):
+    oldid_list = []
+    for o in open_lab_detail.get(**{circle_open_lab_detail.COLDID: coldid}):
+        oldid_list.append(o[0])
+    for o in oldid_list:
+        check_order_condition(o, uid)
+    with transaction.atomic():
+        detail = filter_noname_circle_open_lab_detail(
+            circle_open_lab_detail.get(**{circle_open_lab_detail.COLDID: coldid}))
+        print "detail: %s" % detail
+        detail = detail[0]
+        l = filter_lab(lab_db.get_lab_by_lid(detail[LID]))[0]
+        if int(detail[circle_open_lab_detail.NUMBER]) < int(l[LNUMBER]):
+            circle_order.add_one(uid, coldid, circle_order.WAIT)
+            for o in oldid_list:
+                lab_db.add_user_order(o, uid)
+        else:
+            raise Exception("这个实验室已经预约完了")
+
+
 
 
 def get_my_open_lab(uid):
@@ -253,6 +292,7 @@ def accept_order(order_id):
         now_number = int(open_lab_detail_one[LNUMBER])
         max_number = filter_lab(lab.get(**{LID: open_lab_detail_one[LID]}))[0][LNUMBER]
         if int(open_lab_detail_one[LNUMBER]) > int(max_number):
+            refuse_order(order_id)
             return {'result': 'error', 'msg': '该实验室已满'}
         else:
             user_order.update({user_order.STATE: user_order.ACCEPT}, {user_order.ORDER_ID: order_id})

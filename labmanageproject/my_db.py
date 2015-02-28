@@ -11,7 +11,8 @@ def join_list(a, b):
     return a
 
 def do_sql(sql, param):
-    print "sql:" + sql + "param: %s" % param
+    print "sql:" + sql + "param: "
+    print param
     cursor = connection.cursor()
     cursor.execute(sql, param)
     return cursor
@@ -199,6 +200,10 @@ class lab():
     def add_list(value_list):
         add_list_method('lab', [lab.LID, lab.LNAME, lab.LCID, lab.LNUMBER])(value_list)
 
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed("lab")(update_dict, where_dict)
+
 
 class open_lab():
     OLID = 'olid'
@@ -330,6 +335,21 @@ class circle_open_lab_detail:
     @staticmethod
     def get(**kwargs):
         return get_method('circle_open_lab_detail')(**kwargs)
+
+
+class circle_order:
+    CORDER_ID = 'corder_id'
+    UID = user.UID
+    COLDID = circle_open_lab_detail.COLDID
+    STATE = 'state'
+    WAIT = user_order.WAIT
+    ACCEPT = user_order.ACCEPT
+    REFUSE = user_order.REFUSE
+
+    @staticmethod
+    def add_one(uid, coldid, state):
+        sql = "insert into circle_order(uid, coldid, state) VALUES (%s,%s,%s)"
+        do_sql(sql, [uid, coldid, state])
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])

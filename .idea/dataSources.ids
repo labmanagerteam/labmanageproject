@@ -84,6 +84,13 @@
       <column name="number" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="coldid"/>
     </table>
+    <table name="circle_order" schema="" catalog="labmanage" type="TABLE">
+      <column name="corder_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="uid" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
+      <column name="coldid" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="state" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1" def="J+acquWuoeaguCc="/>
+      <primary-key name="PRIMARY" columns="corder_id"/>
+    </table>
     <table name="department" schema="" catalog="labmanage" type="TABLE">
       <column name="did" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
       <column name="dname" sqlType="CHAR" precision="40" scale="0" nullable="false" jdbcType="1"/>
@@ -150,6 +157,7 @@
       <column name="begin_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="end_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="number" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="coldid" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="oldid"/>
     </table>
     <table name="semister" schema="" catalog="labmanage" type="TABLE">

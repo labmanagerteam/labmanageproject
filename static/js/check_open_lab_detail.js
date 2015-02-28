@@ -27,6 +27,7 @@ var check_open_str = "/check_open_lab";
 
 var success_handler = function (data) {
     if (data['result'] == "ok") {
+        confirm("已通过");
         location.href = check_open_str + "/";
     } else {
         alert(data['result']);

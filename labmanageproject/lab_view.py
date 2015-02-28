@@ -146,12 +146,25 @@ def order_open_lab_detail_view(request, olid):
 def order_view(request):
     oldid = request.POST['oldid']
     uid = get_uid(request)
-    if check_order_condition(oldid, uid):
-        do_user_order(oldid, uid)
-        return HttpResponse(json.dumps({'result': 'success'}))
-    else:
-        return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
+    try:
+        if check_order_condition(oldid, uid):
+            do_user_order(oldid, uid)
+            return HttpResponse(json.dumps({'result': 'success'}))
+        else:
+            return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
+    except Exception, e:
+        return create_error_response({'mag': e.message})
 
+
+@check_post_form({'coldid'})
+def order_circle_view(request):
+    coldid = request.POST['coldid']
+    uid = get_uid(request)
+    try:
+        do_user_circle_order(coldid, uid)
+        return success_response
+    except Exception, e:
+        return create_error_response({'mag': e.message})
 
 def check_user_order_view(request):
     my_order_list = get_my_unchecked_order(get_uid(request))

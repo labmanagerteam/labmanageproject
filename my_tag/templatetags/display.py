@@ -8,6 +8,7 @@ register = template.Library()
 
 OPEN_LAB_TITLE_LIST = [u'开放计划名称', u'申请人', u'实验中心', u'开放计划类型', u'开放计划类型', u'计划结束时间']
 OPEN_LAB_DETAIL_TITLE_LIST = [u'实验室', u'日期', u'开始时间', u'结束时间']
+OPEN_LAB_CIRCLE_TITLE_LIST = [u'实验室', u'星期几', u'开始时间', u'结束时间']
 
 
 def wrap_by_th(a):
@@ -29,10 +30,14 @@ def display_open_lab_title():
 
 
 @register.simple_tag
-def display_open_lab_detail_title():
+def display_open_lab_detail_title(mtype):
     mstr = u""
-    for n in OPEN_LAB_DETAIL_TITLE_LIST:
-        mstr += wrap_by_th(n)
+    if mtype == u"单次":
+        for n in OPEN_LAB_DETAIL_TITLE_LIST:
+            mstr += wrap_by_th(n)
+    elif mtype == u"循环":
+        for n in OPEN_LAB_CIRCLE_TITLE_LIST:
+            mstr += wrap_by_th(n)
     return mstr
 
 
@@ -99,6 +104,12 @@ def pack_circle_detail_one_line(d):
 def display_open_one_lab_detail(detail):
     print "display_open_one_lab_detail"
     return pack_detail_one_line(detail)
+
+
+@register.simple_tag
+def display_circle_open_lab_detail(detail):
+    print "display_circle_open_lab_detail"
+    return pack_circle_detail_one_line(detail)
 
 
 def get_context(context, m_str):
