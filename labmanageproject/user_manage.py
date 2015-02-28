@@ -268,18 +268,17 @@ def get_lab_by_lcid(lcid):
 
 def delete_one_admin_action(uid):
     with transaction.atomic():
-        delete_administer_table({'uid': uid})
-        delete_teacher_table({'uid': uid})
         user.delete({'uid': uid})
 
 
 def delete_one_lab_center_action(lcid):
     with transaction.atomic():
-        pass
+        lab_center.delete({lab_center.LCID: lcid})
 
 
 def delete_one_lab_action(lid):
-    pass
+    with transaction.atomic():
+        lab.delete({lab.LID: lid})
 
 
 def change_password_action(uid, new_password):

@@ -183,6 +183,10 @@ class lab_center():
     def get(**kwargs):
         return get_method('lab_center')(**kwargs)
 
+    @staticmethod
+    def delete(where_dict):
+        delete_method('lab_center')(where_dict)
+
 
 class lab():
     LID = 'lid'
@@ -205,6 +209,10 @@ class lab():
     @staticmethod
     def update(update_dict, where_dict):
         update_mothed("lab")(update_dict, where_dict)
+
+    @staticmethod
+    def delete(where_dict):
+        delete_method('lab')(where_dict)
 
 
 class open_lab():
