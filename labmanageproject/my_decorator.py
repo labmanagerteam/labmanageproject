@@ -7,32 +7,34 @@ import re
 import json
 from labmanageproject.user_manage import check_password
 
-def check_perm(perm):
-    def decorator(func):
-        def wrapper(request, *args, **kwargs):
-            for t in request.session['perm_list']:
-                t = t['url']
-                pattern = re.compile(r'^' + t + '*')
-                if pattern.match(request.path):
-                    return func(request, *args, **kwargs)
-            else:
-                return render(request, 'out_perm.html', locals())
 
-        return wrapper
+def check_perm(func):
+    def wrapper(request, *args, **kwargs):
+        for t in request.session['my_user']['perm_list']:
+            t = t['url']
+            pattern = re.compile(r'^' + t + '*')
+            if pattern.match(request.path):
+                return func(request, *args, **kwargs)
+        else:
+            return render(request, 'out_perm.html', locals())
 
-    return decorator
+    return wrapper
 
 
 def check_logged(func):
     def wrapper(request, *args, **kwargs):
         session_key = ['uid', 'uname', 'perm_list', 'identity', 'password']
+        if 'my_user' not in request.session:
+            return render(request, "not_log.html", {'msg': "你没有登陆或登陆超时，请重新登陆"})
+
         for key in session_key:
-            if key not in request.session:
+            if key not in request.session['my_user']:
                 return render(request, "not_log.html", {'msg': "你没有登陆或登陆超时，请重新登陆"})
 
-        if not check_password(request.session['uid'], request.session['password']):
+        if not check_password(request.session['my_user']['uid'], request.session['my_user']['password']):
             return render(request, "not_log.html", {'msg': "密码已经改变请重新改变"})
 
+        print "good logined"
         return func(request, *args, **kwargs)
 
     return wrapper
@@ -54,3 +56,7 @@ def check_post_form(name_list):
         return wrapper
 
     return decorator
+
+
+def all_check(func):
+    return check_logged(check_perm(func))

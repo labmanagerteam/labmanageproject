@@ -118,7 +118,7 @@ def get_all_lab_by_lcid(lcid):
 filter_open_lab = filter_result_dict_list_trans_date([OLNAME, UNAME, LCNAME, TYPE,
                                                       BEGIN_DATE_TIME, END_DATE_TIME, OLID])
 
-filter_open_lab_detail = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID, LID])
+filter_open_lab_detail_display = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID, LID])
 
 filter_open_lab_detail_no_name = filter_result_dict_list([OLDID, OLID, LID, BEGIN_TIME, END_TIME, LNUMBER])
 
@@ -155,7 +155,7 @@ def get_open_lab_by_olid(olid):
 
 def get_open_lab_detail_by_olid(olid, mtype):
     if mtype == u"单次":
-        r = filter_open_lab_detail(lab_db.get_open_lab_detail(**{OLID: olid}))
+        r = filter_open_lab_detail_display(lab_db.get_open_lab_detail(**{OLID: olid}))
         print "get_open_lab_detail_by_olid:%s" % r
         return r
     elif mtype == u"循环":
@@ -229,6 +229,7 @@ def do_user_order(oldid, uid):
 
 
 filter_user_order = filter_result_dict_list([ORDER_ID, UID, OLDID, STATE])
+filter_open_lab_detail = filter_result_dict_list(open_lab_detail.NAME_LIST)
 
 
 def check_order_condition(oldid, uid):
@@ -238,10 +239,14 @@ def check_order_condition(oldid, uid):
         have_oldid_list.append(a[OLDID])
     have_oldid_list = list(set(have_oldid_list))
     detail = filter_open_lab_detail(open_lab_detail.get(**{OLDID: oldid}))[0]
+    print "detail: %s" % detail
     for o in have_oldid_list:
         d = filter_open_lab_detail(open_lab_detail.get(**{OLDID: o}))[0]
+        print "d:%s" % d
         if detail[BEGIN_TIME] < d[END_TIME] and d[BEGIN_TIME] < detail[END_TIME]:
             raise Exception("这与你已有的预约冲突")
+        else:
+            print "no confilct with condition"
     return True
 
 
@@ -447,10 +452,10 @@ def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number
                 end_time = create_local_date(datetime(date.year, date.month, date.day, detail[END_TIME_INDEX]))
                 if lab_db.get_checked_open_lab(detail[LID_INDEX], begin_time, end_time):
                     join_time_list.append(index)
-                    index += 1
+            index += 1
 
         if join_time_list:
-            raise JoinTimeListException(join_time_list)
+            raise JoinTimeListException(list(set(join_time_list)))
 
         lab_db.add_circle_open_lab(olid, lcid, olname, uid, begin_date_time,
                                    end_date_time, detail_line_list)

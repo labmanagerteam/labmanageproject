@@ -118,7 +118,21 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-                success_handler_g(data, "你的开放计划已提交，请等待管理员审核", false);
+                if (data['result'] == 'success') {
+                    confirm("你的开放计划已提交，请等待管理员审核");
+                } else {
+                    if (data["join_list"]) {
+                        var join_list = data["join_list"];
+                        var s = "第" + join_list[0];
+                        for (var i = 1; i < join_list.length; ++i) {
+                            s += "," + join_list[i]
+                        }
+                        s += "行与现有开放计划冲突";
+                        alert(s);
+                    } else {
+                        alert(data['msg']);
+                    }
+                }
             },
             error: function () {
                 error_handler_g();

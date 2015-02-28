@@ -42,6 +42,8 @@ def get_lab_by_lcid_view(request):
     return HttpResponse(json.dumps(lab_dict))
 
 
+@check_logged
+@check_perm
 def send_open_lab(request):
     print request.POST
     olname = request.POST.get('olname', [])
@@ -153,7 +155,7 @@ def order_view(request):
         else:
             return HttpResponse(json.dumps({'result': 'error', 'msg': '你不符合预约此开放计划的条件'}))
     except Exception, e:
-        return create_error_response({'mag': e.message})
+        return create_error_response({'msg': e.message})
 
 
 @check_post_form({'coldid'})
@@ -164,7 +166,7 @@ def order_circle_view(request):
         do_user_circle_order(coldid, uid)
         return success_response
     except Exception, e:
-        return create_error_response({'mag': e.message})
+        return create_error_response({'msg': e.message})
 
 def check_user_order_view(request):
     uid = get_uid(request)
@@ -199,6 +201,7 @@ def check_circle_order_reflect_view(request):
             refuse_circle_order(corder_id)
         else:
             raise Exception("check_user_order_reflect_view shold not in")
+        print "return success"
         return success_response
     except MyBaseException, e:
         return create_error_response({'msg': e.message})
