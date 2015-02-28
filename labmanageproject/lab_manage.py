@@ -280,7 +280,22 @@ filter_open_lab_detail_table = filter_result_dict_list(open_lab_detail.NAME_LIST
 
 
 def get_my_unchecked_order(uid):
-    return filter_order(lab_db.get_order_to_my_open_lab(uid))
+    r = filter_order(lab_db.get_order_to_my_open_lab(uid))
+    for i in xrange(0, len(r)):
+        r[i][TYPE] = open_lab.ONE_TIME
+    return r
+
+
+filter_circle_order_display = filter_result_dict_list([OLID, circle_order.COLDID, OLNAME, UID,
+                                                       circle_order.CORDER_ID, UNAME, LNAME, LCNAME])
+
+
+def get_my_unchecked_circle_order(uid):
+    r = filter_circle_order_display(lab_db.get_order_to_my_circle_open_lab(uid))
+    print 'unchecked circle order:%s' % r
+    for i in xrange(0, len(r)):
+        r[i][TYPE] = open_lab.CIRCLE
+    return r
 
 
 def accept_order(order_id):

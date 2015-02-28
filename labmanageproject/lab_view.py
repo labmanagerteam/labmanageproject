@@ -167,8 +167,10 @@ def order_circle_view(request):
         return create_error_response({'mag': e.message})
 
 def check_user_order_view(request):
-    my_order_list = get_my_unchecked_order(get_uid(request))
+    uid = get_uid(request)
+    my_order_list = get_my_unchecked_order(uid)
     print "my_order_list: %s" % my_order_list
+    my_order_list = join_list(my_order_list, get_my_unchecked_circle_order(uid))
     extra = u'<td><input type="button" class="accept" value="同意"/><input type="button" class="refuse" value="拒绝"/></td>'
     return render(request, "check_user_order.html", locals())
 

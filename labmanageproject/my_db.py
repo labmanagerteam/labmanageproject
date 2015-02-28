@@ -667,10 +667,20 @@ class lab_db():
         sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
               "u.uname, l.lname, lc.lcname " \
               "from user_order uo, open_lab ol, open_lab_detail old, user u, lab l, lab_center lc " \
-              "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid " \
+              "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid and ol.TYPE=%s " \
               "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid " \
               "and uo.state=%s"
-        return do_sql(sql, [uid, user_order.WAIT]).fetchall()
+        return do_sql(sql, [uid, open_lab.ONE_TIME, user_order.WAIT]).fetchall()
+
+    @staticmethod
+    def get_order_to_my_circle_open_lab(uid):
+        sql = "select ol.olid , cold.coldid, ol.olname, co.uid, co.corder_id," \
+              "u.uname, l.lname, lc.lcname " \
+              "from circle_order co, open_lab ol, circle_open_lab_detail cold, user u, lab l, lab_center lc " \
+              "where ol.uid = %s and ol.olid=cold.olid and cold.coldid=co.coldid and ol.TYPE=%s " \
+              "and u.uid=co.uid and lc.lcid=ol.lcid and l.lid=cold.lid " \
+              "and co.state=%s"
+        return do_sql(sql, [uid, open_lab.CIRCLE, circle_order.WAIT]).fetchall()
 
     @staticmethod
     def get_today_order():

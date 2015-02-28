@@ -261,19 +261,37 @@ def display_order_title():
 
 
 def pack_order_one_line(body, extra_body):
-    one_line = u'<td>' \
-               u'<input type="hidden" name="order_id" value="%s"/>' \
-               u'<input type="hidden" name="uid" value="%s"/>' \
-               u'%s' \
-               u'</td>' \
-               u'<td>%s</td>' \
-               u'<td>%s</td>' \
-               u'<td>%s</td>' \
-               u'<td>%s</td>' \
-               u'%s'
+    if body[TYPE] == open_lab.ONE_TIME:
+        one_line = u'<td>' \
+                   u'<input type="hidden" name="order_id" value="%s"/>' \
+                   u'<input type="hidden" name="uid" value="%s"/>' \
+                   u'<input type="hidden" name="type" value="one_time" /> ' \
+                   u'%s' \
+                   u'</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'%s'
 
-    return one_line % (body[ORDER_ID], body[UID], body[OLNAME], body[LCNAME]
-                       , body[LNAME], body[UID], body[UNAME], extra_body)
+        return one_line % (body[ORDER_ID], body[UID], body[OLNAME], body[LCNAME]
+                           , body[LNAME], body[UID], body[UNAME], extra_body)
+    elif body[TYPE] == open_lab.CIRCLE:
+        one_line = u'<td>' \
+                   u'<input type="hidden" name="corder_id" value="%s"/>' \
+                   u'<input type="hidden" name="uid" value="%s"/>' \
+                   u'<input type="hidden" name="type" value="circle" /> ' \
+                   u'%s' \
+                   u'</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'<td>%s</td>' \
+                   u'%s'
+        return one_line % (body[circle_order.CORDER_ID], body[UID], body[OLNAME], body[LCNAME]
+                           , body[LNAME], body[UID], body[UNAME], extra_body)
+    else:
+        return u""
 
 
 def pack_order_list(body, extra_body):
