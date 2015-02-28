@@ -311,7 +311,12 @@ def get_my_unchecked_circle_order(uid):
 def accept_order(order_id):
     with transaction.atomic():
         # user_order.get(**{ORDER_ID: order_id})
-        oldid = filter_user_order(user_order.get(**{ORDER_ID: order_id}))[0][OLDID]
+        u_order = filter_user_order(user_order.get(**{ORDER_ID: order_id}))
+        if not u_order:
+            raise Exception("该预约不存在")
+        if u_order[0][STATE] != WAIT:
+            raise Exception("该预约已审核")
+        oldid = u_order[0][OLDID]
         # return {'result': 'error', 'msg': '该实验室已满'}
         open_lab_detail_one = filter_open_lab_detail_table(open_lab_detail.get(**{OLDID: oldid}))[0]
         now_number = int(open_lab_detail_one[LNUMBER])
@@ -320,7 +325,8 @@ def accept_order(order_id):
             refuse_order(order_id)
             return {'result': 'error', 'msg': '该实验室已满'}
         else:
-            user_order.update({user_order.STATE: user_order.ACCEPT}, {user_order.ORDER_ID: order_id})
+            user_order.update({user_order.STATE: user_order.ACCEPT, user_order.SEAT_ID: now_number + 1},
+                              {user_order.ORDER_ID: order_id})
             open_lab_detail.update({LNUMBER: str(now_number + 1)}, {OLDID: open_lab_detail_one[OLDID]})
             return {'result': 'success', 'msg': '已经同意'}
 
@@ -339,6 +345,8 @@ def accept_circle_order(corder_id):
         c_order = filter_circle_order(circle_order.get(**{circle_order.CORDER_ID: corder_id}))
         if not c_order:
             raise Exception('没有这个预约')
+        if c_order[0][STATE] != circle_order.WAIT:
+            raise Exception("该预约已审核")
         coldid = c_order[0][circle_open_lab_detail.COLDID]
         oldid_list = get_oldid_list_with_coldid(coldid)
         c_detail = filter_circle_open_lab_detail(circle_open_lab_detail.get(**{circle_open_lab_detail.COLDID: coldid}))[
@@ -348,7 +356,8 @@ def accept_circle_order(corder_id):
         if int(l[LNUMBER]) > now_number:
             circle_open_lab_detail.update({circle_open_lab_detail.NUMBER: now_number + 1},
                                           {circle_open_lab_detail.COLDID: coldid})
-            circle_order.update({STATE: ACCEPT}, {circle_order.CORDER_ID: corder_id})
+            circle_order.update({STATE: ACCEPT, circle_order.SEAT_ID: now_number + 1},
+                                {circle_order.CORDER_ID: corder_id})
             for o in oldid_list:
                 t = filter_user_order(user_order.get(**{OLDID: o, UID: c_order[0][UID]}))
                 if not t:
@@ -369,7 +378,7 @@ def refuse_circle_order(corder_id):
     circle_order.update({STATE: REFUSE}, {circle_order.CORDER_ID: corder_id})
 
 
-filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid'])
+filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid', 'seat_id'])
 
 
 def get_today_order():

@@ -44,7 +44,7 @@ def get_perm_list(uid):
     ]
     student_perm = [
         {
-            URL: '/order_open_lab/0/',
+            URL: '/order_open_lab',
             PNAME: '预约实验室'
         }
     ]

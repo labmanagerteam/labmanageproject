@@ -135,6 +135,10 @@ def order_open_lab_view(request, page_number):
     return render(request, "order_open_lab.html", locals())
 
 
+def order_open_lab_0_view(request):
+    return order_open_lab_view(request, '0')
+
+
 def order_open_lab_detail_view(request, olid):
     this_open_lab = get_open_lab_by_olid(olid)[0]
     if not this_open_lab:
@@ -203,7 +207,7 @@ def check_circle_order_reflect_view(request):
             raise Exception("check_user_order_reflect_view shold not in")
         print "return success"
         return success_response
-    except MyBaseException, e:
+    except Exception, e:
         return create_error_response({'msg': e.message})
 
 

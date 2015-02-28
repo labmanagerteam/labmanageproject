@@ -89,8 +89,10 @@ def update_mothed(tname):
         value_list = []
         update_str = ""
         for (key, value) in update_dict.items():
-            update_str += key + "=%s "
+            update_str += key + "=%s,"
             value_list.append(value)
+        update_str = update_str[0:len(update_str) - 1]
+        update_str += " "
         inner_sql += update_str + " where "
         where_sql = ""
         for (key, value) in where_dict.items():
@@ -259,7 +261,8 @@ class user_order:
     UID = user.UID
     OLDID = open_lab_detail.OLDID
     STATE = 'state'
-    NAME_LIST = [ORDER_ID, UID, OLDID, STATE]
+    SEAT_ID = 'seat_id'
+    NAME_LIST = [ORDER_ID, UID, OLDID, STATE, SEAT_ID]
     ACCEPT = "通过"
     REFUSE = "拒绝"
     WAIT = "未审核"
@@ -346,10 +349,11 @@ class circle_order:
     UID = user.UID
     COLDID = circle_open_lab_detail.COLDID
     STATE = 'state'
+    SEAT_ID = 'seat_id'
     WAIT = user_order.WAIT
     ACCEPT = user_order.ACCEPT
     REFUSE = user_order.REFUSE
-    NAME_LIST = [CORDER_ID, UID, COLDID, STATE]
+    NAME_LIST = [CORDER_ID, UID, COLDID, STATE, SEAT_ID]
 
     @staticmethod
     def add_one(uid, coldid, state):
@@ -697,7 +701,7 @@ class lab_db():
 
     @staticmethod
     def get_today_order():
-        sql = "select u.card_number, old.oldid, old.lid " \
+        sql = "select u.card_number, old.oldid, old.lid, uo.seat_id " \
               "from user u, open_lab_detail old, user_order uo " \
               "where u.uid=uo.uid and old.oldid=uo.oldid " \
               " and uo.state=%s and old.begin_time<%s and old.end_time > %s"
