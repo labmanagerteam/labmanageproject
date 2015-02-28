@@ -126,7 +126,7 @@ filter_lab = filter_result_dict_list([LID, LNAME, LCID, LNUMBER])
 
 filter_user_order = filter_result_dict_list(user_order.NAME_LIST)
 
-filter_circle_open_lab_detail = filter_result_dict_list([lab.LNAME, circle_open_lab_detail.WEEKDAY,
+filter_circle_open_lab_detail_display = filter_result_dict_list([lab.LNAME, circle_open_lab_detail.WEEKDAY,
                                                          circle_open_lab_detail.BEGIN_TIME,
                                                          circle_open_lab_detail.END_TIME,
                                                          lab.LNUMBER, circle_open_lab_detail.COLDID, LID])
@@ -159,7 +159,7 @@ def get_open_lab_detail_by_olid(olid, mtype):
         print "get_open_lab_detail_by_olid:%s" % r
         return r
     elif mtype == u"循环":
-        r = filter_circle_open_lab_detail(lab_db.get_circle_open_lab_detail(**{OLID: olid}))
+        r = filter_circle_open_lab_detail_display(lab_db.get_circle_open_lab_detail(**{OLID: olid}))
         print "get_open_lab_detail_by_olid:%s" % r
         return r
     else:
@@ -233,22 +233,27 @@ filter_user_order = filter_result_dict_list([ORDER_ID, UID, OLDID, STATE])
 
 def check_order_condition(oldid, uid):
     have_oldid_list = []
-    for a in filter_user_order(
-            join_list(user_order.get(**{UID: uid, STATE: WAIT}), user_order.get(**{UID: uid, STATE: ACCEPT}))):
+    for a in join_list(filter_user_order(user_order.get(**{UID: uid, STATE: WAIT})),
+                       filter_user_order(user_order.get(**{UID: uid, STATE: ACCEPT}))):
         have_oldid_list.append(a[OLDID])
     have_oldid_list = list(set(have_oldid_list))
-    detail = filter_open_lab_detail(open_lab_detail.get(**{OLDID: oldid}))
+    detail = filter_open_lab_detail(open_lab_detail.get(**{OLDID: oldid}))[0]
     for o in have_oldid_list:
-        d = filter_open_lab_detail(open_lab_detail.get(**{OLDID: o}))
+        d = filter_open_lab_detail(open_lab_detail.get(**{OLDID: o}))[0]
         if detail[BEGIN_TIME] < d[END_TIME] and d[BEGIN_TIME] < detail[END_TIME]:
             raise Exception("这与你已有的预约冲突")
     return True
 
 
-def do_user_circle_order(coldid, uid):
+def get_oldid_list_with_coldid(coldid):
     oldid_list = []
     for o in open_lab_detail.get(**{circle_open_lab_detail.COLDID: coldid}):
         oldid_list.append(o[0])
+    return oldid_list
+
+
+def do_user_circle_order(coldid, uid):
+    oldid_list = get_oldid_list_with_coldid(coldid)
     for o in oldid_list:
         check_order_condition(o, uid)
     with transaction.atomic():
@@ -318,6 +323,45 @@ def accept_order(order_id):
 def refuse_order(order_id):
     user_order.update({user_order.STATE: user_order.REFUSE}, {user_order.ORDER_ID: order_id})
     return {'result': 'success', 'msg': '已经成功拒绝'}
+
+
+filter_circle_order = filter_result_dict_list(circle_order.NAME_LIST)
+filter_circle_open_lab_detail = filter_result_dict_list(circle_open_lab_detail.NAME_LIST)
+
+
+def accept_circle_order(corder_id):
+    with transaction.atomic():
+        c_order = filter_circle_order(circle_order.get(**{circle_order.CORDER_ID: corder_id}))
+        if not c_order:
+            raise Exception('没有这个预约')
+        coldid = c_order[0][circle_open_lab_detail.COLDID]
+        oldid_list = get_oldid_list_with_coldid(coldid)
+        c_detail = filter_circle_open_lab_detail(circle_open_lab_detail.get(**{circle_open_lab_detail.COLDID: coldid}))[
+            0]
+        l = filter_lab(lab.get(**{LID: c_detail[LID]}))[0]
+        now_number = int(c_detail[circle_open_lab_detail.NUMBER])
+        if int(l[LNUMBER]) > now_number:
+            circle_open_lab_detail.update({circle_open_lab_detail.NUMBER: now_number + 1},
+                                          {circle_open_lab_detail.COLDID: coldid})
+            circle_order.update({STATE: ACCEPT}, {circle_order.CORDER_ID: corder_id})
+            for o in oldid_list:
+                t = filter_user_order(user_order.get(**{OLDID: o, UID: c_order[0][UID]}))
+                if not t:
+                    raise Exception("该计划不存在")
+                accept_order(t[0][ORDER_ID])
+        else:
+            raise Exception('该实验室已满')
+
+
+def refuse_circle_order(corder_id):
+    c_order = filter_circle_order(circle_order.get(**{circle_order.CORDER_ID: corder_id}))
+    if not c_order:
+        raise Exception('没有这个预约')
+    coldid = c_order[0][circle_open_lab_detail.COLDID]
+    oldid_list = get_oldid_list_with_coldid(coldid)
+    for o in oldid_list:
+        user_order.update({STATE: REFUSE}, {UID: c_order[0][UID], OLDID: o})
+    circle_order.update({STATE: REFUSE}, {circle_order.CORDER_ID: corder_id})
 
 
 filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid'])

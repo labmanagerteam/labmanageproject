@@ -4,13 +4,36 @@
 
 
 var reflect = function ($this, action) {
+
+    var get_option = function () {
+        var type = $this.closest('tr').find('input[name="type"]').val();
+        if (type == "onetime") {
+            return {
+                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+                order_id: $this.closest('tr').find('input[name="order_id"]').val(),
+                action: action
+            };
+        } else {
+            return {
+                csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
+                corder_id: $this.closest('tr').find('input[name="corder_id"]').val(),
+                action: action
+            }
+        }
+    };
+
+    var get_action = function () {
+        var type = $this.closest('tr').find('input[name="type"]').val();
+        if (type == "onetime") {
+            return '/check_order/reflect/';
+        } else {
+            return '/check_order/circle_reflect/';
+        }
+    };
+
     $.ajax({
-        url: '/check_order/reflect/',
-        data: {
-            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
-            order_id: $this.closest('tr').find('input[name="order_id"]').val(),
-            action: action
-        },
+        url: get_action(),
+        data: get_option(),
         type: 'post',
         dataType: 'json',
         success: function (data) {

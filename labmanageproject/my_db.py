@@ -336,6 +336,10 @@ class circle_open_lab_detail:
     def get(**kwargs):
         return get_method('circle_open_lab_detail')(**kwargs)
 
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed('circle_open_lab_detail')(update_dict, where_dict)
+
 
 class circle_order:
     CORDER_ID = 'corder_id'
@@ -345,11 +349,20 @@ class circle_order:
     WAIT = user_order.WAIT
     ACCEPT = user_order.ACCEPT
     REFUSE = user_order.REFUSE
+    NAME_LIST = [CORDER_ID, UID, COLDID, STATE]
 
     @staticmethod
     def add_one(uid, coldid, state):
         sql = "insert into circle_order(uid, coldid, state) VALUES (%s,%s,%s)"
         do_sql(sql, [uid, coldid, state])
+
+    @staticmethod
+    def get(**kwargs):
+        return get_method('circle_order')(**kwargs)
+
+    @staticmethod
+    def update(update_dict, where_dict):
+        update_mothed('circle_order')(update_dict, where_dict)
 
 
 add_user_table = add_method('user', ['uid', 'uname', 'password', 'card_number'])

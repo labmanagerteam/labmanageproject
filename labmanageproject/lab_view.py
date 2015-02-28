@@ -188,6 +188,22 @@ def check_user_order_reflect_view(request):
         raise Exception("check_user_order_reflect_view shold not in")
 
 
+@check_post_form(['action', 'corder_id'])
+def check_circle_order_reflect_view(request):
+    [action, corder_id] = get_post(request, ['action', 'corder_id'])
+
+    try:
+        if action == 'accept':
+            accept_circle_order(corder_id)
+        elif action == 'refuse':
+            refuse_circle_order(corder_id)
+        else:
+            raise Exception("check_user_order_reflect_view shold not in")
+        return success_response
+    except MyBaseException, e:
+        return create_error_response({'msg': e.message})
+
+
 def my_open_lab_view(request):
     open_lab_list = get_my_open_lab(get_uid(request))
     return render(request, "my_open_lab.html", locals())
