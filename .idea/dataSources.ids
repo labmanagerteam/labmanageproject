@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="Django default" uuid="0666541c-6771-45a9-8f14-ac1b236a09c2">
-    <database-info product="MySQL" version="5.5.40-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+    <database-info product="MySQL" version="5.5.41-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
@@ -11,8 +11,8 @@
       <column name="uid" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
       <column name="lcid" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="uid"/>
-      <foreign-key name="administer_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="administer_ibfk_1" columns="uid" ref-table="user" ref-schema="" ref-catalog="labmanage" ref-columns="uid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="administer_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="admin_lc" unique="false" columns="lcid"/>
     </table>
     <table name="auth_group" schema="" catalog="labmanage" type="TABLE">
@@ -86,8 +86,8 @@
       <column name="end_time" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="number" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
       <primary-key name="PRIMARY" columns="coldid"/>
-      <foreign-key name="circle_open_lab_detail_ibfk_2" columns="olid" ref-table="open_lab" ref-schema="" ref-catalog="labmanage" ref-columns="olid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="circle_open_lab_detail_ibfk_1" columns="lid" ref-table="lab" ref-schema="" ref-catalog="labmanage" ref-columns="lid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="circle_open_lab_detail_ibfk_2" columns="olid" ref-table="open_lab" ref-schema="" ref-catalog="labmanage" ref-columns="olid" update-rule="3" delete-rule="0" deferrability="2"/>
       <exported-key name="circle_order_ibfk_2" table="circle_order" schema="" catalog="labmanage" columns="coldid"/>
       <index name="cold_l" unique="false" columns="lid"/>
       <index name="cold_ol" unique="false" columns="olid"/>
@@ -99,8 +99,8 @@
       <column name="state" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1" def="J+acquWuoeaguCc="/>
       <column name="seat_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="corder_id"/>
-      <foreign-key name="circle_order_ibfk_2" columns="coldid" ref-table="circle_open_lab_detail" ref-schema="" ref-catalog="labmanage" ref-columns="coldid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="circle_order_ibfk_1" columns="uid" ref-table="user" ref-schema="" ref-catalog="labmanage" ref-columns="uid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="circle_order_ibfk_2" columns="coldid" ref-table="circle_open_lab_detail" ref-schema="" ref-catalog="labmanage" ref-columns="coldid" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="circle_order_user" unique="false" columns="uid"/>
       <index name="co_ol" unique="false" columns="coldid"/>
     </table>
@@ -170,8 +170,8 @@
       <column name="olname" sqlType="CHAR" precision="60" scale="0" nullable="false" jdbcType="1"/>
       <column name="type" sqlType="CHAR" precision="30" scale="0" nullable="false" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="olid"/>
-      <foreign-key name="open_lab_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="open_lab_ibfk_1" columns="uid" ref-table="user" ref-schema="" ref-catalog="labmanage" ref-columns="uid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="open_lab_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <exported-key name="circle_open_lab_detail_ibfk_2" table="circle_open_lab_detail" schema="" catalog="labmanage" columns="olid"/>
       <exported-key name="open_lab_detail_ibfk_2" table="open_lab_detail" schema="" catalog="labmanage" columns="olid"/>
       <index name="open_lab_lc" unique="false" columns="lcid"/>
@@ -186,8 +186,8 @@
       <column name="number" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
       <column name="coldid" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="oldid"/>
-      <foreign-key name="open_lab_detail_ibfk_2" columns="olid" ref-table="open_lab" ref-schema="" ref-catalog="labmanage" ref-columns="olid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="open_lab_detail_ibfk_1" columns="lid" ref-table="lab" ref-schema="" ref-catalog="labmanage" ref-columns="lid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="open_lab_detail_ibfk_2" columns="olid" ref-table="open_lab" ref-schema="" ref-catalog="labmanage" ref-columns="olid" update-rule="3" delete-rule="0" deferrability="2"/>
       <exported-key name="user_order_ibfk_2" table="user_order" schema="" catalog="labmanage" columns="oldid"/>
       <index name="old_l" unique="false" columns="lid"/>
       <index name="old_ol" unique="false" columns="olid"/>
@@ -209,8 +209,8 @@
       <column name="uid" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
       <column name="lcid" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1"/>
       <primary-key name="PRIMARY" columns="uid"/>
-      <foreign-key name="teacher_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="teacher_ibfk_1" columns="uid" ref-table="user" ref-schema="" ref-catalog="labmanage" ref-columns="uid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="teacher_ibfk_2" columns="lcid" ref-table="lab_center" ref-schema="" ref-catalog="labmanage" ref-columns="lcid" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="teach_lc" unique="false" columns="lcid"/>
     </table>
     <table name="user" schema="" catalog="labmanage" type="TABLE">
@@ -233,8 +233,8 @@
       <column name="state" sqlType="CHAR" precision="20" scale="0" nullable="false" jdbcType="1" def="J+acquWuoeaguCc="/>
       <column name="seat_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="order_id"/>
-      <foreign-key name="user_order_ibfk_2" columns="oldid" ref-table="open_lab_detail" ref-schema="" ref-catalog="labmanage" ref-columns="oldid" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="user_order_ibfk_1" columns="uid" ref-table="user" ref-schema="" ref-catalog="labmanage" ref-columns="uid" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="user_order_ibfk_2" columns="oldid" ref-table="open_lab_detail" ref-schema="" ref-catalog="labmanage" ref-columns="oldid" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="uo_ol" unique="false" columns="oldid"/>
       <index name="user_order_user" unique="false" columns="uid"/>
     </table>
