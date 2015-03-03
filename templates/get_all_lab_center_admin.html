@@ -6,8 +6,9 @@
     <script>
         $(document).ready(function () {
             $('.delete').click(function () {
+                var $this = $(this);
                 do_delete($(this), 'delete/', function () {
-                    $(this).closest('tr').remove();
+                    $this.closest('tr').remove();
                 });
             });
 
