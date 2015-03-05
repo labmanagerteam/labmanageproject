@@ -218,7 +218,7 @@ class DispTotalOpenLabNode(template.Node):
 def display_total_open_lab(parser, token):
     try:
         tag_name, body, detail = token.split_contents()
-        print "disp total"
+        # print "disp total"
     except ValueError:
         msg = '%r tag requires two argument' % token.split_contents()[0]
         raise template.TemplateSyntaxError(msg)

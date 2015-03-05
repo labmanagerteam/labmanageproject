@@ -16,7 +16,7 @@
 
             <tr>
                 {% display_open_lab_in_oneline ol %}
-                <td><a class="button" href="/my_open_lab/detail/{{ ol.olid }}">详情</a></td>
+                <td><a class="button" href="/my_open_lab/detail/{{ ol.olid }}/{{ ol.type }}">详情</a></td>
             </tr>
 
         {% endfor %}

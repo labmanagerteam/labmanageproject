@@ -384,7 +384,11 @@ filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid', 'se
 
 
 def get_today_order():
-    return filter_today_order(lab_db.get_today_order())
+    r = filter_today_order(lab_db.get_today_order())
+    for i in xrange(0, len(r)):
+        r[i][BEGIN_TIME] = r[i][BEGIN_TIME].strftime('%Y-%m-%d %H-%M-%S')
+        r[i][END_TIME] = r[i][END_TIME].strftime('%Y-%m-%d %H-%M-%S')
+    return r
 
 
 def open_circle_open_lab_action(olname, lcid, begin_week_number, end_week_number,

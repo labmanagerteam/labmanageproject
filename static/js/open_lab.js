@@ -65,7 +65,6 @@ var get_lab = function (lcid) {
 
 var succcess_handle = function (data) {
     var $detail_list = $('.detail_one_line');
-
     if (data[0]['result'] == 'e') {
         alert("Their is some error");
     } else if (data[0]['result'] == 's') {

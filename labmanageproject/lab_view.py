@@ -216,14 +216,14 @@ def my_open_lab_view(request):
     return render(request, "my_open_lab.html", locals())
 
 
-def my_open_lab_detail_view(request, olid):
-    old_list = get_open_lab_detail_by_olid(olid)
+def my_open_lab_detail_view(request, olid, type):
+    old_list = get_open_lab_detail_by_olid(olid, type)
 
     if old_list:
         for old in old_list:
             oldid = old[OLDID]
             oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
-            return render(request, )
+        return render(request, "")
     else:
         return render(request, "error.html", {'error': 'no the oldid'})
 
