@@ -380,7 +380,7 @@ def refuse_circle_order(corder_id):
     circle_order.update({STATE: REFUSE}, {circle_order.CORDER_ID: corder_id})
 
 
-filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid', 'seat_id'])
+filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid', 'seat_id', 'begin_time', 'end_time'])
 
 
 def get_today_order():

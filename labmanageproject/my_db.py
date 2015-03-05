@@ -728,7 +728,7 @@ class lab_db():
 
     @staticmethod
     def get_today_order():
-        sql = "select u.card_number, old.oldid, old.lid, uo.seat_id " \
+        sql = "select u.card_number, old.oldid, old.lid, uo.seat_id,old.begin_time,old.end_time " \
               "from user u, open_lab_detail old, user_order uo " \
               "where u.uid=uo.uid and old.oldid=uo.oldid " \
               " and uo.state=%s and old.begin_time<%s and old.end_time > %s"
