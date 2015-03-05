@@ -195,7 +195,7 @@ def pack_total_open_lab(body, detail):
     t_string += pack_detail_list(detail, body[TYPE])
     t_string += u'</div>'
 
-    print t_string
+    # print t_string
 
     return t_string
 
