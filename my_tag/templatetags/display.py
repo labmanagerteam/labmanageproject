@@ -252,13 +252,15 @@ def display_title(titls_list):
     return s
 
 
-ORDER_CHECK_TITLE_LIST = [u'开放计划名称', u'实验中心', u'实验室', u'申请人学号', u'申请人姓名']
+ORDER_CHECK_TITLE_LIST = [u'开放计划名称', u'实验中心', u'实验室', u'申请人学号', u'申请人姓名', u'时间段']
 
 
 @register.simple_tag
 def display_order_title():
     return display_title(ORDER_CHECK_TITLE_LIST)
 
+
+TIME_SCOPE = u'time_scope'
 
 def pack_order_one_line(body, extra_body):
     if body[TYPE] == open_lab.ONE_TIME:
@@ -272,10 +274,15 @@ def pack_order_one_line(body, extra_body):
                    u'<td>%s</td>' \
                    u'<td>%s</td>' \
                    u'<td>%s</td>' \
+                   u'<td>%s</td>' \
                    u'%s'
 
+        d = body[BEGIN_TIME].strftime(u'%Y.%m.%d')
+        b_time = body[BEGIN_TIME].strftime(u'%H')
+        e_time = body[END_TIME].strftime(u'%H')
+        body[TIME_SCOPE] = u"在%s日从%s点到%s点" % (d, b_time, e_time)
         return one_line % (body[ORDER_ID], body[UID], body[OLNAME], body[LCNAME]
-                           , body[LNAME], body[UID], body[UNAME], extra_body)
+                           , body[LNAME], body[UID], body[UNAME], body[TIME_SCOPE], extra_body)
     elif body[TYPE] == open_lab.CIRCLE:
         one_line = u'<td>' \
                    u'<input type="hidden" name="corder_id" value="%s"/>' \
@@ -287,9 +294,18 @@ def pack_order_one_line(body, extra_body):
                    u'<td>%s</td>' \
                    u'<td>%s</td>' \
                    u'<td>%s</td>' \
+                   u'<td>%s</td>' \
                    u'%s'
+
+        begin_week = semister.get_week(body[BEGIN_DATE_TIME])
+        end_week = str(int(semister.get_week(body[END_DATE_TIME])) - 1)
+        body[TIME_SCOPE] = u"从第%s周到第%s周，每周%s%d点到%s点" \
+                           % (begin_week, end_week,
+                              wrap_week_day(body[circle_open_lab_detail.WEEKDAY]),
+                              body[BEGIN_TIME], body[END_TIME])
+
         return one_line % (body[circle_order.CORDER_ID], body[UID], body[OLNAME], body[LCNAME]
-                           , body[LNAME], body[UID], body[UNAME], extra_body)
+                           , body[LNAME], body[UID], body[UNAME], body[TIME_SCOPE], extra_body)
     else:
         return u""
 

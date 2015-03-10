@@ -32,7 +32,7 @@ urlpatterns = patterns('',
 
                        url(r'^test_db/$', test_db),
                        url(r'^$', login),
-                       url(r'^logout/$', logout),
+                       url(r'^logout/$', all_check(logout)),
                        url(open_lab_str + r'/$', all_check(open_lab)),
                        url(open_lab_str + r'/send_open_lab/$', all_check(send_open_lab)),
                        url(open_lab_str + r'/send_circle_open_lab/$', all_check(send_circle_open_lab_view)),

@@ -328,6 +328,10 @@ class semister:
         sql = "select max(date) from semister WHERE week_number=%s"
         return do_sql(sql, [week_number]).fetchall()[0][0]
 
+    @staticmethod
+    def get_week(date):
+        return semister.get(**{'date': date})[0][1]
+
 
 class circle_open_lab_detail:
     COLDID = "coldid"
@@ -690,7 +694,7 @@ class lab_db():
     @staticmethod
     def get_order_to_my_open_lab(uid):
         sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
-              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state " \
+              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state,old.begin_time,old.end_time " \
               "from user_order uo, open_lab ol, open_lab_detail old, user u, lab l, lab_center lc " \
               "where ol.uid = %s and ol.olid=old.olid and old.oldid=uo.oldid and ol.TYPE=%s " \
               "and u.uid=uo.uid and lc.lcid=ol.lcid and l.lid=old.lid " \
@@ -700,7 +704,8 @@ class lab_db():
     @staticmethod
     def get_order_to_my_circle_open_lab(uid):
         sql = "select ol.olid , cold.coldid, ol.olname, co.uid, co.corder_id," \
-              "u.uname, l.lname, lc.lcname,co.seat_id,co.state " \
+              "u.uname, l.lname, lc.lcname,co.seat_id,co.state,ol.begin_date_time,ol.end_date_time,cold.weekday," \
+              "cold.begin_time, cold.end_time " \
               "from circle_order co, open_lab ol, circle_open_lab_detail cold, user u, lab l, lab_center lc " \
               "where ol.uid = %s and ol.olid=cold.olid and cold.coldid=co.coldid and ol.TYPE=%s " \
               "and u.uid=co.uid and lc.lcid=ol.lcid and l.lid=cold.lid " \
@@ -710,7 +715,7 @@ class lab_db():
     @staticmethod
     def my_order(uid):
         sql = "select ol.olid , old.oldid, ol.olname, uo.uid, uo.order_id," \
-              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state " \
+              "u.uname, l.lname, lc.lcname, uo.seat_id,uo.state,old.begin_time,old.end_time " \
               "from user_order uo, open_lab_detail old, open_lab ol,user u,lab l,lab_center lc " \
               'where uo.uid=%s and old.oldid=uo.oldid and ol.olid=old.olid and ol.type="单次"' \
               'and u.uid=uo.uid and l.lid=old.lid and lc.lcid=ol.lcid'
@@ -720,7 +725,8 @@ class lab_db():
     @staticmethod
     def my_circle_order(uid):
         sql = "select ol.olid , cold.coldid, ol.olname, co.uid, co.corder_id," \
-              "u.uname, l.lname, lc.lcname,co.seat_id,co.state " \
+              "u.uname, l.lname, lc.lcname,co.seat_id,co.state,ol.begin_date_time,ol.end_date_time,cold.weekday," \
+              "cold.begin_time, cold.end_time " \
               'from circle_order co,circle_open_lab_detail cold, open_lab ol,user u,lab l,lab_center lc    ' \
               'where co.uid=%s and co.coldid=cold.coldid and cold.olid=ol.olid ' \
               'and u.uid=co.uid and l.lid = cold.lid and lc.lcid=ol.lcid'

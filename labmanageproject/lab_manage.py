@@ -286,7 +286,7 @@ def get_unchecked_order_by_oldid(oldid):
 
 
 filter_order = filter_result_dict_list([OLID, OLDID, OLNAME, UID, ORDER_ID,
-                                        UNAME, LNAME, LCNAME, user_order.SEAT_ID, STATE])
+                                        UNAME, LNAME, LCNAME, user_order.SEAT_ID, STATE, BEGIN_TIME, END_TIME])
 filter_open_lab_detail_table = filter_result_dict_list(open_lab_detail.NAME_LIST)
 
 
@@ -299,7 +299,11 @@ def get_my_unchecked_order(uid):
 
 filter_circle_order_display = filter_result_dict_list([OLID, circle_order.COLDID, OLNAME, UID,
                                                        circle_order.CORDER_ID, UNAME, LNAME,
-                                                       LCNAME, circle_order.SEAT_ID, circle_order.STATE])
+                                                       LCNAME, circle_order.SEAT_ID, circle_order.STATE,
+                                                       open_lab.BEGIN_DATE_TIME, open_lab.END_DATE_TIME,
+                                                       circle_open_lab_detail.WEEKDAY,
+                                                       circle_open_lab_detail.BEGIN_TIME,
+                                                       circle_open_lab_detail.END_TIME])
 
 
 def get_my_unchecked_circle_order(uid):
@@ -385,9 +389,11 @@ filter_today_order = filter_result_dict_list(['card_number', 'oldid', 'lid', 'se
 
 def get_today_order():
     r = filter_today_order(lab_db.get_today_order())
+    SEAT_ID = user_order.SEAT_ID
     for i in xrange(0, len(r)):
         r[i][BEGIN_TIME] = r[i][BEGIN_TIME].strftime('%Y-%m-%d %H-%M-%S')
         r[i][END_TIME] = r[i][END_TIME].strftime('%Y-%m-%d %H-%M-%S')
+        r[i][SEAT_ID] = "%02d" % r[i][SEAT_ID]
     return r
 
 

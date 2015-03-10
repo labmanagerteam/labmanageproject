@@ -125,7 +125,7 @@ var generate_one_line = function (val) {
     var $one_item = $(val + ' .one_item form .change_field');
     $one_item.append(one_line);
     console.log("action changed");
-    $(val + ' .one_item form').attr("action", one_url_list[val]);
+    $(val + ' .one_item form').attr("action", one_url_list[val.substring(1)]);
 };
 
 var generate_list_url = function (val) {
