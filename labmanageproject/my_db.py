@@ -224,11 +224,11 @@ class open_lab():
     TYPE = 'type'
     BEGIN_DATE_TIME = 'begin_date_time'
     END_DATE_TIME = 'end_date_time'
-    ACCEPT = "通过"
-    REFUSE = "拒绝"
-    WAIT = "未审核"
-    ONE_TIME = "单次"
-    CIRCLE = "循环"
+    ACCEPT = u"通过"
+    REFUSE = u"拒绝"
+    WAIT = u"未审核"
+    ONE_TIME = u"单次"
+    CIRCLE = u"循环"
     NAME_LIST = [OLID, LCID, UID, BEGIN_DATE_TIME, END_DATE_TIME, STATUS, OLNAME, TYPE]
 
     @staticmethod
@@ -271,9 +271,9 @@ class user_order:
     STATE = 'state'
     SEAT_ID = 'seat_id'
     NAME_LIST = [ORDER_ID, UID, OLDID, STATE, SEAT_ID]
-    ACCEPT = "通过"
-    REFUSE = "拒绝"
-    WAIT = "未审核"
+    ACCEPT = u"通过"
+    REFUSE = u"拒绝"
+    WAIT = u"未审核"
 
     @staticmethod
     def add(*args):
