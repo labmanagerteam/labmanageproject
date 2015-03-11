@@ -165,7 +165,7 @@ class DispDetailNode(template.Node):
         mtype = get_context(context, self.mtype_str)
         detail_list = pack_detail_list(detail, mtype)
 
-        print detail_list
+        # print detail_list
         return detail_list
 
 
