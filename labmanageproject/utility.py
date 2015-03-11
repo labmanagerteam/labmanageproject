@@ -50,11 +50,12 @@ one_week = timedelta(days=7)
 
 def to_unique(l, count_func=None):
     if not count_func:
-        for t in l:
+        for t in reversed(l):
             if l.count(t) > 1:
                 del l[l.index(t)]
     else:
-        for t in l:
+        for t in reversed(l):
             if count_func(t, l) > 1:
+                print "double"
                 del l[l.index(t)]
     return l

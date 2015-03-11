@@ -174,10 +174,11 @@ def get_conflict_open_lab(open_lab_detail):
                                                       detail_line[END_TIME], "未审核"))]
 
     print 'conflic_list:%s' % conflic_list
+    print 'conflic_list size:%s' % len(conflic_list)
 
     # circle_conflict_list = []
     def count_func(t, l):
-        cc = 1
+        cc = 0
         for tt in l:
             if t[OLID] == tt[OLID]:
                 cc += 1

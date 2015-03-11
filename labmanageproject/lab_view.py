@@ -85,6 +85,7 @@ def get_detail_open_lab(request, olid):
         conflict_open_lab = get_conflict_open_lab(change_open_lab_detail)
 
         print "conflict_open_lab:%s" % conflict_open_lab
+        print "conflict_open_lab size:%s" % len(conflict_open_lab)
         conflict_list = []
         for c in conflict_open_lab:
             if c[OLID] == olid:
