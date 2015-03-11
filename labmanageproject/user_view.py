@@ -82,7 +82,7 @@ def wrap_row(row):
     return l
 
 
-student_distribute_list = ['uid', 'uname', 'card_number', 'grade', 'did']
+student_distribute_list = ['uid', 'uname', 'password', 'card_number', 'grade', 'did']
 
 
 @check_post_form(student_distribute_list)
