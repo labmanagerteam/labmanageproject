@@ -298,7 +298,7 @@ def pack_order_one_line(body, extra_body):
                    u'%s'
 
         begin_week = semister.get_week(body[BEGIN_DATE_TIME])
-        end_week = str(int(semister.get_week(body[END_DATE_TIME])) - 1)
+        end_week = str(int(semister.get_week(body[END_DATE_TIME] - one_day)))
         body[TIME_SCOPE] = u"从第%s周到第%s周，每周%s%d点到%s点" \
                            % (begin_week, end_week,
                               wrap_week_day(body[circle_open_lab_detail.WEEKDAY]),
