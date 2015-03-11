@@ -15,7 +15,7 @@ var get_conflict_lab_olid_list = function () {
 
     if (c_list.length == 0) {
         console.log("no conflict");
-        return "No Conflict";
+        return [];
     } else {
         console.log("yes conflict");
         return c_list;

@@ -99,16 +99,13 @@ def get_detail_open_lab(request, olid):
 
 
 NOW_OPEN_LAB = 'now_open_lab'
-CONFLICT_LIST = 'conflict_list'
+CONFLICT_LIST = 'conflict_list[]'
 
 
-@check_post_form({NOW_OPEN_LAB, CONFLICT_LIST})
+@check_post_form({NOW_OPEN_LAB})
 def accept_open_lab_view(request):
     post_list = request.POST
-    if post_list[CONFLICT_LIST] == "No Conflict":
-        conflict_list = []
-    else:
-        conflict_list = post_list[CONFLICT_LIST]
+    conflict_list = post_list.getlist(CONFLICT_LIST, [])
     accept_open_lab(post_list[NOW_OPEN_LAB], conflict_list)
     return HttpResponse(json.dumps({'result': 'ok'}))
 
