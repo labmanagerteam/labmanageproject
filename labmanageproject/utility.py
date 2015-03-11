@@ -46,3 +46,10 @@ from datetime import timedelta
 
 one_day = timedelta(days=1)
 one_week = timedelta(days=7)
+
+
+def to_unique(l):
+    for t in l:
+        if l.count(t) > 1:
+            del l[l.index(t)]
+    return l

@@ -577,7 +577,7 @@ class lab_db():
               'from open_lab ol, open_lab_detail old, user u, lab_center lc ' \
               'where ol.olid=old.olid and ol.status=%s and old.begin_time<%s and old.end_time>%s and old.lid=%s ' \
               'and u.uid=ol.uid and lc.lcid=ol.lcid'
-        return do_sql(sql, [status, begin_time, end_time, lid])
+        return do_sql(sql, [status, end_time, begin_time, lid])
 
     @staticmethod
     def get_circle_conflict_open_lab(lid, begin_time, end_time, weekday, b_time, e_time, status):

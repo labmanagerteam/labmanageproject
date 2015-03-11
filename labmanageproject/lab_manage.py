@@ -177,8 +177,7 @@ def get_conflict_open_lab(open_lab_detail):
 
     circle_conflict_list = []
 
-
-    return list(set(conflic_list))
+    return to_unique(conflic_list)
 
 
 # def get_circle_conflict_open_lab(begin_time, end_time, detail_list):

@@ -22,6 +22,7 @@
         <p>冲突的计划</p>
         <div>
             {% for conflict in conflict_list %}
+                <p>第{{ forloop.counter }}个冲突的计划</p>
                 <div>
                     {% display_open_lab_body conflict.body %}
                     {% display_open_lab_detail conflict.detail conflict.body.type %}
