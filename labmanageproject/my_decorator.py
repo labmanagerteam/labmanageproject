@@ -14,7 +14,7 @@ def check_perm(func):
             t = t['url']
             pattern = re.compile(r'^' + t + '*')
             print "perm_t:%s" % t
-            print "request_path:%s" % request.path
+            # print "request_path:%s" % request.path
             if pattern.match(request.path):
                 return func(request, *args, **kwargs)
         else:
