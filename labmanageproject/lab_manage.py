@@ -175,9 +175,15 @@ def get_conflict_open_lab(open_lab_detail):
 
     print 'conflic_list:%s' % conflic_list
 
-    circle_conflict_list = []
+    # circle_conflict_list = []
+    def count_func(t, l):
+        c = 0
+        for tt in l:
+            if t[OLID] == tt[OLID]:
+                c += 1
+        return c
 
-    return to_unique(conflic_list)
+    return to_unique(conflic_list, count_func)
 
 
 # def get_circle_conflict_open_lab(begin_time, end_time, detail_list):
