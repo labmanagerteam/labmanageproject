@@ -566,7 +566,7 @@ class lab_db():
     @staticmethod
     def get_all_unchecked_open_lab(begin_line_number, page_size):
         print type(begin_line_number)
-        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid,ol.status ' \
               'from open_lab ol, user u, lab_center lc ' \
               'where ol.status="未审核" and ol.lcid=lc.lcid and ol.uid=u.uid and ol.begin_date_time>%s ' \
               'limit %s,%s'
@@ -577,7 +577,7 @@ class lab_db():
 
     @staticmethod
     def get_conflict_open_lab(lid, begin_time, end_time, status):
-        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+        sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid,ol.status ' \
               'from open_lab ol, open_lab_detail old, user u, lab_center lc ' \
               'where ol.olid=old.olid and ol.status=%s and old.begin_time<%s and old.end_time>%s and old.lid=%s ' \
               'and u.uid=ol.uid and lc.lcid=ol.lcid'
@@ -590,7 +590,7 @@ class lab_db():
     @staticmethod
     def get_open_lab(**kwargs):
 
-        inner_sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
+        inner_sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid,ol.status ' \
                     'from open_lab ol, user u, lab_center lc ' \
                     'where '
         value_list = []

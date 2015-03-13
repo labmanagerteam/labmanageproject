@@ -116,7 +116,7 @@ def get_all_lab_by_lcid(lcid):
 
 
 filter_open_lab = filter_result_dict_list_trans_date([OLNAME, UNAME, LCNAME, TYPE,
-                                                      BEGIN_DATE_TIME, END_DATE_TIME, OLID])
+                                                      BEGIN_DATE_TIME, END_DATE_TIME, OLID, STATUS])
 
 filter_open_lab_detail_display = filter_result_dict_list([LNAME, BEGIN_TIME, END_TIME, LNUMBER, OLDID, LID])
 

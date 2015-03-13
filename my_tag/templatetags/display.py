@@ -6,7 +6,7 @@ from labmanageproject.lab_manage import *
 
 register = template.Library()
 
-OPEN_LAB_TITLE_LIST = [u'开放计划名称', u'申请人', u'实验中心', u'开放计划类型', u'开放计划类型', u'计划结束时间']
+OPEN_LAB_TITLE_LIST = [u'开放计划名称', u'申请人', u'实验中心', u'开放计划类型', u'开放计划类型', u'计划结束时间', u'状态']
 OPEN_LAB_DETAIL_TITLE_LIST = [u'实验室', u'日期', u'开始时间', u'结束时间']
 OPEN_LAB_CIRCLE_TITLE_LIST = [u'实验室', u'星期几', u'开始时间', u'结束时间']
 
@@ -242,6 +242,14 @@ def display_open_lab_in_oneline(open_lab):
     for n in OPEN_LAB_NAME_LIST:
         one_line += wrap_by_td(open_lab[n])
     # print u"display_open_lab_in_oneline:%s" % one_line
+    from datetime import datetime
+
+    if open_lab[STATUS] == u"未审核" and datetime.strptime(open_lab[BEGIN_DATE_TIME],
+                                                        u"%Y-%m-%d %H:%M:%S") < datetime.now():
+        one_line += wrap_by_td(u"已过期")
+    else:
+        one_line += wrap_by_td(open_lab[STATUS])
+
     return one_line
 
 
