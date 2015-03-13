@@ -4,22 +4,22 @@
 
 var teacher_str = '<tr>' +
     '<th>工号</th>' +
-    '<td><input name="uid" /></td>' +
+    '<td><input type ="text" name="uid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>姓名</th>' +
-    '<td><input name="uname" /></td>' +
+    '<td><input type ="text" name="uname" /></td>' +
     '</tr>' +
     '<th>密码</th>' +
-    '<td><input name="password"/></td>' +
+    '<td><input type ="text" name="password"/></td>' +
     '</tr>' +
     '<th>卡号</th>' +
-    '<td><input name="card_number"/></td>' +
+    '<td><input type ="text" name="card_number"/></td>' +
     '</tr>' +
     '<tr>' +
     '<th>实验中心代码</th>' +
-    '<td><input name="lcid"/></td>' +
-    '</tr>'
+    '<td><input type ="text" name="lcid"/></td>' +
+    '</tr>';
 
 var list = [
     '<table>' +
@@ -29,23 +29,23 @@ var list = [
     '</tr>' +
     '<tr>' +
     '<th>姓名</th>' +
-    '<td><input name="uname"/></td>' +
+    '<td><input type ="text" name="uname"/></td>' +
     '</tr>' +
     '<tr>' +
     '<th>密码</th>' +
-    '<td><input name="password"/></td>' +
+    '<td><input type ="text" name="password"/></td>' +
     '</tr>' +
     '<tr>' +
     '<th>卡号</th>' +
-    '<td><input name="card_number"/></td>' +
+    '<td><input type ="text" name="card_number"/></td>' +
     '</tr>' +
     '<tr>' +
     '<th>院系编号</th>' +
-    '<td><input name="did"/></td>' +
+    '<td><input type ="text" name="did"/></td>' +
     '</tr>' +
     '<tr>' +
     '<th>年级（以“入学年份 （本/研）”的形式）<th>' +
-    '</td><input name="grade"/></td>' +
+    '</td><input type ="text" name="grade"/></td>' +
     '</tr>' +
     '</table>',
 
@@ -56,40 +56,40 @@ var list = [
     '<table>' +
     '<tr>' +
     '<th>实验室编码</th>' +
-    '<td><input name="lid" /></td>' +
+    '<td><input type ="text" name="lid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>实验室名称</th>' +
-    '<td><input name="lname" /></td>' +
+    '<td><input type ="text" name="lname" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>实验中心编码</th>' +
-    '<td><input name="lcid" /></td>' +
+    '<td><input type ="text" name="lcid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>可容纳人数</th>' +
-    '<td><input name="lnumber" /></td>' +
+    '<td><input type ="text" name="lnumber" /></td>' +
     '</table>',
 
     '<table>' +
     '<tr>' +
     '<th>实验中心编码</th>' +
-    '<td><input name="lcid" /></td>' +
+    '<td><input type ="text" name="lcid" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>实验中心名称</th>' +
-    '<td><input name="lcname" /></td>' +
+    '<td><input type ="text" name="lcname" /></td>' +
     '</tr>' +
     '</table>',
 
     '<table>' +
     '<tr>' +
     '<th>院系编码</th>' +
-    '<td><input name="did" /></td>' +
+    '<td><input type ="text" name="did" /></td>' +
     '</tr>' +
     '<tr>' +
     '<th>院系名称</th>' +
-    '<td><input name="dname" /></td>' +
+    '<td><input type ="text" name="dname" /></td>' +
     '</tr>' +
     '</table>',
 
@@ -154,6 +154,9 @@ options = {
     success: function (data) {
         if (data['result'] == 'success') {
             confirm("添加成功");
+            $('input[type="text"]').each(function () {
+                $(this).val("");
+            });
         } else {
             confirm(data['msg']);
         }
