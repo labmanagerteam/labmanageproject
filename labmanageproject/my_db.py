@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 __author__ = 'wlw'
 
 from django.db import connection, transaction
@@ -567,9 +568,12 @@ class lab_db():
         print type(begin_line_number)
         sql = 'select ol.olname, u.uname, lc.lcname, ol.type, ol.begin_date_time, ol.end_date_time, ol.olid ' \
               'from open_lab ol, user u, lab_center lc ' \
-              'where ol.status="未审核" and ol.lcid=lc.lcid and ol.uid=u.uid ' \
+              'where ol.status="未审核" and ol.lcid=lc.lcid and ol.uid=u.uid and ol.begin_date_time>%s ' \
               'limit %s,%s'
-        return do_sql(sql, [begin_line_number, page_size]).fetchall()
+        from django.utils import timezone
+
+        n = timezone.now()
+        return do_sql(sql, [n, begin_line_number, page_size, ]).fetchall()
 
     @staticmethod
     def get_conflict_open_lab(lid, begin_time, end_time, status):
