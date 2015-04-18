@@ -1,0 +1,266 @@
+
+body {
+	background: #fcfcfc !important;
+	font-family: "Century Gothic","Microsoft Yahei",sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+a {
+	color: #FFF;
+}
+a:active,
+a:hover {
+	color: #E5CF5F;
+}
+.top-bar .name h1 {
+	position: relative;
+	left: 10%;
+	font-family: "Century Gothic","Microsoft Yahei", sans-serif;
+	color:#FFF;
+}
+.top-bar-section ul li {
+	position: relative;
+	right: 10%;
+	font-family: "Century Gothic","Microsoft Yahei", sans-serif;
+	color:#FFF;
+}
+.system-name p {
+	color: #000;
+	padding: 18px 5px;
+	font-size: 36px;
+	font-family: "Century Gothic", sans-serif;
+	word-spacing: 10px;
+	text-align: center;
+}
+.row {
+	margin: 0 auto;
+	width: 100%;
+}
+.new-account-tip {
+	display: inline-block;
+	width: 56%;
+	font-size: 12pt;
+	color: #999;
+	letter-spacing: 1px;
+}
+.logo {
+	position: relative;
+	top: -5px;
+	width: 50px;
+	height: 50px;
+	margin-left: 25px;
+	float: left;
+}
+.system-name {
+	width: 45%;
+	margin: 60px auto 20px auto;
+	outline: none;
+}
+
+.home-form {
+	text-align: center;
+}
+.lable {
+	display: inline-block;
+	text-align: center;
+}
+
+.lable-font {
+	font-size: 14pt;
+	font-family: "Century Gothic", sans-serif;
+}
+
+.lable input[type="text"],
+.lable input[type="password"] {
+	padding: 15px;
+	width: 50%;
+	margin: 28px 0px;
+	color: #666666;
+	cursor: pointer;
+	outline: none;
+	font-weight: 600;
+	margin-left: 3px;
+	background: #FFFFFF;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	border-left: 7px solid #E5CF5F;
+	border-bottom: 1px solid #DDD;
+	border-right: 1px solid #DDD;
+	border-top: 1px solid #DDD;
+}
+input[type="text"]:hover,
+input[type="Password"]:hover,
+input[type="text"]:focus,
+input[type="Password"]:focus,
+#active {
+
+	color:#DCDCDC;
+	border-left:7px solid #40A46F;
+}
+
+input[type=submit],
+input[type=reset] {
+	position: relative;
+	left:-15px;
+	margin-top: 28px;
+	margin-left: 30px;
+	padding: 10px;
+	color: #fff;
+	background: #40A46F;
+	border: 1px solid #40A46F;
+	cursor: pointer;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	outline:none;
+	width: 25%;
+}
+.button{
+	text-align: center;
+}
+.button input[type=submit]:hover,
+.button input[type=reset]:hover {
+	background:#07793D;
+	border:1px solid #07793D;
+}
+.main-content {
+	position: relative;
+}
+.copy-right {
+	position: relative;
+	top: 10px;
+	margin: 8px auto 0 auto;
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 8px;
+	color: #CCC;
+	text-align: center;
+}
+
+
+.logo-super {
+	position: relative;
+	top:47px;
+	left: 47px;
+	width: 50px;
+	height: 50px;
+	float: left;
+	color: #DDD;
+}
+.title-super {
+	font-family: "Century Gothic","Microsoft Yahei",sans-serif;
+	font-size: 36pt;
+	color: #000;
+	width: 100%;
+	max-width: 1230px;
+	padding-top: 30px;
+}
+
+.top-bar {
+	background: #3b5998;
+}
+.top-bar-section li:not(.has-form) a:not(.button) {
+	padding: 0 0.9375rem;
+	line-height: 2.8125rem;
+	background: #3b5998;
+}
+
+hr {
+	float: right;
+	width: 85%;
+}
+.proper-position {
+	top:30%;
+	width: 12%;
+}
+.one-line {
+	border-bottom:2px solid #e7e8ea;
+	margin: 0 0 35px 0;
+	width: 100%;
+}
+
+.nice.tabs {
+	border-bottom: solid 1px #eee;
+	margin: 0 0 30px 0;
+	height: 43px;
+}
+ul.contained.tabs-content {
+	padding: 0;
+}
+ul.nice, ol.nice {
+	list-style: none;
+	margin: 0;
+}
+ul.tabs-content {
+	margin: 0;
+	display: block;
+}
+.nice.tabs dd:first-child a.active {
+	margin-left: 0;
+}
+dl.nice.contained.tabs dd a {
+	padding: 7px 18px 9px;
+}
+.nice.tabs dd a.active {
+	font-weight: bold;
+	color: #333;
+	background: #fff;
+	border-left: 1px solid #eee;
+	border-right: 1px solid #eee;
+	border-top: 3px solid #00a6fc;
+	margin: 0 10px;
+	position: relative;
+	top: -5px;
+}
+dl.contained.tabs dd a {
+	padding: 0 14px;
+}
+dl.tabs dd a.active {
+	background: #fff;
+	border-width: 1px 1px 0 1px;
+	height: 30px;
+}
+.nice.tabs dd a {
+	padding: 7px 18px 9px;
+	font-size: 15px;
+	font-size: 1.5rem;
+	color: #555555;
+	background: none;
+	border: none;
+}
+dl.tabs dd a {
+	display: block;
+	width: auto;
+	height: 29px;
+	padding: 0 9px;
+	line-height: 30px;
+	border: solid 1px #ddd;
+	margin: 0 -1px 0 0;
+	color: #555;
+	background: #eee;
+}
+
+.left-tab .tabs  .tab-title {
+	border-bottom: 3px solid #FFF;
+	border-right: 7px solid #E5CF5F;
+	border-bottom-right-radius: 20px;
+
+}
+.left-tab .tabs  .active {
+	border-right: 7px solid #40A46F;
+}
+.tabs dd > a, .tabs .tab-title > a {
+	border-bottom-right-radius: 4px;
+}
+
+.title-blank {
+	padding-top: 40px;
+}
+.main-part{
+	position: relative;
+	width: 80%;
+	margin-right: 5%;
+}
