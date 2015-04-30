@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>实验室管理系统</title>
+    {% load staticfiles %}
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "js/delete.js" %}"></script>
+    <script src="{% static "js/ajax_handler.js" %}"></script>
+    <script src="{% static "js/form_utility.js" %}"></script>
+    {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.css" %}"/>#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.structure.css" %}"/>#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.theme.css" %}"/>#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}"/>#}
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/foundation.css" %}"/>
+    <script>
+
+        {#        var table_add_class = function () {#}
+        {#            $('table').addClass('ui-widget');#}
+        {#            $('td').addClass('ui-widget-content');#}
+        {#            $('th').addClass('ui-widget-header');#}
+        {#        };#}
+        {##}
+        {#        var add_number_menu = function () {#}
+        {#            $('.number_menu').each(function () {#}
+        {#                $(this).selectmenu().selectmenu("menuWidget").addClass("overflow");#}
+        {#            });#}
+        {#        };#}
+
+        var add_no_empty = function () {
+            $('input[type="date"]').attr("required", "true");
+            $('input[type="text"]').attr("required", "true");
+            $('input[type="input"]').attr("required", "true");
+        };
+
+        $(document).ready(function () {
+            {#            $('.menu').menu();#}
+            {#            $('.button').button();#}
+            {#            table_add_class();#}
+            {#            $('input[type="button"]').button();#}
+            {#            $('select').selectmenu();#}
+            add_no_empty();
+            {#            add_number_menu();#}
+        });
+
+    </script>
+    {% block staticfiles %}{% endblock %}
+</head>
+<body>
+{##}
+{#{% if perm_list %}#}
+{#    <div id="header">#}
+{#        <p class="in_header">姓名：{{ uname }} 身份：#}
+{#            {% for id in identity %}#}
+{#                {% if forloop.first %}#}
+{#                    {{ id }}#}
+{#                {% else %}#}
+{#                    /{{ id }}#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#            当前#}
+{#            {% if week %}#}
+{#                {{ week }}#}
+{#            {% else %}#}
+{#                在假期内#}
+{#            {% endif %}#}
+{#        </p>#}
+{#    </div>#}
+{#{% endif %}#}
+<div class=" sticky fixed">
+    <nav class="top-bar ">
+        <ul class="title-area">
+            <li class="name">
+                <h1>欢迎你，{{ uname }}! 身份
+                    {% for id in identity %}
+                        {% if forloop.first %}
+                            {{ id }}
+                        {% else %}
+                            /{{ id }}
+                        {% endif %}
+                    {% endfor %}
+                    当前:
+                    {% if week %}
+                        {{ week }}
+                    {% else %}
+                        在假期内
+                    {% endif %}
+                </h1>
+            </li>
+        </ul>
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                {#      <li class="active"><a href="#">修改密码</a></li>#}
+                <li class=""><a href="#">退出</a></li>
+            </ul>
+        </section>
+    </nav>
+</div>
+
+
+<div id="body">
+    {% csrf_token %}
+    {% if perm_list %}
+        <div class="navigator">
+            <div class="left-tab fixed proper-position">
+                <ul class="tabs vertical">
+                    {% for perm in perm_list %}
+                        <li class="tab-title"><a href={{ perm.url }} aria-selected="false" tabindex="-1">{{perm.name}}</a></li>
+                    {% endfor %}
+{#                    <li class="tab-title active"><a href="#panel11" aria-selected="true" tabindex="0">管理员</a></li>#}
+                </ul>
+            </div>
+{#            <ul class="menu">#}
+{#                {% for perm in perm_list %}#}
+{#                    <li><a href={{ perm.url }}>{{ perm.pname }}</a></li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+        </div>
+    {% endif %}
+    <div id="content">
+      <div class="main-part right">
+        <div class="row display title-blank">
+        <div class="columns medium-12">
+         <div class="columns medium-1 left ">
+           <img class="logo-super" src="images/door.png" alt=""/>
+         </div>
+         <div class="columns medium-10 right">
+           <p class="title-super">Laboratory Booking System</p>
+         </div>
+        </div>
+        </div>
+        <div class="one-line"></div>
+        {% block body %}{% endblock %}
+      </div>
+    </div>
+</div>
+<div class="copy-right">
+  Copyright © Nanjing Anchor Electronic Co.Ltd
+</div>
+</body>
+</html>
