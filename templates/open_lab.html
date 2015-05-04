@@ -1,152 +1,26 @@
-{% extends "new/base.html" %}
-
-{% block staticfiles %}
-    {% load staticfiles %}
-    <script src="{% static "js/jquery.form.js" %}"></script>
-    <script src="{% static "js/open_lab.js" %}"></script>
-    <script src="{% static "js/open_circle_lab.js" %}"></script>
-    <style>
-        .overflow {
-            height: 200px;
-        }
-    </style>
-{% endblock %}
-
+{# authored by ZhaoGuoyan #}
+{# 2015.5.4 #}
+{% extends "base.html" %}
 {% block body %}
-    <div id="tabs">
-        <ul>
-            <li><a href="#onetime">单次开放计划</a></li>
-            <li><a href="#circle">循环开放计划</a></li>
-        </ul>
 
-        <div id="onetime">
-            <form action="" method="post" class="ui-widget">{% csrf_token %}
-                <div style="width: 200px">
-                    <div>
-                        <div class="ui-widget-header">
-                            开放计划名称：
-                        </div>
-                        <div>
-                            <input name="olname" type="input"/>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="ui-widget-header">
-                            实验中心：
-                        </div>
-                        <div>
-                            <select name="lcid" id="lcid" value="">
-                                {% for lc in lc_list %}
-
-                                    <option value="{{ lc.lcid }}">{{ lc.lcname }}</option>
-
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div>
-                    <table id="detail_table">
-                        <tr>
-                            <th>实验室</th>
-                            <th class="w200px">开放日期</th>
-                            <th class="w200px">开始时间</th>
-                            <th class="w200px">结束时间</th>
-                            <th class="w72px"></th>
-                            <th class="no_display"></th>
-                        </tr>
-
-                        <tr>
-                            <td><input type="button" id="add_button" value="向开放计划中增加一个实验室"/></td>
-                        </tr>
-                    </table>
-                </div>
-                <div>
-                    <input type="button" id="submit" value="提交"/>
-                </div>
-            </form>
+    <div class="row down">
+        <div class="medium-3 columns open-lab-icon">
+             <a href="/open_lab_new.html">
+                 <p><span class="icon-file-empty"></span></p>
+                 <p>新建计划</p>
+             </a>
         </div>
-
-
-        <div id="circle">
-            {% if week %}
-                <form method="post" action="send_circle_open_lab/" class="ui-widget" id="circle_form">{% csrf_token %}
-
-                    <div style="width: 200px">
-                        <div>
-                            <div class="ui-widget-header">
-                                开放计划名称：
-                            </div>
-                            <div>
-                                <input name="olname" type="input"/>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="ui-widget-header">
-                                实验中心：
-                            </div>
-                            <div>
-                                <select name="lcid" id="c_lcid" value="">
-                                    {% for lc in lc_list %}
-
-                                        <option value="{{ lc.lcid }}">{{ lc.lcname }}</option>
-
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="ui-widget-header">
-                                开始的星期数：
-                            </div>
-                            <div>
-                                <select class="week number_menu" name="begin_week_number">
-                                    {% for w in week_list %}
-                                        <option value="{{ w }}">第{{ w }}周</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="ui-widget-header">
-                                结束的星期数：
-                            </div>
-                            <div>
-                                <select class="week number_menu" name="end_week_number">
-                                    {% for w in week_list %}
-                                        <option value="{{ w }}">第{{ w }}周</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <table id="circle_detail_table">
-                            <tr>
-                                <th class="w200px">实验室</th>
-                                <th class="w200px">星期几</th>
-                                <th class="w200px">开始时间</th>
-                                <th class="w200px">结束时间</th>
-                                <th class="w72px"></th>
-                                <th class="no_display"></th>
-                            </tr>
-                        </table>
-                        <input type="button" class="button" id="add_circle" value="添加一个实验室"/>
-                        <input type="submit" class="button" id="submit_circle" value="提交"/>
-                    </div>
-                </form>
-            {% else %}
-                在假期内无法进行循环开放
-            {% endif %}
+        <div class="medium-3 columns open-lab-icon">
+            <a href="/open_lab_check.html">
+                <p><span class="icon-hour-glass2 "></span></p>
+                <p>待审核计划</p>
+            </a>
+        </div>
+        <div class="medium-3 left columns open-lab-icon">
+            <a href="/open_lab_mine.html">
+                <p><span class="icon-profile "></span></p>
+                <p>我的计划</p>
+            </a>
         </div>
     </div>
-
-
 {% endblock %}

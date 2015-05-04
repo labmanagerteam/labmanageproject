@@ -328,3 +328,4 @@ def change_admin_password_view(request):
         return create_json_return({'result': 'success'})
     except MyBaseException, e:
         return create_json_return({'result': 'error', 'msg': generate_error_message(e.error_code)})
+

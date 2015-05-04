@@ -1,0 +1,74 @@
+{# authored by ZhaoGuoyan #}
+{# 2015.5.4 #}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>实验室管理系统</title>
+    {% load staticfiles %}
+    <script src="{% static "js/jquery.js" %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}"/>
+
+</head>
+<body>
+<div id="login_table" >
+
+<div class="main">
+		<!-----start-main---->
+		<div class="inset">
+			<div class="system-name">
+				<p><img class="logo" src="static/images/door.png" alt=""/>Laboratory Booking System</p>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="home-form" >
+			<form class="lable" method="post">{% csrf_token %}
+				<div >
+					<input id="id_uid" name="uid" type="text" class="lable-font" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" >
+					<input id="id_password" name="password" type="password" class="lable-font" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+                    {% if login_error %}
+                        <p class="login-error">—— 用户名或密码错误！ ——</p>
+                    {% endif %}
+                </div>
+				<p class="new-account-tip">—— 新用户申请，请咨询管理员 ——</p>
+				<div class="button">
+					<input type="submit" class="lable-font" value="Login" >
+					<input type="reset" id="reset" class="lable-font" value="Reset" >
+				</div>
+			</form>
+		</div>
+		<!-----//end-main---->
+	</div>
+    <div class="copy-right">
+        Copyright © Nanjing Anchor Electronic Co.Ltd
+    </div>
+
+{#    <form action="" method="post">{% csrf_token %}#}
+{#        <table>#}
+{#            <tr>#}
+{#                <th>{{ form.uid.label }}</th>#}
+{#                <th>{{ form.uid }}</th>#}
+{#                {% if form.uid.errors %}#}
+{#                    <th class="ui-state-error">{{ form.uid.errors }}</th>#}
+{#                {% endif %}#}
+{#            </tr>#}
+{##}
+{#            <tr>#}
+{#                <th>{{ form.password.label }}</th>#}
+{#                <th>{{ form.password }}</th>#}
+{#                {% if form.uid.errors %}#}
+{#                    <th class="ui-state-error">{{ form.password.errors }}</th>#}
+{#                {% endif %}#}
+{#            </tr>#}
+{##}
+{#            <tr>#}
+{#                <th><input class="button" type="submit" value="登陆"/></th>#}
+{#                <th><input class="button" type="reset" value="重置"></th>#}
+{#                <th></th>#}
+{#            </tr>#}
+{#        </table>#}
+{#    </form>#}
+</div>
+</body>
+</html>

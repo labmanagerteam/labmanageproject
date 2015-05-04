@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('../fonts/icomoon.eot?2dx8pk');
-	src:url('../fonts/icomoon.eot?#iefix2dx8pk') format('embedded-opentype'),
-		url('../fonts/icomoon.woff?2dx8pk') format('woff'),
-		url('../fonts/icomoon.ttf?2dx8pk') format('truetype'),
-		url('../fonts/icomoon.svg?2dx8pk#icomoon') format('svg');
+	src:url('../fonts/icomoon.eot?vk3kxs');
+	src:url('../fonts/icomoon.eot?#iefixvk3kxs') format('embedded-opentype'),
+		url('../fonts/icomoon.woff?vk3kxs') format('woff'),
+		url('../fonts/icomoon.ttf?vk3kxs') format('truetype'),
+		url('../fonts/icomoon.svg?vk3kxs#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,42 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-edit2:before {
+	content: "\e603";
+}
+
+.icon-profile:before {
+	content: "\e923";
+}
+
+.icon-file-empty:before {
+	content: "\e924";
+}
+
+.icon-hour-glass2:before {
+	content: "\e979";
+}
+
+.icon-download3:before {
+	content: "\e9c7";
+}
+
+.icon-upload3:before {
+	content: "\e9c8";
+}
+
+.icon-file:before {
+	content: "\e605";
+}
+
+.icon-cog2:before {
+	content: "\e606";
+}
+
+.icon-edit:before {
+	content: "\e602";
+}
+
 .icon-circle-with-cross:before {
 	content: "\e600";
 }
@@ -32,6 +68,6 @@
 }
 
 .icon-cog:before {
-	content: "\e602";
+	content: "\e604";
 }
 

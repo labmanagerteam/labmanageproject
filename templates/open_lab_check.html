@@ -1,0 +1,88 @@
+{# authored by ZhaoGuoyan #}
+{# 2015.5.4 #}
+{% extends "base.html" %}
+{% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/check_open_lab_detail.js" %}"></script>
+{% endblock %}
+{% block body %}
+    <ul class="tabs nice" data-tab role="tablist">
+        <li class="tab-title active" role="presentational">
+            <a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">开放计划</a>
+        </li>
+        <li class="tab-title" role="presentational">
+            <a href="#panel2-2" role="tab" tabindex="0" aria-selected="false" controls="panel2-2">学生预约</a>
+        </li>
+    </ul>
+    <form action="" method="post">{% csrf_token %}
+        <div class="tabs-content">
+            <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+                <table class="row">
+                    <thead>
+                    <tr>
+                        <th>开放计划名称</th>
+                        <th>申请人</th>
+                        <th>实验中心</th>
+                        <th>开放类型</th>
+                        <th>计划开始时间</th>
+                        <th>计划结束时间</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <td>XX计划</td>
+                    <td>赵国妍</td>
+                    <td>基础实楼A</td>
+                    <td>循环</td>
+                    <td>2015-3-1</td>
+                    <td>2015-5-14</td>
+                    <td>
+                        <button class="tiny button" data-reveal-id="myModal">Modal</button>
+                    </td>
+                    </tbody>
+                </table>
+
+                <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+                     role="dialog">
+
+                    <button type="button" class="tiny" id="accept">通过</button>
+                    <button type="button" class="tiny" id="refuse">拒绝</button>
+                    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+                </div>
+            </section>
+
+            <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+                <table class="row">
+                    <thead>
+                    <tr>
+                        <th>开放计划名称</th>
+                        <th>实验中心</th>
+                        <th>实验室</th>
+                        <th>申请人学号</th>
+                        <th>申请人姓名</th>
+                        <th>时间段</th>
+                        <th>是否通过</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <td>XX计划</td>
+                    <td>基础实验楼A</td>
+                    <td>412</td>
+                    <td>121220147</td>
+                    <td>赵国妍</td>
+                    <td>时间段</td>
+                    <td>
+                        <button class="tiny button">通过</button>
+                        <button class="tiny button alert">拒绝</button>
+                    </td>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </form>
+    <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+{% endblock %}

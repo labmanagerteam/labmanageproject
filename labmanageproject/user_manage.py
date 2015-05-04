@@ -66,20 +66,20 @@ def get_perm_list(uid):
 
     super_admin_perm = [
         {
-            URL: '/add',
-            PNAME: '添加'
+            URL: '/managers',
+            PNAME: '管理员'
         },
         {
-            URL: '/get_all_lab_center_admin',
-            PNAME: '管理中心管理员'
+            URL: '/lab_center',
+            PNAME: '实验中心'
         },
         {
-            URL: '/get_all_lab_center',
-            PNAME: '管理所有实验中心'
+            URL: '/open_lab',
+            PNAME: '开放计划'
         },
         {
             URL: '/set_semster',
-            PNAME: '设置学期起止时间'
+            PNAME: '设置学期'
         }
     ]
 

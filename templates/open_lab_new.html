@@ -1,0 +1,242 @@
+{# authored by ZhaoGuoyan #}
+{# 2015.5.4 #}
+{% extends "base.html" %}
+{% block staticfiles %}
+    <link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
+
+{% endblock %}
+{% block body %}
+    <ul class="tabs nice" data-tab role="tablist">
+        <li class="tab-title active" role="presentational" >
+            <a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">单次开放计划</a>
+        </li>
+        <li class="tab-title" role="presentational" >
+            <a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">循环开放计划</a>
+        </li>
+    </ul>
+    <form action="" method="post">{% csrf_token %}
+    <div class="tabs-content">
+            <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+                <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">计划名称</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input type="text" placeholder="name">
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">实验中心</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="lab-choose-openlab" name="lab-choose" class="medium">
+                            <option value="" selected=""></option>
+                            <option value="lab-a">实验楼A</option>
+                            <option value="lab-b">实验楼B</option>
+                            <option value="lab-c">实验楼C</option>
+                            <option value="lab-d">实验楼D</option>
+                            <option value="lab-e">实验楼E</option>
+                        </select>
+                    </div>
+                </div>
+                <table class="row">
+                    <thead>
+                    <tr>
+                        <th width="20%">实验室</th>
+                        <th width="20%">开放日期</th>
+                        <th width="20%">开始时间</th>
+                        <th width="20%">结束时间</th>
+                        <th width="20%">删除</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" name="labname" value="实验室名称"></td>
+                        <td></td>
+                        <td>
+                            <select id="class-choose-start" name="class-choose-start" class="medium">
+                                 <option value="" selected=""></option>
+                                 <option value="class-1">1</option>
+                                 <option value="class-2">2</option>
+                                 <option value="class-3">3</option>
+                                 <option value="class-4">4</option>
+                                 <option value="class-5">5</option>
+                                 <option value="class-6">6</option>
+                                 <option value="class-7">7</option>
+                                 <option value="class-8">8</option>
+                                 <option value="class-9">9</option>
+                                 <option value="class-10">10</option>
+                                 <option value="class-11">11</option>
+                             </select>
+                        </td>
+                        <td>
+                            <select id="class-choose-end" name="class-choose-end" class="medium">
+                                 <option value="" selected=""></option>
+                                 <option value="class-1">1</option>
+                                 <option value="class-2">2</option>
+                                 <option value="class-3">3</option>
+                                 <option value="class-4">4</option>
+                                 <option value="class-5">5</option>
+                                 <option value="class-6">6</option>
+                                 <option value="class-7">7</option>
+                                 <option value="class-8">8</option>
+                                 <option value="class-9">9</option>
+                                 <option value="class-10">10</option>
+                                 <option value="class-11">11</option>
+                             </select>
+                        </td>
+                        <td><button class="tiny success">New</button></td>
+                    </tr>
+                    {% for in_form in form_set %}
+                        <tr>
+                            <td>
+                                {{ in_form.lid }}
+                            </td>
+                            <td>
+                                {{ in_form.date }}
+                            </td>
+                            <td>
+                                {{ in_form.begin_time }}
+                            </td>
+                            <td>
+                                {{ in_form.end_time }}
+                            </td>
+                            <td>
+{#                        <input class="delete_one_detail" type="button" value="删除"/>#}
+                                <button class="tiny alert">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </section>
+
+            <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+                 <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">计划名称</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input type="text" placeholder="name">
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">实验中心</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="lab-choose-openlab" name="lab-choose" class="medium">
+                            <option value="" selected=""></option>
+                            <option value="lab-a">实验楼A</option>
+                            <option value="lab-b">实验楼B</option>
+                            <option value="lab-c">实验楼C</option>
+                            <option value="lab-d">实验楼D</option>
+                            <option value="lab-e">实验楼E</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">开始日期</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input id="class-loop-start" type="text">
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">结束日期</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input id="class-loop-end" type="text">
+                    </div>
+                </div>
+                <table class="row">
+                    <thead>
+                    <tr>
+                        <th width="20%">实验室</th>
+                        <th width="20%">开放日期</th>
+                        <th width="20%">开始时间</th>
+                        <th width="20%">结束时间</th>
+                        <th width="20%">删除</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td><input type="text" name="labname" value="实验室名称"></td>
+                        <td></td>
+                        <td>
+                             <select id="class-choose-start" name="class-choose-start" class="medium">
+                                 <option value="" selected=""></option>
+                                 <option value="class-1">1</option>
+                                 <option value="class-2">2</option>
+                                 <option value="class-3">3</option>
+                                 <option value="class-4">4</option>
+                                 <option value="class-5">5</option>
+                                 <option value="class-6">6</option>
+                                 <option value="class-7">7</option>
+                                 <option value="class-8">8</option>
+                                 <option value="class-9">9</option>
+                                 <option value="class-10">10</option>
+                                 <option value="class-11">11</option>
+                             </select>
+                        </td>
+                        <td>
+                            <select id="class-choose-end" name="class-choose-end" class="medium">
+                                 <option value="" selected=""></option>
+                                 <option value="class-1">1</option>
+                                 <option value="class-2">2</option>
+                                 <option value="class-3">3</option>
+                                 <option value="class-4">4</option>
+                                 <option value="class-5">5</option>
+                                 <option value="class-6">6</option>
+                                 <option value="class-7">7</option>
+                                 <option value="class-8">8</option>
+                                 <option value="class-9">9</option>
+                                 <option value="class-10">10</option>
+                                 <option value="class-11">11</option>
+                             </select>
+                        </td>
+                        <td><button class="tiny success">New</button></td>
+                    </tr>
+
+                    {% for in_form in form_set %}
+                        <tr>
+                            <td>
+                                {{ in_form.lid }}
+                            </td>
+                            <td>
+                                {{ in_form.date }}
+                            </td>
+                            <td>
+                                {{ in_form.begin_time }}
+                            </td>
+                            <td>
+                                {{ in_form.end_time }}
+                            </td>
+                            <td>
+{#                        <input class="delete_one_detail" type="button" value="删除"/>#}
+                                <button class="tiny alert">Delete</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </section>
+    </div>
+    </form>
+    <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/foundation.min.js"></script>
+    <script src="/static/js/jquery.cxcalendar.js"></script>
+    <script>
+        $(document).foundation();
+        $.cxCalendar.defaults.startDate = 1980;
+        $.cxCalendar.defaults.language = {
+            monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            weekList: ['Sun', 'Mon', 'Tur', 'Wed', 'Thu', 'Fri', 'Sat']
+        };
+        $('#class-loop-start').cxCalendar();
+        $('#class-loop-end').cxCalendar();
+    </script>
+{% endblock %}

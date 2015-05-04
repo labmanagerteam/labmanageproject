@@ -1,12 +1,14 @@
 
 body {
-	background: #fcfcfc !important;
-	font-family: "Century Gothic","Microsoft Yahei",sans-serif;
+	background: #fcfcfc;
 	-webkit-font-smoothing: antialiased;
+    font-family: "Century Gothic", "Microsoft Yahei", Roboto, Arial, sans-serif;
 }
-a {
-	color: #FFF;
+a,
+button{
+    font-family: "Microsoft Yahei"!important;
 }
+
 a:active,
 a:hover {
 	color: #E5CF5F;
@@ -91,11 +93,16 @@ a:hover {
 }
 input[type="text"]:hover,
 input[type="Password"]:hover,
+#active {
+
+	color:#DCDCDC;
+	border-left:7px solid #40A46F;
+}
 input[type="text"]:focus,
 input[type="Password"]:focus,
 #active {
 
-	color:#DCDCDC;
+	color:#000;
 	border-left:7px solid #40A46F;
 }
 
@@ -120,11 +127,18 @@ input[type=reset] {
 }
 .button{
 	text-align: center;
+    margin-bottom: 0;
+}
+button {
+    margin-bottom: 0;
 }
 .button input[type=submit]:hover,
 .button input[type=reset]:hover {
 	background:#07793D;
 	border:1px solid #07793D;
+}
+.login-error {
+    color:darkred;
 }
 .main-content {
 	position: relative;
@@ -259,8 +273,56 @@ dl.tabs dd a {
 .title-blank {
 	padding-top: 40px;
 }
-.main-part{
-	position: relative;
-	width: 80%;
-	margin-right: 5%;
+.main-part {
+    position: relative;
+    width: 80%;
+    margin-right: 5%;
+}
+
+
+.nice.tabs {
+    border-bottom: solid 1px #eee;
+    margin: 0 0 30px 0;
+    height:43px;
+}
+.nice.tabs li>a {
+    font-weight:bold;
+    padding: 10px 18px 10px;
+    font-size: 1rem;
+    color: #555555;
+    background: none;
+    border: none;
+}
+.nice.tabs li.active {
+    margin-left: 0;
+}
+.nice.tabs li.tab-title.active {
+  color: #333;
+  background: #fff;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-top: 3px solid #00a6fc;
+  margin: 0 10px 0 0;
+  position: relative;
+  top: -5px;
+}
+.tabs-content > section {
+  padding: 20px;
+  border: solid 0 #ddd;
+  border-width: 0 1px 1px 1px;
+}
+.row.collapse div{
+  margin: 0;
+}
+.open-lab-icon span {
+    text-align: center;
+    font-size: 72px;
+}
+.open-lab-icon p {
+    text-align:center;
+}
+
+.down {
+    padding-top:100px;
+    padding-bottom: 100px;
 }
