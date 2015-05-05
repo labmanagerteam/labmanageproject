@@ -1,0 +1,20 @@
+{% extends "new/../base.html" %}
+
+{% block staticfiles %}
+
+{% endblock %}
+
+{% block body %}
+    {% load display %}
+    <div>
+        <table>
+            <tr>
+                {% display_order_title %}
+                <th></th>
+            </tr>
+
+            {% display_order_body_state my_all_order %}
+        </table>
+    </div>
+
+{% endblock %}

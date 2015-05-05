@@ -1,0 +1,25 @@
+{% extends "new/../base.html" %}
+
+{% block staticfiles %}
+
+{% endblock %}
+
+{% block body %}
+    {% load display %}
+    <table>
+        <tr>
+            {% display_open_lab_title %}
+            <th></th>
+        </tr>
+
+        {% for ol in open_lab_list %}
+
+            <tr>
+                {% display_open_lab_in_oneline ol %}
+                <td><a class="button" href="/my_open_lab/detail/{{ ol.olid }}/{{ ol.type }}">详情</a></td>
+            </tr>
+
+        {% endfor %}
+    </table>
+
+{% endblock %}

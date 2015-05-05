@@ -1,5 +1,3 @@
-{# authored by ZhaoGuoyan #}
-{# 2015.5.4 #}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -15,10 +13,9 @@
     {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.theme.css" %}"/>#}
     {#    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}"/>#}
 
-
+    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "css/foundation.css" %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}"/>
     <script>
 
         {#        var table_add_class = function () {#}
@@ -51,8 +48,8 @@
 
     </script>
     {% block staticfiles %}{% endblock %}
-</head>
 <body>
+</head>
 {##}
 {#{% if perm_list %}#}
 {#    <div id="header">#}
@@ -106,7 +103,6 @@
 
 
 <div id="body">
-    {% csrf_token %}
     {% if perm_list %}
         <div class="navigator">
             <div class="left-tab fixed proper-position">
@@ -129,7 +125,7 @@
         <div class="row display title-blank">
         <div class="columns medium-12">
          <div class="columns medium-1 left ">
-           <img class="logo-super" src="/static/images/door.png" alt=""/>
+           <img class="logo-super" src="static/images/door.png" alt=""/>
          </div>
          <div class="columns medium-10 right">
            <p class="title-super">Laboratory Booking System</p>
@@ -144,6 +140,5 @@
 <div class="copy-right">
   Copyright © Nanjing Anchor Electronic Co.Ltd
 </div>
-
 </body>
 </html>

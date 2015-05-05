@@ -1,0 +1,46 @@
+{% extends "new/../base.html" %}
+{% block body %}
+    <table>
+      <thead>
+       <tr>
+        <th width="10%">工号</th>
+        <th width="10%">姓名</th>
+        <th width="10%">卡号</th>
+        <th >试验中心</th>
+        <th width="10%">设置新密码</th>
+        <th width="10%">删除</th>
+       </tr>
+      </thead>
+        <tbody>
+        {% for r in result %}
+            <tr>
+                <input type="hidden" class="del_id" value="{{ r.uid }}"/>
+                <td>{{ r.uid }}</td>
+                <td>{{ r.uname }}</td>
+                <td>{{ r.card_number }}</td>
+                <td>{{ r.lcname }}</td>
+                <td><button class="tiny">Reset</button></td>
+                <td><button class="tiny alert">Delete</button></td>
+            </tr>
+        {% endfor %}
+
+      <tr>
+        <td><input type="text" name="id" value="id"></td>
+        <td><input type="text" name="name" value="name"></td>
+        <td><input type="text" name="card" value="card"></td>
+        <td>
+         <select id="lab-choose" name="lab-choose" class="medium">
+           <option value="" selected=""></option>
+           <option value="lab-a">实验楼A</option>
+           <option value="lab-b">实验楼B</option>
+           <option value="lab-c">实验楼C</option>
+           <option value="lab-d">实验楼D</option>
+           <option value="lab-e">实验楼E</option>
+         </select>
+       </td>
+       <td></td>
+       <td><button class="tiny success">New</button></td>
+     </tr>
+   </tbody>
+ </table>
+{% endblock %}

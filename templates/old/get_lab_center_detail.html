@@ -1,0 +1,57 @@
+{% extends "new/../base.html" %}
+
+{% block staticfiles %}
+
+    <script>
+        $(document).ready(function () {
+            $('.delete').click(function () {
+                var $this = $(this);
+                do_delete($(this), 'delete/', function () {
+                    $this.closest('tr').remove();
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div>
+        <p>实验中心</p>
+        <table>
+            <tr>
+                <th>编号</th>
+                <td>{{ one_lab_center.lcid }}</td>
+            </tr>
+
+            <tr>
+                <th>名称</th>
+                <td>{{ one_lab_center.lcname }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <p>实验室</p>
+        <table>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>容纳人数</th>
+                <th></th>
+            </tr>
+
+            {% for l in lab_list %}
+                <tr>
+                    <input type="hidden" value="{{ l.lid }}"/>
+                    <td>{{ l.lid }}</td>
+                    <td>{{ l.lname }}</td>
+                    <td>{{ l.number }}</td>
+                    <td><input type="button" class="button delete" value="删除"/></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
