@@ -22,6 +22,9 @@ context_processors.py文件是一个统一的每个ｒｅｎｄｅｒ时时都�
     my_check.py:是一些表单输入的验证
     my_decorator.py:视图的装饰，主要做的是登录的验证与权限验证、
     my_exception.py:一些自定义的异常类
+    my_filter.py:一些自定义的格式的转换器
+    以semster开头的文件是与学期设置有关的文件
+    utility.py里面有一些工具函数
 
 一些问题：
     当初为了测试的方便，数据库里的密码是明文，在正式版本中应该加密
