@@ -1,0 +1,11 @@
+这个项目里用了一些缩写（基本上都是每个词的首字母缩写）：
+    lab(实验室)：l
+    lab_center（实验中心）:lc
+    open_lab（单次开放计划）:ol
+    open_lab_detail(单次开放计划内容）：old
+    order(单次计划预约）:o
+    上面三个前面加上circle就是对应的周期开放计划，缩写前加上c
+    user：u
+    teacher：t
+    student：s
+    administer：a
