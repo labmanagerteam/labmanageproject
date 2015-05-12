@@ -40,6 +40,7 @@ STATE = user_order.STATE
 WAIT = u'未审核'
 
 
+# 添加单次开放计划
 def add_open_lab(*args):
     error = [{'result': 'e'}]
     for a in args:
@@ -53,14 +54,15 @@ def add_open_lab(*args):
     begin_time = args[4]
     end_time = args[5]
 
+    # 检查实验中心id是否合法
     if not lab_db.get_lab_center_by_lcid(lcid):
         print 'no that lcid'
         return error
-
+    # 各个数组的长度是否一致
     if len(lid) != len(begin_time) or len(lid) != len(end_time):
         print 'no the same length'
         return error
-
+    # 实验室id的合法性
     s_lid = [a for (a, b, c) in lab_db.get_all_lab_by_lcid(lcid)]
     print s_lid
     for l in lid:
@@ -82,6 +84,7 @@ def add_open_lab(*args):
 
     index = 0
     join_list = []
+    # 具体的添加
     with transaction.atomic():
         for (l, b, e) in zip(lid, begin_time, end_time):
             if lab_db.get_checked_open_lab(l, b, e):
@@ -114,7 +117,7 @@ def get_all_lab_by_lcid(lcid):
     m_filter = filter_result_dict_list([LID, LNAME])
     return m_filter(lab_db.get_all_lab_by_lcid(lcid))
 
-
+#格式转换器，具体请参见my_filter.py
 filter_open_lab = filter_result_dict_list_trans_date([OLNAME, UNAME, LCNAME, TYPE,
                                                       BEGIN_DATE_TIME, END_DATE_TIME, OLID, STATUS])
 
@@ -133,7 +136,7 @@ filter_circle_open_lab_detail_display = filter_result_dict_list([lab.LNAME, circ
 
 filter_noname_circle_open_lab_detail = filter_result_dict_list(circle_open_lab_detail.NAME_LIST)
 
-
+# 获取未审核的开放计划
 def get_all_unchecked_open_lab(begin_line_number, page_size):
     result = {
         'result': '',
@@ -148,11 +151,11 @@ def get_all_unchecked_open_lab(begin_line_number, page_size):
 
     return result
 
-
+# 按照开放计划的id(olid)获得开放计划
 def get_open_lab_by_olid(olid):
     return filter_open_lab(lab_db.get_open_lab(**{OLID: olid}))
 
-
+# 获得具体的内容
 def get_open_lab_detail_by_olid(olid, mtype):
     if mtype == u"单次":
         r = filter_open_lab_detail_display(lab_db.get_open_lab_detail(**{OLID: olid}))
@@ -165,7 +168,7 @@ def get_open_lab_detail_by_olid(olid, mtype):
     else:
         return False
 
-
+# 获得冲突的开放计划
 def get_conflict_open_lab(open_lab_detail):
     conflic_list = []
     for detail_line in open_lab_detail:
@@ -203,7 +206,7 @@ def get_conflict_open_lab(open_lab_detail):
 #                                              create_local_date(e_time), "未审核")]
 #         begin_time += one_week
 
-
+# 同意开放计划
 def accept_open_lab(now_olid, conflict_list):
     with transaction.atomic():
         open_lab.update({STATUS: ACCEPT}, {OLID: now_olid})
@@ -212,17 +215,17 @@ def accept_open_lab(now_olid, conflict_list):
 
     return True
 
-
+# 拒绝开放计划
 def refuse_open_lab(now_olid):
     open_lab.update({STATUS: REFUSE}, {OLID: now_olid})
     return True
 
-
+# 获得所有的开放计划
 def get_all_checked_open_lab(begin_line_number, page_size):
     r = filter_open_lab(lab_db.get_all_checked_open_lab(begin_line_number, page_size))
     return r
 
-
+# 预约实验室
 def do_user_order(oldid, uid):
     with transaction.atomic():
         detail = filter_open_lab_detail_no_name(lab_db.get_open_lab_detail_by_oldid(oldid))[0]
@@ -237,7 +240,7 @@ def do_user_order(oldid, uid):
 filter_user_order = filter_result_dict_list([ORDER_ID, UID, OLDID, STATE])
 filter_open_lab_detail = filter_result_dict_list(open_lab_detail.NAME_LIST)
 
-
+# 检查预约
 def check_order_condition(oldid, uid):
     have_oldid_list = []
     for a in join_list(filter_user_order(user_order.get(**{UID: uid, STATE: WAIT})),
