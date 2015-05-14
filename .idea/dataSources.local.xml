@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Django default" uuid="0666541c-6771-45a9-8f14-ac1b236a09c2">
+      <secret-storage>master_key</secret-storage>
+      <user-name>labmanager</user-name>
+    </data-source>
+    <data-source name="MySQL - labmanage@eelab.nju.edu.cn" uuid="b9872ac3-71c4-4d13-b4d4-7e4d3ef8fc4c">
+      <secret-storage>memory</secret-storage>
+    </data-source>
+  </component>
+</project>
