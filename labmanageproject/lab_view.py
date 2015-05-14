@@ -35,6 +35,10 @@ def open_lab(request):
     return render(request, "open_lab.html", locals())
 
 
+def open_lab_new_view(request):
+    return render(request, "open_lab_new.html", locals())
+
+
 def get_lab_by_lcid_view(request):
     lcid = request.GET['lcid']
     lab_dict = get_all_lab_by_lcid(lcid)
@@ -263,4 +267,4 @@ def send_circle_open_lab_view(request):
 def my_order_view(request):
     [my_order, my_circle_order] = get_my_order_action(get_uid(request))
     my_all_order = join_list(my_order, my_circle_order)
-    return render(request, "my_order.html", locals())
+    return render(request, "stu_myappoint.html", locals())

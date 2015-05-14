@@ -21,7 +21,7 @@ get_all_lc_center_str = r'^lab_center'
 get_all_lc_center_admin_str = r'^managers'
 set_semster_str = r'^set_semster'
 open_lab_str = r'^open_lab'
-my_order_str = r'^my_order'
+my_order_str = r'^stu_myappoint'
 
 
 urlpatterns = patterns('',
@@ -34,6 +34,7 @@ urlpatterns = patterns('',
                        url(r'^$', login),
                        url(r'^logout/$', all_check(logout)),
                        url(open_lab_str + r'/$', all_check(open_lab)),
+                       url(open_lab_str + r'/open_lab_new/$', all_check(open_lab_new_view)),
                        url(open_lab_str + r'/send_open_lab/$', all_check(send_open_lab)),
                        url(open_lab_str + r'/send_circle_open_lab/$', all_check(send_circle_open_lab_view)),
                        url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view),
