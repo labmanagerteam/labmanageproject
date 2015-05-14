@@ -31,35 +31,27 @@ def get_perm_list(uid):
     teacher_perm = [
         {
             URL: '/open_lab',
-            PNAME: '开放实验室'
+            PNAME: '开放计划'
         },
-        {
-            URL: '/check_order',
-            PNAME: '审核学生预约'
-        },
-        {
-            URL: '/my_open_lab',
-            PNAME: '我的开放计划'
-        }
     ]
     student_perm = [
         {
-            URL: '/order_open_lab',
-            PNAME: '预约实验室'
+            URL: '/stu_myappoint',
+            PNAME: '我的预约'
         },
         {
-            URL: '/my_order',
-            PNAME: '我的预约'
+            URL: '/open_lab_check',
+            PNAME: '预约实验室'
         }
     ]
 
     administer_perm = [
         {
-            URL: '/check_open_lab',
-            PNAME: '审核开放计划'
+            URL: '/open_lab',
+            PNAME: '开放计划'
         },
         {
-            URL: '/add_user',
+            URL: '/add_student_teacher',
             PNAME: '添加用户'
         }
     ]

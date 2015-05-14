@@ -1,6 +1,10 @@
 {# authored by ZhaoGuoyan #}
 {# 2015.5.4 #}
 {% extends "base.html" %}
+{% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/add2.js" %}"></script>
+{% endblock %}
 {% block body %}
     <table>
         <thead>
@@ -15,22 +19,25 @@
         </thead>
         <tbody>
         <tr>
-            <td><input type="text" name="manager_id" value="id"></td>
-            <td><input type="text" name="manager_name" value="name"></td>
-            <td><input type="text" name="manager_card" value="card"></td>
+        <form class="one_form" action="add/" method="post">
+        {% csrf_token %}
+            <td><input type="text" name="uid" placeholder="id"></td>
+            <td><input type="text" name="uname" placeholder="name"></td>
+            <td><input type="text" name="card_number" placeholder="card"></td>
             <td>
-                <select id="lab-choose" name="lab-choose" class="medium">
+                <select id="lab-choose" name="lcid" class="medium">
                     <option value="" selected=""></option>
-                    <option value="lab-a">实验楼A</option>
-                    <option value="lab-b">实验楼B</option>
-                    <option value="lab-c">实验楼C</option>
-                    <option value="lab-d">实验楼D</option>
-                    <option value="lab-e">实验楼E</option>
+                    {% for lc in lcs %}
+                        <option value="{{ lc.lcid }}">{{ lc.lcname }}</option>
+                    {% endfor %}
                 </select>
             </td>
-            <td></td>
-            <td><button class="tiny success">New</button></td>
+            <td><input type="text" name="password" placeholder="key"></td>
+            <td><button class="tiny success" type="submit">New</button></td>
+{#            <td><input type="submit" class="tiny success" placeholder="New"/></td>#}
+        </form>
         </tr>
+
         {% for r in result %}
             <tr>
                 <input type="hidden" class="del_id" value="{{ r.uid }}"/>

@@ -3,7 +3,7 @@ __author__ = 'wlw'
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-
+from labmanageproject.lab_manage import get_all_lab_center
 from labmanageproject.user_manage import *
 from labmanageproject.my_decorator import *
 from labmanageproject.error_code import *
@@ -230,7 +230,8 @@ def add_one_admin_view(request):
 def get_all_lab_center_admin_view(request):
     result = get_all_lab_center_admin_action()
     print result
-    return render(request, "get_all_lab_center_admin.html", locals())
+    lcs = get_all_lab_center()
+    return render(request, "managers.html", locals())
 
 
 @check_post_form({'delid'})

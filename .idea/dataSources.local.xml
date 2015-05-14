@@ -2,8 +2,13 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="Django default" uuid="0666541c-6771-45a9-8f14-ac1b236a09c2">
+<<<<<<< HEAD
       <secret-storage>master_key</secret-storage>
       <user-name>labmanager</user-name>
+=======
+      <secret-storage>memory</secret-storage>
+      <user-name>root</user-name>
+>>>>>>> 19ac4eacf799a97fef723592391fa8caa5f68ab1
     </data-source>
     <data-source name="MySQL - labmanage@eelab.nju.edu.cn" uuid="b9872ac3-71c4-4d13-b4d4-7e4d3ef8fc4c">
       <secret-storage>memory</secret-storage>
