@@ -17,8 +17,8 @@ check_user_order = r"^check_order"
 my_open_lab = r"^my_open_lab"
 add_user = r'^add_user'
 add = r'^add'
-get_all_lc_center_str = r'^get_all_lab_center'
-get_all_lc_center_admin_str = r'^get_all_lab_center_admin'
+get_all_lc_center_str = r'^lab_center'
+get_all_lc_center_admin_str = r'^managers'
 set_semster_str = r'^set_semster'
 open_lab_str = r'^open_lab'
 my_order_str = r'^my_order'
@@ -58,22 +58,22 @@ urlpatterns = patterns('',
                        url(add_user + r'/one_teacher/$', all_check(add_one_teacher_view)),
                        url(add_user + r'/teacher_list/$', all_check(add_teacher_list_view)),
                        url(add + '/$', all_check(add_view)),
-                       url(add + '/one_lab/$', all_check(add_one_lab_view)),
-                       url(add + '/one_lab_center/$', all_check(add_one_lab_center_view)),
                        url(add + '/one_department/$', all_check(add_one_department_view)),
-                       url(add + '/one_admin/$', all_check(add_one_admin_view)),
                        url(add + '/lab_center_list/$', all_check(add_lab_center_list_view)),
                        url(add + '/lab_list/$', all_check(add_lab_list_view)),
                        url(add + '/department_list/$', all_check(add_department_list_view)),
                        url(add + '/admin_list/$', all_check(add_admin_list_view)),
                        url('^today_order/$', today_order_view),
                        url(get_all_lc_center_admin_str + '/$', all_check(get_all_lab_center_admin_view)),
+                       url(get_all_lc_center_admin_str + '/add/$', all_check(add_one_admin_view)),
                        url(get_all_lc_center_admin_str + '/delete/$', all_check(delete_one_lab_center_admin_view)),
                        url(get_all_lc_center_admin_str + '/change_password/$', all_check(change_admin_password_view)),
                        url(get_all_lc_center_str + '/$', all_check(get_all_lab_center_view)),
                        url(get_all_lc_center_str + '/delete/$', all_check(delete_one_lab_center_view)),
-                       url(get_all_lc_center_str + '/(.+)/$', all_check(get_one_lab_center_detail_view)),
-                       url(get_all_lc_center_str + '/.+/delete/$', all_check(delete_one_lab_view)),
+                       url(get_all_lc_center_str + '/add/$', all_check(add_one_lab_center_view)),
+                       url(get_all_lc_center_str + '/([^/]+)/$', all_check(get_one_lab_center_detail_view)),
+                       url(get_all_lc_center_str + '/[^/]+/delete/$', all_check(delete_one_lab_view)),
+                       url(get_all_lc_center_str + '/[^/]+/add/$', all_check(add_one_lab_view)),
                        url(set_semster_str + '/$', all_check(set_semster_view)),
                        url(set_semster_str + '/do/$', all_check(do_set_semster_view)),
                        url(my_order_str + '/$', all_check(my_order_view)),

@@ -3,7 +3,7 @@ __author__ = 'wlw'
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-
+from labmanageproject.lab_manage import get_all_lab_center
 from labmanageproject.user_manage import *
 from labmanageproject.my_decorator import *
 from labmanageproject.error_code import *
@@ -230,7 +230,8 @@ def add_one_admin_view(request):
 def get_all_lab_center_admin_view(request):
     result = get_all_lab_center_admin_action()
     print result
-    return render(request, "get_all_lab_center_admin.html", locals())
+    lcs = get_all_lab_center()
+    return render(request, "managers.html", locals())
 
 
 @check_post_form({'delid'})
@@ -243,6 +244,7 @@ def delete_one_lab_center_admin_view(request):
 def delete_one_item_view_factory(delete_action):
     @check_post_form({'delid'})
     def delete(request):
+        print "to delete"
         [delete_id] = get_post(request, ['delid'])
         delete_action(delete_id)
         return create_json_return({'result': 'success'})
@@ -256,10 +258,11 @@ delete_one_lab_view = delete_one_item_view_factory(delete_one_lab_action)
 
 def get_all_lab_center_view(request):
     lab_center_list = get_all_lab_center_action()
-    return render(request, "get_all_lab_center.html", locals())
+    return render(request, "lab_center.html", locals())
 
 
 def get_one_lab_center_detail_view(request, lcid):
+    print "get_one_lab_center_detail_view"
     one_lab_center = {
         'lcid': lcid,
         'lcname': get_lab_center_table(**{'lcid': lcid})[0][1]
@@ -267,7 +270,7 @@ def get_one_lab_center_detail_view(request, lcid):
 
     lab_list = get_lab_by_lcid(lcid)
 
-    return render(request, "get_lab_center_detail.html", locals())
+    return render(request, "lab_center_details.html", locals())
 
 
 def do_with_xlsx(handler, f):

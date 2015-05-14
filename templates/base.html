@@ -10,6 +10,7 @@
     <script src="{% static "js/delete.js" %}"></script>
     <script src="{% static "js/ajax_handler.js" %}"></script>
     <script src="{% static "js/form_utility.js" %}"></script>
+    <script src="{% static "js/jquery.form.js" %}"></script>
     {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.css" %}"/>#}
     {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.structure.css" %}"/>#}
     {#    <link rel="stylesheet" type="text/css" href="{% static "theme/jquery-ui.theme.css" %}"/>#}
@@ -47,6 +48,12 @@
             {#            $('select').selectmenu();#}
             add_no_empty();
             {#            add_number_menu();#}
+            $('.delete').click(function () {
+                var $this = $(this);
+                do_delete($(this), 'delete/', function () {
+                    $this.closest('tr').remove();
+                });
+            });
         });
 
     </script>

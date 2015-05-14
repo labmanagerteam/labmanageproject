@@ -1,6 +1,13 @@
 {# authored by ZhaoGuoyan #}
 {# 2015.5.4 #}
 {% extends "base.html" %}
+{% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/add2.js" %}"></script>
+    <script>
+
+    </script>
+{% endblock %}
 {% block body %}
   <fieldset>
     <legend>【{{ one_lab_center.lcid }}】{{ one_lab_center.lcname }}</legend>
@@ -15,18 +22,22 @@
     </thead>
     <tbody>
      <tr>
-        <td><input type="text" name="lab_id" value="id"></td>
-        <td><input type="text" name="lab_name" value="name"></td>
-        <td><input type="text" name="lab_number" value="number"></td>
-        <td><button class="tiny success">New</button></td>
+         <form method="post" action="add/" class="one_form">{% csrf_token %}
+            <input type="hidden" name="lcid" value="{{ one_lab_center.lcid }}" />
+            <td><input type="text" name="lid" placeholder="id"></td>
+            <td><input type="text" name="lname" placeholder="name"></td>
+            <td><input type="text" name="lnumber" placeholder="number"></td>
+            <td><button class="tiny success">New</button></td>
+         </form>
     </tr>
       {% for l in lab_list %}
                 <tr>
+                    <input type="hidden" class="del_id" value="{{ l.lid }}"/>
                     <input type="hidden" value="{{ l.lid }}"/>
                     <td>{{ l.lid }}</td>
                     <td>{{ l.lname }}</td>
                     <td>{{ l.number }}</td>
-                    <td><button class="tiny alert">Delete</button></td>
+                    <td><button class="tiny alert delete">Delete</button></td>
                 </tr>
       {% endfor %}
     </tbody>
