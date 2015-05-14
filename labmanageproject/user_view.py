@@ -257,7 +257,7 @@ delete_one_lab_view = delete_one_item_view_factory(delete_one_lab_action)
 
 def get_all_lab_center_view(request):
     lab_center_list = get_all_lab_center_action()
-    return render(request, "get_all_lab_center.html", locals())
+    return render(request, "lab_center.html", locals())
 
 
 def get_one_lab_center_detail_view(request, lcid):
@@ -268,7 +268,7 @@ def get_one_lab_center_detail_view(request, lcid):
 
     lab_list = get_lab_by_lcid(lcid)
 
-    return render(request, "get_lab_center_detail.html", locals())
+    return render(request, "lab_center_details.html", locals())
 
 
 def do_with_xlsx(handler, f):

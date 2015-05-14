@@ -1,6 +1,22 @@
 {# authored by ZhaoGuoyan #}
 {# 2015.5.4 #}
 {% extends "base.html" %}
+{% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/add2.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+             $('.delete').click(function () {
+                var $this = $(this);
+                do_delete($(this), 'delete/', function () {
+                    $this.closest('tr').remove();
+                });
+            });
+
+
+        });
+    </script>
+{% endblock %}
 {% block body %}
     <table class="row">
       <thead>
@@ -13,10 +29,12 @@
     </thead>
     <tbody>
     <tr>
-        <td><input type="text" name="lab_center_id" value="id"></td>
-        <td><input type="text" name="lab_center_name" value="name"></td>
+        <form action="add/" method="post" class="one_form">{% csrf_token %}
+        <td><input type="text" name="lcid" value="id"></td>
+        <td><input type="text" name="lcname" value="name"></td>
         <td></td>
         <td><button class="tiny success">New</button></td>
+        </form>
     </tr>
         {% for r in lab_center_list %}
             <tr>
@@ -24,7 +42,7 @@
                 <td>{{ r.lcid }}</td>
                 <td>{{ r.lcname }}</td>
                 <td><a class="button tiny" href="{{ r.lcid }}">More</a></td>
-                <td><button class="tiny alert">Delete</button></td>
+                <td><button class="tiny alert delete">Delete</button></td>
             </tr>
         {% endfor %}
    </tbody>
