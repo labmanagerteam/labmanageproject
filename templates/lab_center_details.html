@@ -24,9 +24,9 @@
      <tr>
          <form method="post" action="add/" class="one_form">{% csrf_token %}
             <input type="hidden" name="lcid" value="{{ one_lab_center.lcid }}" />
-            <td><input type="text" name="lid" value="id"></td>
-            <td><input type="text" name="lname" value="name"></td>
-            <td><input type="text" name="lnumber" value="number"></td>
+            <td><input type="text" name="lid" placeholder="id"></td>
+            <td><input type="text" name="lname" placeholder="name"></td>
+            <td><input type="text" name="lnumber" placeholder="number"></td>
             <td><button class="tiny success">New</button></td>
          </form>
     </tr>

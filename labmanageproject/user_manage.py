@@ -30,8 +30,16 @@ def get_perm_list(uid):
     PNAME = 'pname'
     teacher_perm = [
         {
-            URL: '/open_lab',
-            PNAME: '开放计划'
+            URL: '/open_lab_new',
+            PNAME: '新的开放计划'
+        },
+        {
+            URL: '/open_lab_mine',
+            PNAME: '我的开放计划'
+        },
+        {
+            URL: '/stu_app_check',
+            PNAME: '审核学生申请'
         },
     ]
     student_perm = [
@@ -53,6 +61,10 @@ def get_perm_list(uid):
         {
             URL: '/add_student_teacher',
             PNAME: '添加用户'
+        },
+        {
+            URL: '/stu_app_check',
+            PNAME: '审核学生预约'
         }
     ]
 
