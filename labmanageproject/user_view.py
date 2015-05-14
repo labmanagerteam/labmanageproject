@@ -203,6 +203,13 @@ def add_one_lab_view(request):
     return create_json_return({'result': 'success'})
 
 
+
+def add_student_teacher_view(request):
+    lcs = get_all_lab_center()
+    ds = get_all_department()
+    return render(request, "add_student_teacher.html", locals())
+
+
 lab_center_dist_list = ['lcid', 'lcname']
 
 

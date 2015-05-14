@@ -22,6 +22,7 @@ get_all_lc_center_admin_str = r'^managers'
 set_semster_str = r'^set_semster'
 open_lab_str = r'^open_lab'
 my_order_str = r'^stu_myappoint'
+add_student_teacher = r'^add_student_teacher'
 
 
 urlpatterns = patterns('',
@@ -54,7 +55,6 @@ urlpatterns = patterns('',
                        url(my_open_lab + r'/$', all_check(my_open_lab_view)),
                        url(my_open_lab + r'/detail/(.+)/(.+)$', all_check(my_open_lab_detail_view)),
                        url(add_user + r'/$', all_check(add_user_view)),
-                       url(add_user + r'/one_student/$', all_check(add_one_student_view)),
                        url(add_user + r'/student_list/$', all_check(add_student_list_view)),
                        url(add_user + r'/one_teacher/$', all_check(add_one_teacher_view)),
                        url(add_user + r'/teacher_list/$', all_check(add_teacher_list_view)),
@@ -78,5 +78,7 @@ urlpatterns = patterns('',
                        url(set_semster_str + '/$', all_check(set_semster_view)),
                        url(set_semster_str + '/do/$', all_check(do_set_semster_view)),
                        url(my_order_str + '/$', all_check(my_order_view)),
+                       url(add_student_teacher + '/$', all_check(add_student_teacher_view)),
+                       url(add_student_teacher + '/one_student/$', all_check(add_one_student_view)),
 )
 

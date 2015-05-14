@@ -18,7 +18,7 @@
                         <a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">批量添加</a>
                     </li>
                 </ul>
-    <form action="" method="post">{% csrf_token %}
+    <form action="one_student/" method="post" class="one_form">{% csrf_token %}
     <div class="tabs-content">
             <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
                 <div class="row collapse prefix-round">
@@ -27,7 +27,7 @@
                         <button class="button prefix">学号</button>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="njuid">
+                        <input type="text" name="uid" placeholder="njuid">
                     </div>
                 </div>
                 <div class="row collapse prefix-round">
@@ -36,7 +36,7 @@
                         <button class="button prefix">姓名</button>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="name">
+                        <input type="text" name="uname" placeholder="name">
                     </div>
                 </div>
                 <div class="row collapse prefix-round">
@@ -45,7 +45,7 @@
                         <button class="button prefix">密码</button>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="password">
+                        <input type="text" name="password" placeholder="password">
                     </div>
                 </div>
                 <div class="row collapse prefix-round">
@@ -54,7 +54,7 @@
                         <button class="button prefix">卡号</button>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="id">
+                        <input type="text" name="card_number" placeholder="id">
                     </div>
                 </div>
                 <div class="row collapse prefix-round">
@@ -63,13 +63,11 @@
                         <button class="button prefix">院系</button>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="dep-choose" name="dep-choose" class="medium">
+                        <select id="dep-choose" name="did" class="medium">
                             <option value="" selected=""></option>
-                            <option value="1">电子系</option>
-                            <option value="2">计算机科学与技术系</option>
-                            <option value="3">数学系</option>
-                            <option value="4">化学系</option>
-                            <option value="5">物理系</option>
+                            {% for d in ds %}
+                                <option value="{{ d.dis }}">{{ d.dname }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -79,7 +77,7 @@
                         <button class="button prefix">年级</button>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="b2012/b2013/b2014">
+                        <input type="text" name="grade" placeholder="b2012/b2013/b2014">
                     </div>
                 </div>
                 <div class="row collapse prefix-round">
@@ -168,11 +166,9 @@
                     <div class="small-2 columns left">
                         <select id="lab-choose-openlab" name="lab-choose" class="medium">
                             <option value="" selected=""></option>
-                            <option value="lab-a">实验楼A</option>
-                            <option value="lab-b">实验楼B</option>
-                            <option value="lab-c">实验楼C</option>
-                            <option value="lab-d">实验楼D</option>
-                            <option value="lab-e">实验楼E</option>
+                            {% for lc in lcs %}
+                            <option value="{{ lc.lcid }}">{{ lc.lcname }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
