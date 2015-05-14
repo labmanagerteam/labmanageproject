@@ -5,16 +5,7 @@
     {% load staticfiles %}
     <script src="{% static "js/add2.js" %}"></script>
     <script>
-        $(document).ready(function () {
-             $('.delete').click(function () {
-                var $this = $(this);
-                do_delete($(this), 'delete/', function () {
-                    $this.closest('tr').remove();
-                });
-            });
 
-
-        });
     </script>
 {% endblock %}
 {% block body %}

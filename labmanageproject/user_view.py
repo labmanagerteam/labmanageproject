@@ -244,6 +244,7 @@ def delete_one_lab_center_admin_view(request):
 def delete_one_item_view_factory(delete_action):
     @check_post_form({'delid'})
     def delete(request):
+        print "to delete"
         [delete_id] = get_post(request, ['delid'])
         delete_action(delete_id)
         return create_json_return({'result': 'success'})
@@ -261,6 +262,7 @@ def get_all_lab_center_view(request):
 
 
 def get_one_lab_center_detail_view(request, lcid):
+    print "get_one_lab_center_detail_view"
     one_lab_center = {
         'lcid': lcid,
         'lcname': get_lab_center_table(**{'lcid': lcid})[0][1]

@@ -6,12 +6,6 @@
     <script src="{% static "js/add2.js" %}"></script>
     <script>
         $(document).ready(function () {
-            $('.delete').click(function () {
-                var $this = $(this);
-                do_delete($(this), 'delete/', function () {
-                    $this.closest('tr').remove();
-                });
-            });
 
             $('.reset').click(function(){
                 var uid = $(this).closest('tr').find('.del_id').val();
