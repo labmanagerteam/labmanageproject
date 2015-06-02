@@ -45,9 +45,9 @@
         <tr>
         <form class="one_form" action="add/" method="post">
         {% csrf_token %}
-            <td><input type="text" name="uid" placeholder="id"></td>
-            <td><input type="text" name="uname" placeholder="name"></td>
-            <td><input type="text" name="card_number" placeholder="card"></td>
+            <td><input type="text" name="uid"></td>
+            <td><input type="text" name="uname"></td>
+            <td><input type="text" name="card_number"></td>
             <td>
                 <select id="lab-choose" name="lcid" class="medium">
                     <option value="" selected=""></option>
@@ -56,8 +56,8 @@
                     {% endfor %}
                 </select>
             </td>
-            <td><input type="text" name="password" placeholder="key"></td>
-            <td><button class="tiny success" type="submit">New</button></td>
+            <td><input type="text" name="password"></td>
+            <td><button class="tiny success" type="submit">增加</button></td>
 {#            <td><input type="submit" class="tiny success" placeholder="New"/></td>#}
         </form>
         </tr>
@@ -69,8 +69,8 @@
                 <td>{{ r.uname }}</td>
                 <td>{{ r.card_number }}</td>
                 <td>{{ r.lcname }}</td>
-                <td><button class="tiny reset">Reset</button></td>
-                <td><button class="tiny alert delete">Delete</button></td>
+                <td><button class="tiny reset">重置</button></td>
+                <td><button class="tiny alert delete">删除</button></td>
             </tr>
         {% endfor %}
         </tbody>

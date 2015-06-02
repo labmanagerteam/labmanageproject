@@ -3,7 +3,6 @@
 {% extends "base.html" %}
 {% block staticfiles %}
     <link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
-
 {% endblock %}
 {% block body %}
     <ul class="tabs nice" data-tab role="tablist">
@@ -22,7 +21,7 @@
                         <a href="#" class="button prefix">计划名称</a>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="name">
+                        <input type="text">
                     </div>
                     <div class="small-1 columns"></div>
                     <div class="small-1 columns">
@@ -30,12 +29,7 @@
                     </div>
                     <div class="small-2 columns left">
                         <select id="lab-choose-openlab" name="lab-choose" class="medium">
-                            <option value="" selected=""></option>
-                            <option value="lab-a">实验楼A</option>
-                            <option value="lab-b">实验楼B</option>
-                            <option value="lab-c">实验楼C</option>
-                            <option value="lab-d">实验楼D</option>
-                            <option value="lab-e">实验楼E</option>
+                            {{ form.lcid }}
                         </select>
                     </div>
                 </div>
@@ -85,7 +79,7 @@
                                  <option value="class-11">11</option>
                              </select>
                         </td>
-                        <td><button class="tiny success">New</button></td>
+                        <td><button class="tiny success">增加</button></td>
                     </tr>
                     {% for in_form in form_set %}
                         <tr>
@@ -103,7 +97,7 @@
                             </td>
                             <td>
 {#                        <input class="delete_one_detail" type="button" value="删除"/>#}
-                                <button class="tiny alert">Delete</button>
+                                <button class="tiny alert">删除</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -118,7 +112,7 @@
                         <a href="#" class="button prefix">计划名称</a>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" placeholder="name">
+                        <input type="text">
                     </div>
                     <div class="small-1 columns"></div>
                     <div class="small-1 columns">
@@ -197,7 +191,7 @@
                                  <option value="class-11">11</option>
                              </select>
                         </td>
-                        <td><button class="tiny success">New</button></td>
+                        <td><button class="tiny success">增加</button></td>
                     </tr>
 
                     {% for in_form in form_set %}
@@ -216,7 +210,7 @@
                             </td>
                             <td>
 {#                        <input class="delete_one_detail" type="button" value="删除"/>#}
-                                <button class="tiny alert">Delete</button>
+                                <button class="tiny alert">删除</button>
                             </td>
                         </tr>
                     {% endfor %}

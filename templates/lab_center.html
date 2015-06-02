@@ -24,7 +24,7 @@
         <td><input type="text" name="lcid" placeholder="id"></td>
         <td><input type="text" name="lcname" placeholder="name"></td>
         <td></td>
-        <td><button class="tiny success">New</button></td>
+        <td><button class="tiny success">增加</button></td>
         </form>
     </tr>
         {% for r in lab_center_list %}
@@ -32,8 +32,8 @@
                 <input class="del_id" type="hidden" value="{{ r.lcid }}"/>
                 <td>{{ r.lcid }}</td>
                 <td>{{ r.lcname }}</td>
-                <td><a class="button tiny" href="{{ r.lcid }}">More</a></td>
-                <td><button class="tiny alert delete">Delete</button></td>
+                <td><a class="button tiny" href="{{ r.lcid }}">详情</a></td>
+                <td><button class="tiny alert delete">删除</button></td>
             </tr>
         {% endfor %}
    </tbody>
