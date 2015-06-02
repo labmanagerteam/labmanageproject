@@ -289,3 +289,8 @@ def change_password_action(uid, new_password):
     with transaction.atomic():
         check_uid(uid)
         user_db.change_password(uid, new_password)
+
+
+def get_all_department():
+    department_filter = filter_result_dict_list([department.DID, department.DNAME])
+    return department_filter(department.get())
