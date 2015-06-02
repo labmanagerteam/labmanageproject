@@ -14,7 +14,7 @@ admin.autodiscover()
 check_open_lab_str = r"^check_open_lab"
 order_open_lab_str = r"^order_open_lab"
 check_user_order = r"^check_order"
-my_open_lab = r"^my_open_lab"
+my_open_lab = r"^open_lab_mine"
 add_user = r'^add_user'
 add = r'^add'
 get_all_lc_center_str = r'^lab_center'
@@ -23,6 +23,8 @@ set_semster_str = r'^set_semster'
 open_lab_str = r'^open_lab'
 my_order_str = r'^stu_myappoint'
 add_student_teacher = r'^add_student_teacher'
+new_open_lab = r"^open_lab_new"
+check_stu_app = r"^stu_app_check"
 
 
 urlpatterns = patterns('',
@@ -36,6 +38,8 @@ urlpatterns = patterns('',
                        url(r'^logout/$', all_check(logout)),
                        url(open_lab_str + r'/$', all_check(open_lab)),
                        url(open_lab_str + r'/open_lab_new/$', all_check(open_lab_new_view)),
+                       url(open_lab_str + r'/open_lab_check/$', all_check(check_open_lab)),
+                       url(open_lab_str + r'/open_lab_mine/$', all_check(my_open_lab_view)),
                        url(open_lab_str + r'/send_open_lab/$', all_check(send_open_lab)),
                        url(open_lab_str + r'/send_circle_open_lab/$', all_check(send_circle_open_lab_view)),
                        url(r'^get_lab_by_lcid/$', get_lab_by_lcid_view),
@@ -52,8 +56,10 @@ urlpatterns = patterns('',
                        url(check_user_order + r'/$', all_check(check_user_order_view)),
                        url(check_user_order + r'/reflect/$', all_check(check_user_order_reflect_view)),
                        url(check_user_order + r'/circle_reflect/$', all_check(check_circle_order_reflect_view)),
+                       url(new_open_lab + r'/$', all_check(open_lab_new_view)),
                        url(my_open_lab + r'/$', all_check(my_open_lab_view)),
                        url(my_open_lab + r'/detail/(.+)/(.+)$', all_check(my_open_lab_detail_view)),
+                       url(check_stu_app + r'/$', all_check(check_user_order_view)),
                        url(add_user + r'/$', all_check(add_user_view)),
                        url(add_user + r'/student_list/$', all_check(add_student_list_view)),
                        url(add_user + r'/one_teacher/$', all_check(add_one_teacher_view)),

@@ -60,7 +60,7 @@ def send_open_lab(request):
 
 
 def check_open_lab(request):
-    return render(request, "check_open_lab.html")
+    return render(request, "open_lab_check.html")
 
 
 def get_uncheck_open_lab(request):
@@ -180,7 +180,7 @@ def check_user_order_view(request):
     print "my_order_list: %s" % my_order_list
     my_order_list = join_list(my_order_list, get_my_unchecked_circle_order(uid))
     extra = u'<td><input type="button" class="accept" value="同意"/><input type="button" class="refuse" value="拒绝"/></td>'
-    return render(request, "check_user_order.html", locals())
+    return render(request, "stu_app_check.html", locals())
 
 
 @check_post_form({'action', 'order_id'})
@@ -215,7 +215,7 @@ def check_circle_order_reflect_view(request):
 
 def my_open_lab_view(request):
     open_lab_list = get_my_open_lab(get_uid(request))
-    return render(request, "my_open_lab.html", locals())
+    return render(request, "open_lab_mine.html", locals())
 
 
 def my_open_lab_detail_view(request, olid, type):
