@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component name="dataSourceStorage">
-  <data-source name="Django default" uuid="0666541c-6771-45a9-8f14-ac1b236a09c2">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
-  </data-source>
-  <data-source name="MySQL - labmanage@eelab.nju.edu.cn" uuid="b9872ac3-71c4-4d13-b4d4-7e4d3ef8fc4c">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
-  </data-source>
-</component>
