@@ -326,3 +326,7 @@ dl.tabs dd a {
     padding-top:100px;
     padding-bottom: 100px;
 }
+
+.tabs dd > a, .tabs .tab-title > a {
+  padding: 1rem 1.7rem;
+}

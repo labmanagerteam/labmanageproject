@@ -268,3 +268,8 @@ def my_order_view(request):
     [my_order, my_circle_order] = get_my_order_action(get_uid(request))
     my_all_order = join_list(my_order, my_circle_order)
     return render(request, "stu_myappoint.html", locals())
+
+def my_order_view_apply(request):
+    [my_order, my_circle_order] = get_my_order_action(get_uid(request))
+    my_all_order = join_list(my_order, my_circle_order)
+    return render(request, "stu_my_check.html", locals())

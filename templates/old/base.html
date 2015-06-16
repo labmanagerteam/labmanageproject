@@ -49,28 +49,8 @@
 
     </script>
     {% block staticfiles %}{% endblock %}
-<body>
 </head>
-{##}
-{#{% if perm_list %}#}
-{#    <div id="header">#}
-{#        <p class="in_header">姓名：{{ uname }} 身份：#}
-{#            {% for id in identity %}#}
-{#                {% if forloop.first %}#}
-{#                    {{ id }}#}
-{#                {% else %}#}
-{#                    /{{ id }}#}
-{#                {% endif %}#}
-{#            {% endfor %}#}
-{#            当前#}
-{#            {% if week %}#}
-{#                {{ week }}#}
-{#            {% else %}#}
-{#                在假期内#}
-{#            {% endif %}#}
-{#        </p>#}
-{#    </div>#}
-{#{% endif %}#}
+<body>
 <div class=" sticky fixed">
     <nav class="top-bar ">
         <ul class="title-area">
@@ -96,7 +76,7 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 {#      <li class="active"><a href="#">修改密码</a></li>#}
-                <li class=""><a href="#">退出</a></li>
+                <li class=""><a href="/logout">退出</a></li>
             </ul>
         </section>
     </nav>

@@ -6,33 +6,37 @@
 
 {% endblock %}
 {% block body %}
-            <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-                <div class="row collapse prefix-round">
-                    <div class="medium-1 medium-push-1 small-1 small-push-1 columns">
-                        <button class="button prefix">开始日期</button>
-                    </div>
-                    <div class="medium-2 medium-push-1 small-push-1  small-2 columns left">
-                        <input id="class-loop-start" type="text">
-                    </div>
-                    <div class="medium-1 medium-push-1 small-1 small-push-1  columns"></div>
+    <form id="semster_submit_form" method="post" action="do/">
+        {% csrf_token %}
+        <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+            <div class="row collapse prefix-round">
+                <div class="medium-1 medium-push-1 small-1 small-push-1 columns">
+                    <button class="button prefix">开始日期</button>
                 </div>
-                <div class="row collapse prefix-round">
-                    <div class="medium-1 medium-push-1 small-1 small-push-1  columns">
-                        <button class="button prefix ">结束日期</button>
-                    </div>
-                    <div class="medium-2 medium-push-1 small-2 small-push-1 columns left">
-                        <input id="class-loop-end" type="text">
-                    </div>
+                <div class="medium-2 medium-push-1 small-push-1  small-2 columns left">
+                    <input id="class-loop-start" type="date" name="begin_date">
                 </div>
-                <div class="row collapse prefix-round">
-                    <div class="medium-3 medium-push-1 small-3 small-push-1 columns">
-                        <button class="button prefix expand">确定</button>
-                    </div>
+                <div class="medium-1 medium-push-1 small-1 small-push-1  columns"></div>
+            </div>
+            <div class="row collapse prefix-round">
+                <div class="medium-1 medium-push-1 small-1 small-push-1  columns">
+                    <button class="button prefix ">结束日期</button>
                 </div>
-            </section>
-    <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
+                <div class="medium-2 medium-push-1 small-2 small-push-1 columns left">
+                    <input id="class-loop-end" type="date" name="end_date">
+                </div>
+            </div>
+            <div class="row collapse prefix-round">
+                <div class="medium-3 medium-push-1 small-3 small-push-1 columns">
+                    <button type="submit" class="button prefix expand">确定</button>
+                </div>
+            </div>
+        </section>
+    </form>
+{#    <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>#}
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
-    <script src="/static/js/jquery.cxcalendar.js"></script>
+{#    <script src="/static/js/jquery.cxcalendar.js"></script>#}
+    <script src="/static/js/set_semster.js"></script>
     <script>
         $(document).foundation();
         $.cxCalendar.defaults.startDate = 1980;

@@ -48,7 +48,7 @@ def get_perm_list(uid):
             PNAME: '我的预约'
         },
         {
-            URL: '/open_lab_check',
+            URL: '/stu_my_check',
             PNAME: '预约实验室'
         }
     ]

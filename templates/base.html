@@ -84,7 +84,8 @@
     <nav class="top-bar ">
         <ul class="title-area">
             <li class="name">
-                <h1>欢迎你，{{ uname }}! 身份
+                <h1>欢迎你，{{ uname }}&nbsp;&nbsp;
+                    身份：
                     {% for id in identity %}
                         {% if forloop.first %}
                             {{ id }}
@@ -105,7 +106,7 @@
             <!-- Right Nav Section -->
             <ul class="right">
                 {#      <li class="active"><a href="#">修改密码</a></li>#}
-                <li class=""><a href="#">退出</a></li>
+                <li class=""><a href="/logout">退出</a></li>
             </ul>
         </section>
     </nav>

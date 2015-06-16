@@ -6,7 +6,6 @@
     <script src="{% static "js/add2.js" %}"></script>
     <script>
         $(document).ready(function () {
-
             $('.reset').click(function(){
                 var uid = $(this).closest('tr').find('.del_id').val();
                 $.ajax({
@@ -19,7 +18,7 @@
                     type: 'post',
                     dataType: 'json',
                     success: function (data) {
-                        success_handler_g(data, "密码重置成功", false);
+                        success_handler_g(data, "密码重置成功,新密码为0", false);
                     },
                     error: function () {
                         error_handler_g();
