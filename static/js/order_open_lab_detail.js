@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $(".order").click(function () {
+    $(document).on('click',".order",function () {
         oldid = $(this).closest('tr').find('input[name="oldid"]').val();
         $button = $(this);
         if ($button.val() == "已预约") {
@@ -11,7 +11,7 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url: "/order_open_lab/order/",
+            url: "/stu_my_check/order/",
             type: 'post',
             data: {
                 oldid: oldid,
@@ -33,16 +33,17 @@ $(document).ready(function () {
         });
     });
 
-    $('.order_circle').click(function () {
+
+    $(document).on('click',".order_circle",function () {
         var coldid = $(this).closest('tr').find('input[name="coldid"]').val();
-        $button = $(this);
+        var $button = $(this);
         if ($button.val() == "已预约") {
             alert("这已经预约,请不要试第二次");
             return;
         }
 
         $.ajax({
-            url: "/order_open_lab/order_circle/",
+            url: "/stu_my_check/order_circle/",
             type: 'post',
             data: {
                 coldid: coldid,
@@ -63,4 +64,5 @@ $(document).ready(function () {
             }
         });
     });
+
 });

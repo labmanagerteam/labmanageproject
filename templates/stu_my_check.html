@@ -2,7 +2,14 @@
 {# 2015.5.4 #}
 {% extends "base.html" %}
 
+{% block staticfiles %}
+
+        <script type="text/javascript" src="/static/js/order_open_lab_detail.js"></script>
+
+{% endblock %}
+
 {% block body %}
+    {% load display %}
 
     <form action="" method="post">{% csrf_token %}
         <div>
@@ -19,44 +26,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <td>XX计划</td>
-                <td>赵国妍</td>
-                <td>基础实楼A</td>
-                <td>循环</td>
-                <td>2015-3-1</td>
-                <td>2015-5-14</td>
-                <td>
-                    <button class="tiny button" data-reveal-id="myModal">申请</button>
-                </td>
+                {% for n in now_r %}
+                    <tr>
+                        {% display_open_lab_in_oneline n %}
+                        <td>
+                            <button class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ n.olid }}/">申请</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+{#                <td>XX计划</td>#}
+{#                <td>赵国妍</td>#}
+{#                <td>基础实楼A</td>#}
+{#                <td>循环</td>#}
+{#                <td>2015-3-1</td>#}
+{#                <td>2015-5-14</td>#}
+{#                <td>#}
+{#                    <button class="tiny button" data-reveal-id="myModal">申请</button>#}
+{#                </td>#}
                 </tbody>
             </table>
 
             <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
                  role="dialog">
-                <table class="row">
-                    <thead>
-                    <tr>
-                        <th>实验室</th>
-                        <th>日期</th>
-                        <th>开始时间</th>
-                        <th>结束时间</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <td>412</td>
-                    <td>2015-5-14</td>
-                    <td>9：00</td>
-                    <td>12：00</td>
-                    <td>
-                        <button type="button" class="tiny" id="accept">通过</button>
-                        <button type="button" class="tiny" id="refuse">拒绝</button>
-                    </td>
-                    </tbody>
-                </table>
-
-                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
             </div>
+
         </div>
     </form>
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>

@@ -269,7 +269,20 @@ def my_order_view(request):
     my_all_order = join_list(my_order, my_circle_order)
     return render(request, "stu_myappoint.html", locals())
 
+
 def my_order_view_apply(request):
-    [my_order, my_circle_order] = get_my_order_action(get_uid(request))
-    my_all_order = join_list(my_order, my_circle_order)
+    # [my_order, my_circle_order] = get_my_order_action(get_uid(request))
+    # my_all_order = join_list(my_order, my_circle_order)
+    page_size = 20
+    page_number = 0
+    now_r = get_all_checked_open_lab(page_number, page_size)
     return render(request, "stu_my_check.html", locals())
+
+
+def my_order_view_apply_detail(request, olid):
+    this_open_lab = get_open_lab_by_olid(olid)[0]
+    if not this_open_lab:
+        return render(request, "old/error.html", {"error": '不存在这个开放计划'})
+
+    this_open_lab_detail_list = get_open_lab_detail_by_olid(olid, this_open_lab[TYPE])
+    return render(request, "stu_my_check_detail.html", locals())
