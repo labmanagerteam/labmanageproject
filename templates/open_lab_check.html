@@ -4,6 +4,7 @@
 {% block staticfiles %}
     {% load staticfiles %}
     <script src="{% static "js/check_open_lab.js" %}"></script>
+    <script src="{% static "js/check_user_order.js" %}"></script>
 {% endblock %}
 {% block body %}
     <ul class="tabs nice" data-tab role="tablist">
@@ -42,7 +43,6 @@
                     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
                 </div>
             </section>
-
             <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
                 <table class="row">
                     <thead>
@@ -51,22 +51,17 @@
                         <th>实验中心</th>
                         <th>实验室</th>
                         <th>申请人学号</th>
-                        <th>申请人姓名</th>
+                        <th>姓名</th>
                         <th>时间段</th>
                         <th>是否通过</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <td>XX计划</td>
-                    <td>基础实验楼A</td>
-                    <td>412</td>
-                    <td>121220147</td>
-                    <td>赵国妍</td>
-                    <td>时间段</td>
-                    <td>
-                        <button class="tiny button">通过</button>
-                        <button class="tiny button alert">拒绝</button>
-                    </td>
+                    {% if my_order_list %}
+                    {% load display %}
+                    {% else %}
+                    <th>暂无</th>
+                    {% endif %}
                     </tbody>
                 </table>
             </section>

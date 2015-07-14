@@ -51,7 +51,7 @@ var display_circle_detaail = function (data) {
 var add_more_open_lab = function () {
 
     $.ajax({
-        url: '/check_open_lab/get_uncheck_open_lab/',
+        url: '/open_lab/get_uncheck_open_lab/',
         data: {
             begin_line_number: page_number * page_size,
             page_size: page_size,
@@ -68,8 +68,8 @@ var add_more_open_lab = function () {
             if (data['result'] == 'e') {
                 alert("something error");
             } else if (data['result'] == 'no_more') {
-                $('#more').remove();
-                $('#content').append(no_more);
+                //$('#more').remove();
+                $('#panel2-1').append(no_more);
             } else if (data['result'] == 'success') {
                 console.log('append');
                 var inner_line = '';
