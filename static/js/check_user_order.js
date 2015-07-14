@@ -25,9 +25,9 @@ var reflect = function ($this, action) {
     var get_action = function () {
         var type = $this.closest('tr').find('input[name="type"]').val();
         if (type == "one_time") {
-            return '/check_order/reflect/';
+            return '/stu_app_check/reflect/';
         } else {
-            return '/check_order/circle_reflect/';
+            return '/stu_app_check/circle_reflect/';
         }
     };
 
