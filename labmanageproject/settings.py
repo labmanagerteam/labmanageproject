@@ -61,8 +61,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'labmanage',
-        'USER': 'root',
-        'PASSWORD': '13qbbddw',
+        'USER': 'labmanager',
+        'PASSWORD': 'labmanager123',
         'HOST': 'localhost',
         'PORT': 3306,
     }
