@@ -2,6 +2,7 @@
 {# 2015.5.4 #}
 {% extends "base.html" %}
 {% block body %}
+    {% load display %}
     <table class="row">
         <thead>
         <tr>
@@ -15,13 +16,21 @@
         </tr>
         </thead>
         <tbody>
-        <td>XX计划</td>
-        <td>赵国妍</td>
-        <td>基础实验楼A</td>
-        <td>循环</td>
-        <td>2015-3-1</td>
-        <td>2015-5-14</td>
-        <td>通过</td>
+{#        <td>XX计划</td>#}
+{#        <td>赵国妍</td>#}
+{#        <td>基础实验楼A</td>#}
+{#        <td>循环</td>#}
+{#        <td>2015-3-1</td>#}
+{#        <td>2015-5-14</td>#}
+{#        <td>通过</td>#}
+        {% for ol in open_lab_list %}
+
+            <tr>
+                {% display_open_lab_in_oneline ol %}
+                <td><a class="button" href="/my_open_lab/detail/{{ ol.olid }}/{{ ol.type }}">详情</a></td>
+            </tr>
+
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}
