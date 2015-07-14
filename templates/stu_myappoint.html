@@ -16,7 +16,11 @@
         </thead>
         <tbody>
             {% load display %}
+            {% if my_all_order %}
             {% display_order_body_state my_all_order %}
+            {% else %}
+                <th>暂无</th>
+            {% endif %}
         </tbody>
     </table>
 {% endblock %}
