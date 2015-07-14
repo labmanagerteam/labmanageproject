@@ -179,7 +179,10 @@ def check_user_order_view(request):
     my_order_list = get_my_unchecked_order(uid)
     print "my_order_list: %s" % my_order_list
     my_order_list = join_list(my_order_list, get_my_unchecked_circle_order(uid))
-    extra = u'<td><input type="button" class="accept" value="同意"/><input type="button" class="refuse" value="拒绝"/></td>'
+    # extra = u'<td><input type="button" class="tiny accept" value="同意"/><input type="button" ' \
+    #         u'class="tiny refuse" value="拒绝"/></td>'
+    extra = u'<td><button class="tiny success accept">同意</button><button class="tiny alert refuse">' \
+            u'拒绝</button></td>'
     return render(request, "stu_app_check.html", locals())
 
 

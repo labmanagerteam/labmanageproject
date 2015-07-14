@@ -1,7 +1,15 @@
 {# authored by ZhaoGuoyan #}
 {# 2015.5.4 #}
 {% extends "base.html" %}
+{% block staticfiles %}
+
+    {% load staticfiles %}
+    <script src="{% static "js/check_user_order.js" %}"></script>
+
+{% endblock %}
 {% block body %}
+    {% if my_order_list %}
+        {% load display %}
     <table>
         <thead>
         <tr>
@@ -15,18 +23,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>开放计划</td>
-            <td>试验中心</td>
-            <td>实验室</td>
-            <td>申请人学号</td>
-            <td>申请人状态}</td>
-            <td>时间段</td>
-            <td>
-                <button class="tiny success">同意</button>
-                <button class="tiny alert">拒绝</button>
-            </td>
-        </tr>
+{#        <tr>#}
+{#            <td>开放计划</td>#}
+{#            <td>试验中心</td>#}
+{#            <td>实验室</td>#}
+{#            <td>申请人学号</td>#}
+{#            <td>申请人状态}</td>#}
+{#            <td>时间段</td>#}
+{#            <td>#}
+{#                <button class="tiny success">同意</button>#}
+{#                <button class="tiny alert">拒绝</button>#}
+{#            </td>#}
+{#        </tr>#}
+        {% display_order_body my_order_list extra %}
         </tbody>
     </table>
+    {% else %}
+        <p>暂无</p>
+    {% endif %}
 {% endblock %}
