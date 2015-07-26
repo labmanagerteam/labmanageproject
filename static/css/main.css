@@ -23,9 +23,11 @@ a:hover {
 	color:#FFF;
 }
 .top-bar-section ul li {
-
 	font-family: "Century Gothic","Microsoft Yahei", sans-serif;
 	color:#FFF;
+}
+.top-bar-section .has-dropdown > a:after {
+
 }
 .system-name p {
 	color: #000;
@@ -179,7 +181,7 @@ button {
 	background: #3b5998;
 }
 .top-bar-section li:not(.has-form) a:not(.button) {
-	padding: 0 0.9375rem;
+	padding: 0 0.9375rem!important;
 	line-height: 2.8125rem;
 	background: #3b5998;
 }

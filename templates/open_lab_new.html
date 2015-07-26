@@ -54,7 +54,7 @@
                             <input id="openlab_single_date" type="text">
                         </td>
                         <td>
-                            <select id="single_time_start" name="class-choose-start" class="medium">
+                            <select id="single_time_start" name="single_time_start" class="medium">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -74,7 +74,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="single_time_end" name="class-choose-end" class="medium">
+                            <select id="single_time_end" name="single_time_end" class="medium">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -154,7 +154,7 @@
                         <a href="#" class="button prefix">开始周数</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="loop_week_start" name="class-choose-end" class="medium">
+                        <select id="loop_week_start" name="loop_week_start" class="medium">
                             <option value="" selected=""></option>
                             <option value="w1">1</option>
                             <option value="w2">2</option>
@@ -178,7 +178,7 @@
                         <a href="#" class="button prefix">结束周数</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="loop_week_end" name="class-choose-end" class="medium">
+                        <select id="loop_week_end" name="loop_week_end" class="medium">
                             <option value="" selected=""></option>
                             <option value="w1">1</option>
                             <option value="w2">2</option>
@@ -202,6 +202,7 @@
                     <thead>
                     <tr>
                         <th width="20%">实验室</th>
+                        <th width="20%">星期几</th>
                         <th width="20%">开始时间</th>
                         <th width="20%">结束时间</th>
                         <th width="20%">操作</th>
@@ -211,9 +212,21 @@
 
                     <tr>
                         <td><input type="text" name="labname" placeholder="实验室名称"></td>
+                        <td>
+                            <select name="" id="">
+                                <option value="" selected=""></option>
+                                <option value="0">周一</option>
+                                <option value="1">周二</option>
+                                <option value="2">周三</option>
+                                <option value="3">周四</option>
+                                <option value="4">周五</option>
+                                <option value="5">周六</option>
+                                <option value="6">周日</option>
+                            </select>
+                        </td>
 
                         <td>
-                            <select id="loop_time_start" name="class-choose-end" class="medium">
+                            <select id="loop_time_start" name="loop_time_start" class="medium">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -233,7 +246,7 @@
                             </select>
                         </td>
                         <td>
-                             <select id="loop_time_end" name="class-choose-end" class="medium">
+                            <select id="loop_time_end" name="loop_time_end" class="medium">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
