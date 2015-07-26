@@ -227,7 +227,7 @@ def my_open_lab_detail_view(request, olid, type):
     if old_list:
         for old in old_list:
             oldid = old[OLDID]
-            # oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
+            oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
         return render(request, "open_lab_mine_detail.html",locals())
     else:
         return render(request, "error.html", {'error': 'no the oldid'})
