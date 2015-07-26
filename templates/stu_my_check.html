@@ -30,7 +30,8 @@
                     <tr>
                         {% display_open_lab_in_oneline n %}
                         <td>
-                            <button class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ n.olid }}/">申请</button>
+{#                            <button class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ n.olid }}/">申请</button>#}
+                            <a class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ n.olid }}/">申请</a>
                         </td>
                     </tr>
                 {% endfor %}

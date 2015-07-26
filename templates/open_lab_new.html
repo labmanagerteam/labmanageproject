@@ -5,17 +5,17 @@
     <link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
 {% endblock %}
 {% block body %}
-    <ul class="tabs nice" data-tab role="tablist">
-        <li class="tab-title active" role="presentational" >
-            <a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">单次开放计划</a>
+    <ul class="tabs nice" data-tab role="tablist" data-options="deep_linking:true">
+        <li class="tab-title active" role="presentational">
+            <a href="#single" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">单次开放计划</a>
         </li>
-        <li class="tab-title" role="presentational" >
-            <a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">循环开放计划</a>
+        <li class="tab-title" role="presentational">
+            <a href="#circle" role="tab" tabindex="0" aria-selected="false" controls="panel2-2">循环开放计划</a>
         </li>
     </ul>
     <form action="" method="post">{% csrf_token %}
-    <div class="tabs-content">
-            <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+        <div class="tabs-content">
+            <section role="tabpanel" aria-hidden="false" class="content active" id="single">
                 <div class="row collapse prefix-round">
                     <div class="small-1 columns">
                         <a href="#" class="button prefix">计划名称</a>
@@ -32,6 +32,10 @@
                             {{ form.lcid }}
                         </select>
                     </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-2 columns left">
+                        <button class="tiny button" type="submit">确认提交</button>
+                    </div>
                 </div>
                 <table class="row">
                     <thead>
@@ -40,46 +44,58 @@
                         <th width="20%">开放日期</th>
                         <th width="20%">开始时间</th>
                         <th width="20%">结束时间</th>
-                        <th width="20%">删除</th>
+                        <th width="20%">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="text" name="labname" value="实验室名称"></td>
-                        <td></td>
+                        <td><input type="text" name="labname" placeholder="实验室名称"></td>
                         <td>
-                            <select id="class-choose-start" name="class-choose-start" class="medium">
-                                 <option value="" selected=""></option>
-                                 <option value="class-1">1</option>
-                                 <option value="class-2">2</option>
-                                 <option value="class-3">3</option>
-                                 <option value="class-4">4</option>
-                                 <option value="class-5">5</option>
-                                 <option value="class-6">6</option>
-                                 <option value="class-7">7</option>
-                                 <option value="class-8">8</option>
-                                 <option value="class-9">9</option>
-                                 <option value="class-10">10</option>
-                                 <option value="class-11">11</option>
-                             </select>
+                            <input id="openlab_single_date" type="text">
                         </td>
                         <td>
-                            <select id="class-choose-end" name="class-choose-end" class="medium">
-                                 <option value="" selected=""></option>
-                                 <option value="class-1">1</option>
-                                 <option value="class-2">2</option>
-                                 <option value="class-3">3</option>
-                                 <option value="class-4">4</option>
-                                 <option value="class-5">5</option>
-                                 <option value="class-6">6</option>
-                                 <option value="class-7">7</option>
-                                 <option value="class-8">8</option>
-                                 <option value="class-9">9</option>
-                                 <option value="class-10">10</option>
-                                 <option value="class-11">11</option>
-                             </select>
+                            <select id="single_time_start" name="class-choose-start" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
                         </td>
-                        <td><button class="tiny success">增加</button></td>
+                        <td>
+                            <select id="single_time_end" name="class-choose-end" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="tiny success">增加</button>
+                        </td>
                     </tr>
                     {% for in_form in form_set %}
                         <tr>
@@ -96,7 +112,7 @@
                                 {{ in_form.end_time }}
                             </td>
                             <td>
-{#                        <input class="delete_one_detail" type="button" value="删除"/>#}
+                                {#                        <input class="delete_one_detail" type="button" value="删除"/>#}
                                 <button class="tiny alert">删除</button>
                             </td>
                         </tr>
@@ -106,8 +122,8 @@
                 </table>
             </section>
 
-            <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-                 <div class="row collapse prefix-round">
+            <section role="tabpanel" aria-hidden="true" class="content" id="circle">
+                <div class="row collapse prefix-round">
                     <div class="small-1 columns">
                         <a href="#" class="button prefix">计划名称</a>
                     </div>
@@ -119,7 +135,7 @@
                         <a href="#" class="button prefix">实验中心</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="lab-choose-openlab" name="lab-choose" class="medium">
+                        <select id="lab_choose_olc" name="lab-choose" class="medium">
                             <option value="" selected=""></option>
                             <option value="lab-a">实验楼A</option>
                             <option value="lab-b">实验楼B</option>
@@ -128,70 +144,117 @@
                             <option value="lab-e">实验楼E</option>
                         </select>
                     </div>
+                    <div class="columns small-1"></div>
+                    <div class="columns small-2 left">
+                        <button class="tiny button">确认提交</button>
+                    </div>
                 </div>
                 <div class="row collapse prefix-round">
                     <div class="small-1 columns">
-                        <a href="#" class="button prefix">开始日期</a>
+                        <a href="#" class="button prefix">开始周数</a>
                     </div>
                     <div class="small-2 columns left">
-                        <input id="class-loop-start" type="text">
+                        <select id="loop_week_start" name="class-choose-end" class="medium">
+                            <option value="" selected=""></option>
+                            <option value="w1">1</option>
+                            <option value="w2">2</option>
+                            <option value="w3">3</option>
+                            <option value="w4">4</option>
+                            <option value="w5">5</option>
+                            <option value="w6">6</option>
+                            <option value="w7">7</option>
+                            <option value="w8">8</option>
+                            <option value="w9">9</option>
+                            <option value="w10">10</option>
+                            <option value="w11">11</option>
+                            <option value="w12">12</option>
+                            <option value="w13">13</option>
+                            <option value="w14">14</option>
+                            <option value="w15">15</option>
+                        </select>
                     </div>
                     <div class="small-1 columns"></div>
                     <div class="small-1 columns">
-                        <a href="#" class="button prefix">结束日期</a>
+                        <a href="#" class="button prefix">结束周数</a>
                     </div>
                     <div class="small-2 columns left">
-                        <input id="class-loop-end" type="text">
+                        <select id="loop_week_end" name="class-choose-end" class="medium">
+                            <option value="" selected=""></option>
+                            <option value="w1">1</option>
+                            <option value="w2">2</option>
+                            <option value="w3">3</option>
+                            <option value="w4">4</option>
+                            <option value="w5">5</option>
+                            <option value="w6">6</option>
+                            <option value="w7">7</option>
+                            <option value="w8">8</option>
+                            <option value="w9">9</option>
+                            <option value="w10">10</option>
+                            <option value="w11">11</option>
+                            <option value="w12">12</option>
+                            <option value="w13">13</option>
+                            <option value="w14">14</option>
+                            <option value="w15">15</option>
+                        </select>
                     </div>
                 </div>
                 <table class="row">
                     <thead>
                     <tr>
                         <th width="20%">实验室</th>
-                        <th width="20%">开放日期</th>
                         <th width="20%">开始时间</th>
                         <th width="20%">结束时间</th>
-                        <th width="20%">删除</th>
+                        <th width="20%">操作</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     <tr>
-                        <td><input type="text" name="labname" value="实验室名称"></td>
-                        <td></td>
+                        <td><input type="text" name="labname" placeholder="实验室名称"></td>
+
                         <td>
-                             <select id="class-choose-start" name="class-choose-start" class="medium">
-                                 <option value="" selected=""></option>
-                                 <option value="class-1">1</option>
-                                 <option value="class-2">2</option>
-                                 <option value="class-3">3</option>
-                                 <option value="class-4">4</option>
-                                 <option value="class-5">5</option>
-                                 <option value="class-6">6</option>
-                                 <option value="class-7">7</option>
-                                 <option value="class-8">8</option>
-                                 <option value="class-9">9</option>
-                                 <option value="class-10">10</option>
-                                 <option value="class-11">11</option>
-                             </select>
+                            <select id="loop_time_start" name="class-choose-end" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
                         </td>
                         <td>
-                            <select id="class-choose-end" name="class-choose-end" class="medium">
-                                 <option value="" selected=""></option>
-                                 <option value="class-1">1</option>
-                                 <option value="class-2">2</option>
-                                 <option value="class-3">3</option>
-                                 <option value="class-4">4</option>
-                                 <option value="class-5">5</option>
-                                 <option value="class-6">6</option>
-                                 <option value="class-7">7</option>
-                                 <option value="class-8">8</option>
-                                 <option value="class-9">9</option>
-                                 <option value="class-10">10</option>
-                                 <option value="class-11">11</option>
-                             </select>
+                             <select id="loop_time_end" name="class-choose-end" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
                         </td>
-                        <td><button class="tiny success">增加</button></td>
+                        <td>
+                            <button class="tiny success">增加</button>
+                        </td>
                     </tr>
 
                     {% for in_form in form_set %}
@@ -209,7 +272,6 @@
                                 {{ in_form.end_time }}
                             </td>
                             <td>
-{#                        <input class="delete_one_detail" type="button" value="删除"/>#}
                                 <button class="tiny alert">删除</button>
                             </td>
                         </tr>
@@ -218,7 +280,7 @@
                     </tbody>
                 </table>
             </section>
-    </div>
+        </div>
     </form>
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
@@ -230,7 +292,6 @@
             monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             weekList: ['Sun', 'Mon', 'Tur', 'Wed', 'Thu', 'Fri', 'Sat']
         };
-        $('#class-loop-start').cxCalendar();
-        $('#class-loop-end').cxCalendar();
+        $("#class-only-date").cxCalendar();
     </script>
 {% endblock %}

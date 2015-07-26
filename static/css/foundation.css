@@ -1821,8 +1821,7 @@ meta.foundation-mq-topbar {
     clear: both;
     height: 1px;
     width: 100%; }
-  .top-bar-section ul li {
-    background: #333333; }
+
     .top-bar-section ul li > a {
       display: block;
       width: 100%;

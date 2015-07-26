@@ -6,28 +6,40 @@
     <table class="row">
         <thead>
         <tr>
-            <th >开放计划名称</th>
-            <th >申请人</th>
-            <th >实验中心</th>
-            <th >开放类型</th>
-            <th >计划开始时间</th>
-            <th >计划结束时间</th>
-            <th >状态</th>
+            <th>开放计划名称</th>
+            <th>申请人</th>
+            <th>实验中心</th>
+            <th>开放类型</th>
+            <th>计划开始时间</th>
+            <th>计划结束时间</th>
+            <th>状态</th>
         </tr>
         </thead>
         <tbody>
         {% if open_lab_list %}
-        {% for ol in open_lab_list %}
+            {% for ol in open_lab_list %}
 
-            <tr>
-                {% display_open_lab_in_oneline ol %}
-                <td><a class="button" href="/my_open_lab/detail/{{ ol.olid }}/{{ ol.type }}">详情</a></td>
-            </tr>
+                <tr>
+                    {% display_open_lab_in_oneline ol %}
+                    <td>
+                        {#                    <button class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ n.olid }}/">申请</button>#}
+                        <button class="button tiny toModel" data-reveal-id="mineModal"
+                                data-reveal-ajax="detail/{{ ol.olid }}/{{ ol.type }}">详情
+                        </button>
+                    </td>
+                </tr>
 
-        {% endfor %}
+            {% endfor %}
         {% else %}
             <th>暂无</th>
         {% endif %}
         </tbody>
     </table>
+    <div id="mineModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+         role="dialog">
+    </div>
+    <script type="text/javascript" src="/static/js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
 {% endblock %}

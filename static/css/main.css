@@ -13,15 +13,17 @@ a:active,
 a:hover {
 	color: #E5CF5F;
 }
+#logo-img {
+    width: 100%;
+    height: auto;
+
+}
 .top-bar .name h1 {
-	position: relative;
-	left: 10%;
 	font-family: "Century Gothic","Microsoft Yahei", sans-serif;
 	color:#FFF;
 }
 .top-bar-section ul li {
-	position: relative;
-	right: 10%;
+
 	font-family: "Century Gothic","Microsoft Yahei", sans-serif;
 	color:#FFF;
 }
