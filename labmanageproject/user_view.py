@@ -267,7 +267,6 @@ def get_all_lab_center_view(request):
     lab_center_list = get_all_lab_center_action()
     return render(request, "lab_center.html", locals())
 
-
 def get_one_lab_center_detail_view(request, lcid):
     print "get_one_lab_center_detail_view"
     one_lab_center = {

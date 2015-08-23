@@ -51,7 +51,7 @@ var get_lab_c = function (lcid) {
 
 $(document).ready(function () {
 
-    var $clcid = $("#c_lcid");
+    var $clcid = $("#loop_labcenter");
     get_lab_c($clcid.val());
     add_no_empty();
 

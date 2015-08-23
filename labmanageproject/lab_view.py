@@ -11,6 +11,7 @@ from labmanageproject.my_decorator import *
 from labmanageproject.semster_action import get_max_week, get_now_week
 from labmanageproject.utility import *
 from labmanageproject.error_code import *
+from labmanageproject.user_manage import get_all_lab_center_action
 
 def get_uid(request):
     return request.session['my_user']['uid']
@@ -36,6 +37,7 @@ def open_lab(request):
 
 
 def open_lab_new_view(request):
+    lab_center_list = get_all_lab_center_action()
     return render(request, "open_lab_new.html", locals())
 
 

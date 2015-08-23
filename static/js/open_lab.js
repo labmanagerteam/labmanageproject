@@ -138,7 +138,7 @@ var circle_handle = function () {
 
 $(document).ready(function () {
 
-    var $lcid = $('#lcid');
+    var $lcid = $('#single_labcenter');
     get_lab($lcid.val());
 
     $('#add_button').click(function () {

@@ -2,6 +2,10 @@
 {# 2015.5.4 #}
 {% extends "base.html" %}
 {% block staticfiles %}
+    {% load staticfiles %}
+    <script src="{% static "js/jquery.form.js" %}"></script>
+    <script src="{% static "js/open_lab.js" %}"></script>
+    <script src="{% static "js/open_circle_lab.js" %}"></script>
     <link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
 {% endblock %}
 {% block body %}
@@ -29,7 +33,9 @@
                 </div>
                 <div class="small-2 columns left">
                     <select id="single_labcenter" name="single_labcenter" class="medium">
-                        {{ form.lcid }}
+                        {% for lab_center in lab_center_list %}
+                            <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="small-1 columns"></div>
@@ -145,12 +151,9 @@
                 </div>
                 <div class="small-2 columns left">
                     <select id="loop_labcenter" name="loop_labcenter" class="medium">
-                        <option value="" selected=""></option>
-                        <option value="lab-a">实验楼A</option>
-                        <option value="lab-b">实验楼B</option>
-                        <option value="lab-c">实验楼C</option>
-                        <option value="lab-d">实验楼D</option>
-                        <option value="lab-e">实验楼E</option>
+                        {% for lab_center in lab_center_list %}
+                            <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="columns small-1"></div>
