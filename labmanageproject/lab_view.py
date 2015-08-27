@@ -38,6 +38,13 @@ def open_lab(request):
 
 def open_lab_new_view(request):
     lab_center_list = get_all_lab_center_action()
+    week_list = []
+    a = get_now_week(request)
+
+    if a:
+        b = get_max_week()
+        for t in xrange(a, b + 1):
+            week_list.append(t)
     return render(request, "open_lab_new.html", locals())
 
 

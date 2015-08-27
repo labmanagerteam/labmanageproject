@@ -2,16 +2,16 @@
  * Created by wlw on 15-1-5.
  */
 
-var create_time = function (name) {
-    var time = '<select class="number_menu" name="' + name + '">';
-    var i = 8;
-    while (i <= 22) {
-        time += '<option value="' + i + '">' + i + '</option>';
-        ++i;
-    }
-    time += '</select>';
-    return time;
-};
+//var create_time = function (name) {
+//    var time = '<select class="number_menu" name="' + name + '">';
+//    var i = 8;
+//    while (i <= 22) {
+//        time += '<option value="' + i + '">' + i + '</option>';
+//        ++i;
+//    }
+//    time += '</select>';
+//    return time;
+//};
 
 var one_line = '';
 
@@ -141,7 +141,7 @@ $(document).ready(function () {
     var $lcid = $('#single_labcenter');
     get_lab($lcid.val());
 
-    $('#add_button').click(function () {
+    $('#single_add').click(function () {
         console.log("begin add");
         $(this).closest('tr').before(one_line);
         $('.selectmenu').selectmenu();

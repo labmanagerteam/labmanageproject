@@ -2,10 +2,6 @@
 {# 2015.5.4 #}
 {% extends "base.html" %}
 {% block staticfiles %}
-    {% load staticfiles %}
-    <script src="{% static "js/jquery.form.js" %}"></script>
-    <script src="{% static "js/open_lab.js" %}"></script>
-    <script src="{% static "js/open_circle_lab.js" %}"></script>
     <link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
 {% endblock %}
 {% block body %}
@@ -43,7 +39,7 @@
                     <button id="single_submit_all" class="tiny button" type="submit">确认提交</button>
                 </div>
             </div>
-            <table class="row">
+            <table class="row" id="single_t">
                 <thead>
                 <tr>
                     <th width="20%">实验室</th>
@@ -57,12 +53,6 @@
                 <tr>
                     <td>
                         <select id="single_labname" name="single_labname" class="medium">
-                            <option value="" selected="">请选择实验室</option>
-                            <option value="lab1">lab1</option>
-                            <option value="lab2">lab2</option>
-                            <option value="lab3">lab3</option>
-                            <option value="lab4">lab4</option>
-                            <option value="lab5">lab5</option>
                         </select>
                     </td>
                     <td>
@@ -167,22 +157,9 @@
                 </div>
                 <div class="small-2 columns left">
                     <select id="loop_week_start" name="loop_week_start" class="medium">
-                        <option value="" selected=""></option>
-                        <option value="w1">1</option>
-                        <option value="w2">2</option>
-                        <option value="w3">3</option>
-                        <option value="w4">4</option>
-                        <option value="w5">5</option>
-                        <option value="w6">6</option>
-                        <option value="w7">7</option>
-                        <option value="w8">8</option>
-                        <option value="w9">9</option>
-                        <option value="w10">10</option>
-                        <option value="w11">11</option>
-                        <option value="w12">12</option>
-                        <option value="w13">13</option>
-                        <option value="w14">14</option>
-                        <option value="w15">15</option>
+                        {% for w in week_list %}
+                            <option value="{{ w }}">第{{ w }}周</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="small-1 columns"></div>
@@ -191,26 +168,13 @@
                 </div>
                 <div class="small-2 columns left">
                     <select id="loop_week_end" name="loop_week_end" class="medium">
-                        <option value="" selected=""></option>
-                        <option value="w1">1</option>
-                        <option value="w2">2</option>
-                        <option value="w3">3</option>
-                        <option value="w4">4</option>
-                        <option value="w5">5</option>
-                        <option value="w6">6</option>
-                        <option value="w7">7</option>
-                        <option value="w8">8</option>
-                        <option value="w9">9</option>
-                        <option value="w10">10</option>
-                        <option value="w11">11</option>
-                        <option value="w12">12</option>
-                        <option value="w13">13</option>
-                        <option value="w14">14</option>
-                        <option value="w15">15</option>
+                        {% for w in week_list %}
+                            <option value="{{ w }}">第{{ w }}周</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
-            <table class="row">
+            <table class="row" id="loop_t">
                 <thead>
                 <tr>
                     <th width="20%">实验室</th>
@@ -225,12 +189,6 @@
                 <tr>
                     <td>
                         <select id="loop_labname" name="loop_labname" class="medium">
-                            <option value="" selected="">请选择实验室</option>
-                            <option value="lab1">lab1</option>
-                            <option value="lab2">lab2</option>
-                            <option value="lab3">lab3</option>
-                            <option value="lab4">lab4</option>
-                            <option value="lab5">lab5</option>
                         </select>
                     </td>
                     <td>
@@ -295,7 +253,7 @@
             </table>
         </section>
     </div>
-    <form id="loop_form" action="" method="post">{% csrf_token %}
+    <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}
         <input type="hidden" name="olname" value=""/>
         <input type="hidden" name="lcid" value=""/>
         <input type="hidden" name="begin_week_number" value=""/>
@@ -315,7 +273,8 @@
 
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
-    <script src="/static/js/jquery.cxcalendar.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cxcalendar.js"></script>
     <script>
         $(document).foundation();
         $.cxCalendar.defaults.startDate = 2000;
@@ -341,7 +300,15 @@
             $("#loop_form input[name=end_week_number]").val(end_week_number);
         });
         var single_add = function () {
+            var lid = $('#single_labname').val();
+            var weekday = $('#loop_weekday').val();
+            var begin_time = $('#loop_time_start').val();
+            var end_time = $('#loop_time_end').val();
 
+            var labname = $("#loop_labname option[value=" + lid + "]").text();
+            var weekday_show = $("#loop_weekday option[value=" + weekday + "]").text();
+            var begin_time_show = $("#loop_time_start option[value=" + begin_time + "]").text();
+            var end_time_show = $("#loop_time_end option[value=" + end_time + "]").text();
         };
         var single_check = function () {
             $("#single_form input").each(function () {
@@ -372,13 +339,25 @@
             );
 
         };
+
+        var loop_check = function () {
+            $("#loop_form input").each(function () {
+                if ($(this).val() == '') {
+                    return false;
+                }
+            });
+            return true;
+        };
+
         $(document).on('click', '.loop_delete, .single_delete', function () {
             $(this).find("tr").remove();
         });
+
         $(document).on('click', '#single_add', function () {
 
             single_add();
         });
+
         $(document).on('click', '#single_submit_all', function () {
             if (single_check() == true) {
                 //提交
@@ -387,15 +366,18 @@
                 alert("表单数据不合法,请重新填写");
             }
         });
+
         $(document).on('click', '#loop_add', function () {
 
             loop_add();
+            submit();
 
         });
-        $(document).on('click', '#loop_submit_all', function () {
+
+        var submit = function () {
             if (loop_check() == true) {
-                $(this).ajaxSubmit({
-                    beforeSubmit: function (arr, $form, options) {
+                $('#loop_form').ajaxSubmit({
+                        beforeSubmit: function (arr, $form, options) {
                         for (var i in arr) {
                             console.log(arr[i]);
                         }
@@ -415,6 +397,7 @@
                         for (var i = 0; i < lid_list.length; ++i) {
                             if (Number(begin_time_list[i]) >= Number(end_time_list[i])) {
                                 alert("开始时间应在结束时间之后");
+                                return false;
                             }
                             for (var j = 0; j < i; ++j) {
                                 if (lid_list[i] == lid_list[j] && weekday_list[i] == weekday_list[j]) {
@@ -426,36 +409,91 @@
                                 }
                             }
                         }
-
                         return true;
                     },
                     dataType: 'json',
+
                     success: function (data) {
-                        if (data['result'] == 'success') {
-                            confirm("你的开放计划已提交，请等待管理员审核");
-                        } else {
-                            if (data["join_list"]) {
-                                var join_list = data["join_list"];
-                                var s = "第" + join_list[0];
-                                for (var i = 1; i < join_list.length; ++i) {
-                                    s += "," + join_list[i]
-                                }
-                                s += "行与现有开放计划冲突";
-                                alert(s);
-                            } else {
-                                alert(data['msg']);
-                            }
-                        }
+                        alert('success');
+{#                        if (data['result'] == 'success') {#}
+{#                            confirm("你的开放计划已提交，请等待管理员审核");#}
+{#                        } else {#}
+{#                            if (data["join_list"]) {#}
+{#                                var join_list = data["join_list"];#}
+{#                                var s = "第" + join_list[0];#}
+{#                                for (var i = 1; i < join_list.length; ++i) {#}
+{#                                    s += "," + join_list[i]#}
+{#                                }#}
+{#                                s += "行与现有开放计划冲突";#}
+{#                                alert(s);#}
+{#                            } else {#}
+{#                                alert(data['msg']);#}
+{#                            }#}
+{#                        }#}
                     },
                     error: function () {
-                        error_handler_g();
+                        alert("something wrong");
+{#                        error_handler_g();#}
                     }
                 });
             }
             else {
                 alert("表单数据不合法，请重新填写");
             }
+        };
+
+    $(document).ready(function() {
+
+        get_lab(1, $('#single_labcenter').val());
+
+        get_lab(2, $('#loop_labcenter').val());
+
+        $('#single_labcenter').change(function() {
+            get_lab(1, $(this).val());
+            var table = document.getElementById("single_t");
+            while (table.rows.length != 2) {
+                table.deleteRow(2);
+            }
         });
+
+        $('#loop_labcenter').change(function() {
+            get_lab(2, $(this).val());
+            var table = document.getElementById("loop_t");
+            while (table.rows.length != 2) {
+                table.deleteRow(2);
+            }
+        });
+
+    });
+
+    var get_lab = function(i, lcid) {
+        $.ajax({
+            type: 'get',
+            url: '/get_lab_by_lcid',
+            data: {
+                lcid: lcid
+            },
+            dataType: 'json',
+            success: function(data) {
+                if(i === 1) {
+                    $('#single_labname').empty();
+                    $('#single_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                    for (var j = 0; j < data.length; j++) {
+                        $('#single_labname').append("<option value=\"" +data[j].lid + "\">" + data[j].lname + "</option>");
+                    }
+                } else {
+                    $('#loop_labname').empty();
+                    $('#loop_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                    for (var j = 0; j < data.length; j++) {
+                        $('#loop_labname').append("<option value=\"" +data[j].lid + "\">" + data[j].lname + "</option>");
+                    }
+                }
+            },
+            error: function() {
+                console.log('error');
+            }
+        });
+    };
 
     </script>
 {% endblock %}
