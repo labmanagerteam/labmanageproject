@@ -231,15 +231,21 @@ def my_open_lab_view(request):
 
 
 def my_open_lab_detail_view(request, olid, type):
-    old_list = get_open_lab_detail_by_olid(olid, type)
+    # old_list = get_open_lab_detail_by_olid(olid, type)
+    #
+    # if old_list:
+    #     for old in old_list:
+    #         oldid = old[OLDID]
+    #         oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
+    #     return render(request, "open_lab_mine_detail.html",locals())
+    # else:
+    #     return render(request, "error.html", {'error': 'no the oldid'})
+    this_open_lab = get_open_lab_by_olid(olid)[0]
+    if not this_open_lab:
+        return render(request, "error.html", {"error": '不存在这个开放计划'})
 
-    if old_list:
-        for old in old_list:
-            oldid = old[OLDID]
-            oldid['ordered'] = get_unchecked_order_by_oldid(oldid)
-        return render(request, "open_lab_mine_detail.html",locals())
-    else:
-        return render(request, "error.html", {'error': 'no the oldid'})
+    this_open_lab_detail_list = get_open_lab_detail_by_olid(olid, this_open_lab[TYPE])
+    return render(request, "open_lab_mine_detail.html", locals())
 
 
 def today_order_view(request):
