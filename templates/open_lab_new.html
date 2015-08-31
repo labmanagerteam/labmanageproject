@@ -7,7 +7,7 @@
 {% block body %}
     <ul class="tabs nice" data-tab role="tablist" data-options="deep_linking:true">
         <li class="tab-title active" role="presentational">
-            <a href="#single" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">单次开放计划</a>
+            <a href="#onetime" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">单次开放计划</a>
         </li>
         <li class="tab-title" role="presentational">
             <a href="#circle" role="tab" tabindex="0" aria-selected="false" controls="panel2-2">循环开放计划</a>
@@ -29,7 +29,7 @@
                         <a href="#" class="button prefix">实验中心</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="lcid" name="lcid" class="medium">
+                        <select id="single_labcenter" name="single_labcenter" class="medium">
                             {% for lab_center in lab_center_list %}
                                 <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
                             {% endfor %}
@@ -44,7 +44,7 @@
                         <button id="submit" class="tiny success" type="button">确认提交</button>
                     </div>
                 </div>
-                <table class="row" id="circle">
+                <table class="row" id="single_t">
                     <thead>
                     <tr>
                         <th width="20%">实验室</th>
@@ -199,7 +199,7 @@
                         <a href="#" class="button prefix">实验中心</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="lcid" name="lcid" class="medium">
+                        <select id="loop_labcenter" name="loop_labcenter" class="medium">
                             {% for lab_center in lab_center_list %}
                                 <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
                             {% endfor %}
@@ -236,7 +236,7 @@
                         </select>
                     </div>
                 </div>
-                <table class="row" id="circle_detail_table">
+                <table class="row" id="loop_t">
                     <thead>
                     <tr>
                         <th width="20%">实验室</th>
@@ -316,23 +316,23 @@
             </form>
         </section>
     </div>
-    <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}
-        <input type="hidden" name="olname" value=""/>
-        <input type="hidden" name="lcid" value=""/>
-        <input type="hidden" name="begin_week_number" value=""/>
-        <input type="hidden" name="end_week_number" value=""/>
-        <input type="hidden" name="lid" value=""/>
-        <input type="hidden" name="weekday" value=""/>
-        <input type="hidden" name="begin_time" value=""/>
-        <input type="hidden" name="end_time" value=""/>
-    </form>
-    <form id="single_form" action="" method="post">{% csrf_token %}
-        <input type="hidden" name="olname" value=""/>
-        <input type="hidden" name="lcid" value=""/>
-        <input type="hidden" name="lid" value=""/>
-        <input type="hidden" name="begin_time" value=""/>
-        <input type="hidden" name="end_time" value=""/>
-    </form>
+{#    <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}#}
+{#        <input type="hidden" name="olname" value=""/>#}
+{#        <input type="hidden" name="lcid" value=""/>#}
+{#        <input type="hidden" name="begin_week_number" value=""/>#}
+{#        <input type="hidden" name="end_week_number" value=""/>#}
+{#        <input type="hidden" name="lid" value=""/>#}
+{#        <input type="hidden" name="weekday" value=""/>#}
+{#        <input type="hidden" name="begin_time" value=""/>#}
+{#        <input type="hidden" name="end_time" value=""/>#}
+{#    </form>#}
+{#    <form id="single_form" action="" method="post">{% csrf_token %}#}
+{#        <input type="hidden" name="olname" value=""/>#}
+{#        <input type="hidden" name="lcid" value=""/>#}
+{#        <input type="hidden" name="lid" value=""/>#}
+{#        <input type="hidden" name="begin_time" value=""/>#}
+{#        <input type="hidden" name="end_time" value=""/>#}
+{#    </form>#}
 
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
@@ -513,23 +513,23 @@
         {##}
         {#            get_lab(2, $('#loop_labcenter').val());#}
         {##}
-        {#            $('#single_labcenter').change(function () {#}
-        {#                get_lab(1, $(this).val());#}
-        {#                var table = document.getElementById("single_t");#}
-        {#                while (table.rows.length != 2) {#}
-        {#                    table.deleteRow(2);#}
-        {#                }#}
-        {#            });#}
-        {##}
-        {#            $('#loop_labcenter').change(function () {#}
-        {#                get_lab(2, $(this).val());#}
-        {#                var table = document.getElementById("loop_t");#}
-        {#                while (table.rows.length != 2) {#}
-        {#                    table.deleteRow(2);#}
-        {#                }#}
-        {#            });#}
-        {##}
-        {#        });#}
+{#                    $('#single_labcenter').change(function () {#}
+{#                        get_lab(1, $(this).val());#}
+{#                        var table = document.getElementById("single_t");#}
+{#                        while (table.rows.length != 2) {#}
+{#                            table.deleteRow(2);#}
+{#                        }#}
+{#                    });#}
+{#        #}
+{#                    $('#loop_labcenter').change(function () {#}
+{#                        get_lab(2, $(this).val());#}
+{#                        var table = document.getElementById("loop_t");#}
+{#                        while (table.rows.length != 2) {#}
+{#                            table.deleteRow(2);#}
+{#                        }#}
+{#                    });#}
+{#        #}
+{#                });#}
         {##}
         {#        var get_lab = function (i, lcid) {#}
         {#            $.ajax({#}

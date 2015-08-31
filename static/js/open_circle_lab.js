@@ -18,50 +18,96 @@ var get_week_day_select = function () {
     return line;
 };
 
-var get_lab_c = function (lcid) {
-    console.log(lcid);
+//var get_lab_c = function (lcid) {
+//    console.log(lcid);
+//    $.ajax({
+//        url: '/get_lab_by_lcid/',
+//        data: {
+//            lcid: lcid
+//        },
+//        type: 'get',
+//        async: false,
+//        dataType: 'json',
+//        success: function (data) {
+//            console.log('data:' + data);
+//            lab_select = '<select class="selectmenu number_menu" name="lid">';
+//            for (var i in data) {
+//                console.log(data[i]['lid'] + ': ' + data[i]['lname']);
+//                lab_select += '<option value="' + data[i]['lid'] + '">' +
+//                data[i]['lname'] +
+//                '</option>';
+//            }
+//            lab_select += '</select>';
+//            console.log("c");
+//            console.log("complete");
+//        },
+//        error: function () {
+//            console.log("get_lab_c error");
+//        }
+//    });
+//
+//    console.log("lab_select:" + lab_select);
+//    return lab_select;
+//};
+var get_lab = function (i, lcid) {
     $.ajax({
-        url: '/get_lab_by_lcid/',
+        type: 'get',
+        url: '/get_lab_by_lcid',
         data: {
             lcid: lcid
         },
-        type: 'get',
         dataType: 'json',
         success: function (data) {
-            console.log('data:' + data);
-            lab_select = '<select class="selectmenu number_menu" name="lid">';
-            for (var i in data) {
-                console.log(data[i]['lid'] + ': ' + data[i]['lname']);
-                lab_select += '<option value="' + data[i]['lid'] + '">' +
-                data[i]['lname'] +
-                '</option>';
+            if (i === 1) {
+                $('#single_labname').empty();
+                $('#single_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                for (var j = 0; j < data.length; j++) {
+                    $('#single_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                }
+            } else {
+                $('#loop_labname').empty();
+                $('#loop_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                for (var j = 0; j < data.length; j++) {
+                    $('#loop_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                }
             }
-            lab_select += '</select>';
-            console.log("c");
-            console.log("complete");
         },
         error: function () {
-            console.log("error");
+            console.log('error');
         }
     });
-
-    console.log("lab_select:" + lab_select);
-    return lab_select;
 };
 
 $(document).ready(function () {
 
-    var $clcid = $("#c_lcid");
-    get_lab_c($clcid.val());
+    //var $clcid = $("#c_lcid");
+    get_lab(1, $('#single_labcenter').val());
+    get_lab(2, $('#loop_labcenter').val());
+    $('#single_labcenter').change(function () {
+        get_lab(1, $(this).val());
+        var table = document.getElementById("single_t");
+        while (table.rows.length != 2) {
+            table.deleteRow(2);
+        }
+    });
+
+    $('#loop_labcenter').change(function () {
+        get_lab(2, $(this).val());
+        var table = document.getElementById("loop_t");
+        while (table.rows.length != 2) {
+            table.deleteRow(2);
+        }
+    });
+
     add_no_empty();
 
-    //$clcid.selectmenu({
-    //    change: function (event, ui) {
-    //        get_lab_c($(this).val());
-    //        console.log("lab_select:" + lab_select);
-    //        $(".detail_circle_line").remove();
-    //    }
-    //});
+//$clcid.selectmenu({
+//    change: function (event, ui) {
+//        get_lab_c($(this).val());
+//        console.log("lab_select:" + lab_select);
+//        $(".detail_circle_line").remove();
+//    }
+//});
 
     $('#add_circle').click(function () {
         var one_line =
@@ -140,4 +186,5 @@ $(document).ready(function () {
         });
         return false;
     });
-});
+})
+;
