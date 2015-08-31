@@ -2,16 +2,16 @@
  * Created by wlw on 15-1-5.
  */
 
-//var create_time = function (name) {
-//    var time = '<select class="number_menu" name="' + name + '">';
-//    var i = 8;
-//    while (i <= 22) {
-//        time += '<option value="' + i + '">' + i + '</option>';
-//        ++i;
-//    }
-//    time += '</select>';
-//    return time;
-//};
+var create_time = function (name) {
+    var time = '<select class="number_menu" name="' + name + '">';
+    var i = 8;
+    while (i <= 22) {
+        time += '<option value="' + i + '">' + i + '</option>';
+        ++i;
+    }
+    time += '</select>';
+    return time;
+};
 
 var one_line = '';
 
@@ -138,10 +138,10 @@ var circle_handle = function () {
 
 $(document).ready(function () {
 
-    var $lcid = $('#single_labcenter');
+    var $lcid = $('#lcid');
     get_lab($lcid.val());
 
-    $('#single_add').click(function () {
+    $('#add_button').click(function () {
         console.log("begin add");
         $(this).closest('tr').before(one_line);
         $('.selectmenu').selectmenu();
@@ -158,13 +158,13 @@ $(document).ready(function () {
         console.log("end delete this detail");
     });
 
-    $lcid.selectmenu({
-        change: function (event, ui) {
-            get_lab($(this).val());
-            $('.detail_one_line').remove();
-            console.log('remove all');
-        }
-    });
+    //$lcid.selectmenu({
+    //    change: function (event, ui) {
+    //        get_lab($(this).val());
+    //        $('.detail_one_line').remove();
+    //        console.log('remove all');
+    //    }
+    //});
 
     $(document).on('blur', 'input', function () {
         var $this = $(this);
@@ -196,5 +196,5 @@ $(document).ready(function () {
         one_time_handle();
     });
 
-    $('#tabs').tabs();
+    //$('#tabs').tabs();
 });

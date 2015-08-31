@@ -51,17 +51,17 @@ var get_lab_c = function (lcid) {
 
 $(document).ready(function () {
 
-    var $clcid = $("#loop_labcenter");
+    var $clcid = $("#c_lcid");
     get_lab_c($clcid.val());
     add_no_empty();
 
-    $clcid.selectmenu({
-        change: function (event, ui) {
-            get_lab_c($(this).val());
-            console.log("lab_select:" + lab_select);
-            $(".detail_circle_line").remove();
-        }
-    });
+    //$clcid.selectmenu({
+    //    change: function (event, ui) {
+    //        get_lab_c($(this).val());
+    //        console.log("lab_select:" + lab_select);
+    //        $(".detail_circle_line").remove();
+    //    }
+    //});
 
     $('#add_circle').click(function () {
         var one_line =

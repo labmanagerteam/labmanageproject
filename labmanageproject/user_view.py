@@ -9,8 +9,8 @@ from labmanageproject.my_decorator import *
 from labmanageproject.error_code import *
 from labmanageproject.utility import *
 from tempfile import NamedTemporaryFile
-from openpyxl import load_workbook
 
+# from openpyxl import load_workbook
 
 def login(request):
     if 'my_user' in request.session:

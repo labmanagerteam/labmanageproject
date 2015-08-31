@@ -15,242 +15,305 @@
     </ul>
 
     <div class="tabs-content">
-        <section role="tabpanel" aria-hidden="false" class="content active" id="single">
-            <div class="row collapse prefix-round">
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">计划名称</a>
-                </div>
-                <div class="small-2 columns left">
-                    <input type="text" id="single_olname">
-                </div>
-                <div class="small-1 columns"></div>
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">实验中心</a>
-                </div>
-                <div class="small-2 columns left">
-                    <select id="single_labcenter" name="single_labcenter" class="medium">
-                        {% for lab_center in lab_center_list %}
-                            <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="small-1 columns"></div>
-                <div class="small-2 columns left">
-                    <button id="single_submit_all" class="tiny button" type="submit">确认提交</button>
-                </div>
-            </div>
-            <table class="row" id="single_t">
-                <thead>
-                <tr>
-                    <th width="20%">实验室</th>
-                    <th width="20%">开放日期</th>
-                    <th width="20%">开始时间</th>
-                    <th width="20%">结束时间</th>
-                    <th width="20%">操作</th>
-                </tr>
-                </thead>
-                <tbody id="single_tbody">
-                <tr>
-                    <td>
-                        <select id="single_labname" name="single_labname" class="medium">
+        <section role="tabpanel" aria-hidden="false" class="content active" id="onetime">
+            <form action="" method="post" class="">{% csrf_token %}
+                <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">计划名称</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input type="text" id="olname">
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">实验中心</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="lcid" name="lcid" class="medium">
+                            {% for lab_center in lab_center_list %}
+                                <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
+                            {% endfor %}
                         </select>
-                    </td>
-                    <td>
-                        <input id="single_date" type="text">
-                    </td>
-                    <td>
-                        <select id="single_time_start" name="single_time_start" class="medium">
-                            <option value="" selected=""></option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="single_time_end" name="single_time_end" class="medium">
-                            <option value="" selected=""></option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button id="single_add" class="tiny success">增加</button>
-                    </td>
-                </tr>
-                {% for in_form in form_set %}
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-2 columns left">
+                        <button id="add_button" class="tiny">增加教室</button>
+
+                    </div>
+                    <div class="small-2 columns">
+                        <button id="submit" class="tiny success" type="button">确认提交</button>
+                    </div>
+                </div>
+                <table class="row" id="circle">
+                    <thead>
+                    <tr>
+                        <th width="20%">实验室</th>
+                        <th width="20%">开放日期</th>
+                        <th width="20%">开始时间</th>
+                        <th width="20%">结束时间</th>
+                        <th width="20%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="single_tbody">
                     <tr>
                         <td>
-                            {{ in_form.lid }}
+                            <select id="single_labname" name="single_labname" class="medium">
+                            </select>
                         </td>
                         <td>
-                            {{ in_form.date }}
+                            <input id="single_date" type="text">
                         </td>
                         <td>
-                            {{ in_form.begin_time }}
+                            <select id="single_time_start" name="single_time_start" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
                         </td>
                         <td>
-                            {{ in_form.end_time }}
+                            <select id="single_time_end" name="single_time_end" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
                         </td>
                         <td>
-                            {#                        <input class="delete_one_detail" type="button" value="删除"/>#}
                             <button class="single_delete tiny alert">删除</button>
                         </td>
                     </tr>
-                {% endfor %}
+                    <tr>
+                        <td>
+                            <select id="single_labname" name="single_labname" class="medium">
+                            </select>
+                        </td>
+                        <td>
+                            <input id="single_date" type="text">
+                        </td>
+                        <td>
+                            <select id="single_time_start" name="single_time_start" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="single_time_end" name="single_time_end" class="medium">
+                                <option value="" selected=""></option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="single_delete tiny alert">删除</button>
+                        </td>
+                    </tr>
+                    {% for in_form in form_set %}
+                        <tr>
+                            <td>
+                                {{ in_form.lid }}
+                            </td>
+                            <td>
+                                {{ in_form.date }}
+                            </td>
+                            <td>
+                                {{ in_form.begin_time }}
+                            </td>
+                            <td>
+                                {{ in_form.end_time }}
+                            </td>
+                            <td>
+                                {#                        <input class="delete_one_detail" type="button" value="删除"/>#}
+                                <button class="single_delete tiny alert">删除</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
         </section>
 
         <section role="tabpanel" aria-hidden="true" class="content" id="circle">
-            <div class="row collapse prefix-round">
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">计划名称</a>
+            <form method="post" action="send_circle_open_lab/" class="" id="circle_form">{% csrf_token %}
+                <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">计划名称</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <input type="text" name="olname">
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">实验中心</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="lcid" name="lcid" class="medium">
+                            {% for lab_center in lab_center_list %}
+                                <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="columns small-1"></div>
+                    <div class="columns small-2 left">
+                        <button id="loop_add" class="tiny">增加教室</button>
+                    </div>
+                    <div class="columns small-2">
+                        <button id="submit_circle" class="tiny success button">确认提交</button>
+                    </div>
                 </div>
-                <div class="small-2 columns left">
-                    <input type="text" id="loop_olname">
+                <div class="row collapse prefix-round">
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">开始周数</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="begin_week_number" name="begin_week_number" class="medium">
+                            {% for w in week_list %}
+                                <option value="{{ w }}">第{{ w }}周</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="small-1 columns"></div>
+                    <div class="small-1 columns">
+                        <a href="#" class="button prefix">结束周数</a>
+                    </div>
+                    <div class="small-2 columns left">
+                        <select id="end_week_number" name="end_week_number" class="medium">
+                            {% for w in week_list %}
+                                <option value="{{ w }}">第{{ w }}周</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-                <div class="small-1 columns"></div>
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">实验中心</a>
-                </div>
-                <div class="small-2 columns left">
-                    <select id="loop_labcenter" name="loop_labcenter" class="medium">
-                        {% for lab_center in lab_center_list %}
-                            <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="columns small-1"></div>
-                <div class="columns small-2 left">
-                    <button id="loop_submit_all" class="tiny button">确认提交</button>
-                </div>
-            </div>
-            <div class="row collapse prefix-round">
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">开始周数</a>
-                </div>
-                <div class="small-2 columns left">
-                    <select id="loop_week_start" name="loop_week_start" class="medium">
-                        {% for w in week_list %}
-                            <option value="{{ w }}">第{{ w }}周</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="small-1 columns"></div>
-                <div class="small-1 columns">
-                    <a href="#" class="button prefix">结束周数</a>
-                </div>
-                <div class="small-2 columns left">
-                    <select id="loop_week_end" name="loop_week_end" class="medium">
-                        {% for w in week_list %}
-                            <option value="{{ w }}">第{{ w }}周</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <table class="row" id="loop_t">
-                <thead>
-                <tr>
-                    <th width="20%">实验室</th>
-                    <th width="20%">星期几</th>
-                    <th width="20%">开始时间</th>
-                    <th width="20%">结束时间</th>
-                    <th width="20%">操作</th>
-                </tr>
-                </thead>
-                <tbody id="loop_tbody">
+                <table class="row" id="circle_detail_table">
+                    <thead>
+                    <tr>
+                        <th width="20%">实验室</th>
+                        <th width="20%">星期几</th>
+                        <th width="20%">开始时间</th>
+                        <th width="20%">结束时间</th>
+                        <th width="20%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="loop_tbody">
 
-                <tr>
-                    <td>
-                        <select id="loop_labname" name="loop_labname" class="medium">
-                        </select>
-                    </td>
-                    <td>
-                        <select name="loop_weekday" id="loop_weekday">
-                            <option value="" selected="">请选择周几</option>
-                            <option value="0">周一</option>
-                            <option value="1">周二</option>
-                            <option value="2">周三</option>
-                            <option value="3">周四</option>
-                            <option value="4">周五</option>
-                            <option value="5">周六</option>
-                            <option value="6">周日</option>
-                        </select>
-                    </td>
+                    <tr>
+                        <td>
+                            <select id="loop_labname" name="loop_labname" class="medium">
+                            </select>
+                        </td>
+                        <td>
+                            <select name="loop_weekday" id="loop_weekday">
+                                <option value="" selected="">请选择周几</option>
+                                <option value="0">周一</option>
+                                <option value="1">周二</option>
+                                <option value="2">周三</option>
+                                <option value="3">周四</option>
+                                <option value="4">周五</option>
+                                <option value="5">周六</option>
+                                <option value="6">周日</option>
+                            </select>
+                        </td>
 
-                    <td>
-                        <select id="loop_time_start" name="loop_time_start" class="medium">
-                            <option value="" selected="">请选择开始时间</option>
-                            <option value="8">8:00</option>
-                            <option value="9">9:00</option>
-                            <option value="10">10:00</option>
-                            <option value="11">11:00</option>
-                            <option value="12">12:00</option>
-                            <option value="13">13:00</option>
-                            <option value="14">14:00</option>
-                            <option value="15">15:00</option>
-                            <option value="16">16:00</option>
-                            <option value="17">17:00</option>
-                            <option value="18">18:00</option>
-                            <option value="19">19:00</option>
-                            <option value="20">20:00</option>
-                            <option value="21">21:00</option>
-                            <option value="22">22:00</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="loop_time_end" name="loop_time_end" class="medium">
-                            <option value="" selected="">请选择结束时间</option>
-                            <option value="8">8:00</option>
-                            <option value="9">9:00</option>
-                            <option value="10">10:00</option>
-                            <option value="11">11:00</option>
-                            <option value="12">12:00</option>
-                            <option value="13">13:00</option>
-                            <option value="14">14:00</option>
-                            <option value="15">15:00</option>
-                            <option value="16">16:00</option>
-                            <option value="17">17:00</option>
-                            <option value="18">18:00</option>
-                            <option value="19">19:00</option>
-                            <option value="20">20:00</option>
-                            <option value="21">21:00</option>
-                            <option value="22">22:00</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button id="loop_add" class="tiny success">增加</button>
-                    </td>
-                </tr>
+                        <td>
+                            <select id="loop_time_start" name="loop_time_start" class="medium">
+                                <option value="" selected="">请选择开始时间</option>
+                                <option value="8">8:00</option>
+                                <option value="9">9:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="loop_time_end" name="loop_time_end" class="medium">
+                                <option value="" selected="">请选择结束时间</option>
+                                <option value="8">8:00</option>
+                                <option value="9">9:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button id="loop_add" class="tiny success">增加</button>
+                        </td>
+                    </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
         </section>
     </div>
     <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}
@@ -274,6 +337,8 @@
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
     <script type="text/javascript" src="/static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="/static/js/open_lab.js"></script>
+    <script type="text/javascript" src="/static/js/open_circle_lab.js"></script>
     <script type="text/javascript" src="/static/js/jquery.cxcalendar.js"></script>
     <script>
         $(document).foundation();
@@ -284,216 +349,216 @@
         };
         $("#single_date").cxCalendar();
 
-        $(document).on('change', '.prefix-round input, .prefix-round select', function () {
-            var signel_olname = $("#single_olname").val();
-            var single_labcenter = $("#single_labcenter").val();
-            $("#single_form input[name=olname]").val(signel_olname);
-            $("#single_form input[name=lcid]").val(single_labcenter);
-
-            var loop_olname = $("#loop_olname").val();
-            var loop_lcid = $('#loop_labcenter').val();
-            var begin_week_number = $('#loop_week_start').val();
-            var end_week_number = $('#loop_week_end').val();
-            $("#loop_form input[name=olname]").val(loop_olname);
-            $("#loop_form input[name=lcid]").val(loop_lcid);
-            $("#loop_form input[name=begin_week_number]").val(begin_week_number);
-            $("#loop_form input[name=end_week_number]").val(end_week_number);
-        });
-        var single_add = function () {
-            var lid = $('#single_labname').val();
-            var weekday = $('#loop_weekday').val();
-            var begin_time = $('#loop_time_start').val();
-            var end_time = $('#loop_time_end').val();
-
-            var labname = $("#loop_labname option[value=" + lid + "]").text();
-            var weekday_show = $("#loop_weekday option[value=" + weekday + "]").text();
-            var begin_time_show = $("#loop_time_start option[value=" + begin_time + "]").text();
-            var end_time_show = $("#loop_time_end option[value=" + end_time + "]").text();
-        };
-        var single_check = function () {
-            $("#single_form input").each(function () {
-                if ($(this).val() == '') {
-                    return false;
-                }
-            });
-            return true;
-        };
-
-        var loop_add = function () {
-            var lid = $('#loop_labname').val();
-            var weekday = $('#loop_weekday').val();
-            var begin_time = $('#loop_time_start').val();
-            var end_time = $('#loop_time_end').val();
-
-            var labname = $("#loop_labname option[value=" + lid + "]").text();
-            var weekday_show = $("#loop_weekday option[value=" + weekday + "]").text();
-            var begin_time_show = $("#loop_time_start option[value=" + begin_time + "]").text();
-            var end_time_show = $("#loop_time_end option[value=" + end_time + "]").text();
-
-            $("input[name=lid]").val(lid);
-            $("input[name=weekday]").val(weekday);
-            $("input[name=begin_time]").val(begin_time);
-            $("input[name=end_time]").val(end_time);
-            $("#loop_tbody").append("<tr><td>" + labname + "</td><td>" + weekday_show + "</td><td>"
-                    + begin_time_show + "</td><td>" + end_time_show + "</td><td><button class=\"loop_delete tiny alert\">删除</button></td></tr>"
-            );
-
-        };
-
-        var loop_check = function () {
-            $("#loop_form input").each(function () {
-                if ($(this).val() == '') {
-                    return false;
-                }
-            });
-            return true;
-        };
-
-        $(document).on('click', '.loop_delete, .single_delete', function () {
-            $(this).find("tr").remove();
-        });
-
-        $(document).on('click', '#single_add', function () {
-
-            single_add();
-        });
-
-        $(document).on('click', '#single_submit_all', function () {
-            if (single_check() == true) {
-                //提交
-            }
-            else {
-                alert("表单数据不合法,请重新填写");
-            }
-        });
-
-        $(document).on('click', '#loop_add', function () {
-
-            loop_add();
-            submit();
-
-        });
-
-        var submit = function () {
-            if (loop_check() == true) {
-                $('#loop_form').ajaxSubmit({
-                        beforeSubmit: function (arr, $form, options) {
-                        for (var i in arr) {
-                            console.log(arr[i]);
-                        }
-                        var begin_week_number = get_input('begin_week_number', arr)[0];
-                        var end_week_number = get_input('end_week_number', arr)[0];
-
-                        if (Number(begin_week_number) >= Number(end_week_number)) {
-                            alert("结束的周应在开始的周之后");
-                            return false;
-                        }
-
-                        var lid_list = get_input('lid', arr);
-                        var weekday_list = get_input('weekday', arr);
-                        var begin_time_list = get_input('begin_time', arr);
-                        var end_time_list = get_input('end_time', arr);
-
-                        for (var i = 0; i < lid_list.length; ++i) {
-                            if (Number(begin_time_list[i]) >= Number(end_time_list[i])) {
-                                alert("开始时间应在结束时间之后");
-                                return false;
-                            }
-                            for (var j = 0; j < i; ++j) {
-                                if (lid_list[i] == lid_list[j] && weekday_list[i] == weekday_list[j]) {
-                                    if (Number(begin_time_list[i]) < Number(end_time_list[j]) &&
-                                            Number(end_time_list[i]) > Number(begin_time_list[j])) {
-                                        alert("第" + i + "行与第" + j + "行存在时间上的冲突");
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                        return true;
-                    },
-                    dataType: 'json',
-
-                    success: function (data) {
-                        alert('success');
-{#                        if (data['result'] == 'success') {#}
-{#                            confirm("你的开放计划已提交，请等待管理员审核");#}
-{#                        } else {#}
-{#                            if (data["join_list"]) {#}
-{#                                var join_list = data["join_list"];#}
-{#                                var s = "第" + join_list[0];#}
-{#                                for (var i = 1; i < join_list.length; ++i) {#}
-{#                                    s += "," + join_list[i]#}
-{#                                }#}
-{#                                s += "行与现有开放计划冲突";#}
-{#                                alert(s);#}
-{#                            } else {#}
-{#                                alert(data['msg']);#}
-{#                            }#}
-{#                        }#}
-                    },
-                    error: function () {
-                        alert("something wrong");
-{#                        error_handler_g();#}
-                    }
-                });
-            }
-            else {
-                alert("表单数据不合法，请重新填写");
-            }
-        };
-
-    $(document).ready(function() {
-
-        get_lab(1, $('#single_labcenter').val());
-
-        get_lab(2, $('#loop_labcenter').val());
-
-        $('#single_labcenter').change(function() {
-            get_lab(1, $(this).val());
-            var table = document.getElementById("single_t");
-            while (table.rows.length != 2) {
-                table.deleteRow(2);
-            }
-        });
-
-        $('#loop_labcenter').change(function() {
-            get_lab(2, $(this).val());
-            var table = document.getElementById("loop_t");
-            while (table.rows.length != 2) {
-                table.deleteRow(2);
-            }
-        });
-
-    });
-
-    var get_lab = function(i, lcid) {
-        $.ajax({
-            type: 'get',
-            url: '/get_lab_by_lcid',
-            data: {
-                lcid: lcid
-            },
-            dataType: 'json',
-            success: function(data) {
-                if(i === 1) {
-                    $('#single_labname').empty();
-                    $('#single_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
-                    for (var j = 0; j < data.length; j++) {
-                        $('#single_labname').append("<option value=\"" +data[j].lid + "\">" + data[j].lname + "</option>");
-                    }
-                } else {
-                    $('#loop_labname').empty();
-                    $('#loop_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
-                    for (var j = 0; j < data.length; j++) {
-                        $('#loop_labname').append("<option value=\"" +data[j].lid + "\">" + data[j].lname + "</option>");
-                    }
-                }
-            },
-            error: function() {
-                console.log('error');
-            }
-        });
-    };
+        {#        $(document).on('change', '.prefix-round input, .prefix-round select', function () {#}
+        {#            var signel_olname = $("#single_olname").val();#}
+        {#            var single_labcenter = $("#single_labcenter").val();#}
+        {#            $("#single_form input[name=olname]").val(signel_olname);#}
+        {#            $("#single_form input[name=lcid]").val(single_labcenter);#}
+        {##}
+        {#            var loop_olname = $("#loop_olname").val();#}
+        {#            var loop_lcid = $('#loop_labcenter').val();#}
+        {#            var begin_week_number = $('#loop_week_start').val();#}
+        {#            var end_week_number = $('#loop_week_end').val();#}
+        {#            $("#loop_form input[name=olname]").val(loop_olname);#}
+        {#            $("#loop_form input[name=lcid]").val(loop_lcid);#}
+        {#            $("#loop_form input[name=begin_week_number]").val(begin_week_number);#}
+        {#            $("#loop_form input[name=end_week_number]").val(end_week_number);#}
+        {#        });#}
+        {#        var single_add = function () {#}
+        {#            var lid = $('#single_labname').val();#}
+        {#            var weekday = $('#loop_weekday').val();#}
+        {#            var begin_time = $('#loop_time_start').val();#}
+        {#            var end_time = $('#loop_time_end').val();#}
+        {##}
+        {#            var labname = $("#loop_labname option[value=" + lid + "]").text();#}
+        {#            var weekday_show = $("#loop_weekday option[value=" + weekday + "]").text();#}
+        {#            var begin_time_show = $("#loop_time_start option[value=" + begin_time + "]").text();#}
+        {#            var end_time_show = $("#loop_time_end option[value=" + end_time + "]").text();#}
+        {#        };#}
+        {#        var single_check = function () {#}
+        {#            $("#single_form input").each(function () {#}
+        {#                if ($(this).val() == '') {#}
+        {#                    return false;#}
+        {#                }#}
+        {#            });#}
+        {#            return true;#}
+        {#        };#}
+        {##}
+        {#        var loop_add = function () {#}
+        {#            var lid = $('#loop_labname').val();#}
+        {#            var weekday = $('#loop_weekday').val();#}
+        {#            var begin_time = $('#loop_time_start').val();#}
+        {#            var end_time = $('#loop_time_end').val();#}
+        {##}
+        {#            var labname = $("#loop_labname option[value=" + lid + "]").text();#}
+        {#            var weekday_show = $("#loop_weekday option[value=" + weekday + "]").text();#}
+        {#            var begin_time_show = $("#loop_time_start option[value=" + begin_time + "]").text();#}
+        {#            var end_time_show = $("#loop_time_end option[value=" + end_time + "]").text();#}
+        {##}
+        {#            $("input[name=lid]").val(lid);#}
+        {#            $("input[name=weekday]").val(weekday);#}
+        {#            $("input[name=begin_time]").val(begin_time);#}
+        {#            $("input[name=end_time]").val(end_time);#}
+        {#            $("#loop_tbody").append("<tr><td>" + labname + "</td><td>" + weekday_show + "</td><td>"#}
+        {#                    + begin_time_show + "</td><td>" + end_time_show + "</td><td><button class=\"loop_delete tiny alert\">删除</button></td></tr>"#}
+        {#            );#}
+        {##}
+        {#        };#}
+        {##}
+        {#        var loop_check = function () {#}
+        {#            $("#loop_form input").each(function () {#}
+        {#                if ($(this).val() == '') {#}
+        {#                    return false;#}
+        {#                }#}
+        {#            });#}
+        {#            return true;#}
+        {#        };#}
+        {##}
+        {#        $(document).on('click', '.loop_delete, .single_delete', function () {#}
+        {#            $(this).find("tr").remove();#}
+        {#        });#}
+        {##}
+        {#        $(document).on('click', '#single_add, #loop_add', function () {#}
+        {#            var tbody = $(this).find("tbody");#}
+        {#            $(this).find("tr").clone().appendTo(tbody);#}
+        {#            single_add();#}
+        {#        });#}
+        {##}
+        {#        $(document).on('click', '#single_submit_all', function () {#}
+        {#            if (single_check() == true) {#}
+        {#                //提交#}
+        {#            }#}
+        {#            else {#}
+        {#                alert("表单数据不合法,请重新填写");#}
+        {#            }#}
+        {#        });#}
+        {##}
+        {#        $(document).on('click', '#loop_add', function () {#}
+        {#            loop_add();#}
+        {#            submit();#}
+        {##}
+        {#        });#}
+        {##}
+        {#        var submit = function () {#}
+        {#            if (loop_check() == true) {#}
+        {#                $('#loop_form').ajaxSubmit({#}
+        {#                    beforeSubmit: function (arr, $form, options) {#}
+        {#                        for (var i in arr) {#}
+        {#                            console.log(arr[i]);#}
+        {#                        }#}
+        {#                        var begin_week_number = get_input('begin_week_number', arr)[0];#}
+        {#                        var end_week_number = get_input('end_week_number', arr)[0];#}
+        {##}
+        {#                        if (Number(begin_week_number) >= Number(end_week_number)) {#}
+        {#                            alert("结束的周应在开始的周之后");#}
+        {#                            return false;#}
+        {#                        }#}
+        {##}
+        {#                        var lid_list = get_input('lid', arr);#}
+        {#                        var weekday_list = get_input('weekday', arr);#}
+        {#                        var begin_time_list = get_input('begin_time', arr);#}
+        {#                        var end_time_list = get_input('end_time', arr);#}
+        {##}
+        {#                        for (var i = 0; i < lid_list.length; ++i) {#}
+        {#                            if (Number(begin_time_list[i]) >= Number(end_time_list[i])) {#}
+        {#                                alert("开始时间应在结束时间之后");#}
+        {#                                return false;#}
+        {#                            }#}
+        {#                            for (var j = 0; j < i; ++j) {#}
+        {#                                if (lid_list[i] == lid_list[j] && weekday_list[i] == weekday_list[j]) {#}
+        {#                                    if (Number(begin_time_list[i]) < Number(end_time_list[j]) &&#}
+        {#                                            Number(end_time_list[i]) > Number(begin_time_list[j])) {#}
+        {#                                        alert("第" + i + "行与第" + j + "行存在时间上的冲突");#}
+        {#                                        return false;#}
+        {#                                    }#}
+        {#                                }#}
+        {#                            }#}
+        {#                        }#}
+        {#                        return true;#}
+        {#                    },#}
+        {#                    dataType: 'json',#}
+        {##}
+        {#                    success: function (data) {#}
+        {#                        alert('success');#}
+        {#                        if (data['result'] == 'success') {#}
+        {#                            confirm("你的开放计划已提交，请等待管理员审核");#}
+        {#                        } else {#}
+        {#                            if (data["join_list"]) {#}
+        {#                                var join_list = data["join_list"];#}
+        {#                                var s = "第" + join_list[0];#}
+        {#                                for (var i = 1; i < join_list.length; ++i) {#}
+        {#                                    s += "," + join_list[i]#}
+        {#                                }#}
+        {#                                s += "行与现有开放计划冲突";#}
+        {#                                alert(s);#}
+        {#                            } else {#}
+        {#                                alert(data['msg']);#}
+        {#                            }#}
+        {#                        }#}
+        {#                    },#}
+        {#                    error: function () {#}
+        {#                        alert("something wrong");#}
+        {#                        error_handler_g();#}
+        {#                    }#}
+        {#                });#}
+        {#            }#}
+        {#            else {#}
+        {#                alert("表单数据不合法，请重新填写");#}
+        {#            }#}
+        {#        };#}
+        {##}
+        {#        $(document).ready(function () {#}
+        {##}
+        {#            get_lab(1, $('#single_labcenter').val());#}
+        {##}
+        {#            get_lab(2, $('#loop_labcenter').val());#}
+        {##}
+        {#            $('#single_labcenter').change(function () {#}
+        {#                get_lab(1, $(this).val());#}
+        {#                var table = document.getElementById("single_t");#}
+        {#                while (table.rows.length != 2) {#}
+        {#                    table.deleteRow(2);#}
+        {#                }#}
+        {#            });#}
+        {##}
+        {#            $('#loop_labcenter').change(function () {#}
+        {#                get_lab(2, $(this).val());#}
+        {#                var table = document.getElementById("loop_t");#}
+        {#                while (table.rows.length != 2) {#}
+        {#                    table.deleteRow(2);#}
+        {#                }#}
+        {#            });#}
+        {##}
+        {#        });#}
+        {##}
+        {#        var get_lab = function (i, lcid) {#}
+        {#            $.ajax({#}
+        {#                type: 'get',#}
+        {#                url: '/get_lab_by_lcid',#}
+        {#                data: {#}
+        {#                    lcid: lcid#}
+        {#                },#}
+        {#                dataType: 'json',#}
+        {#                success: function (data) {#}
+        {#                    if (i === 1) {#}
+        {#                        $('#single_labname').empty();#}
+        {#                        $('#single_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");#}
+        {#                        for (var j = 0; j < data.length; j++) {#}
+        {#                            $('#single_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");#}
+        {#                        }#}
+        {#                    } else {#}
+        {#                        $('#loop_labname').empty();#}
+        {#                        $('#loop_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");#}
+        {#                        for (var j = 0; j < data.length; j++) {#}
+        {#                            $('#loop_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");#}
+        {#                        }#}
+        {#                    }#}
+        {#                },#}
+        {#                error: function () {#}
+        {#                    console.log('error');#}
+        {#                }#}
+        {#            });#}
+        {#        };#}
 
     </script>
 {% endblock %}
