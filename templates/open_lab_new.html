@@ -16,7 +16,7 @@
 
     <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="onetime">
-            <form action="" method="post" class="">{% csrf_token %}
+            <form action="../send_circle_open_lab/" method="post" class="">{% csrf_token %}
                 <div class="row collapse prefix-round">
                     <div class="small-1 columns">
                         <a href="#" class="button prefix">计划名称</a>
@@ -407,7 +407,7 @@
             monthList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
             weekList: ['日', '一', '二', '三', '四', '五', '六']
         };
-        $("#single_date").cxCalendar();
+        $(".single_date").cxCalendar();
 
         {#        $(document).on('change', '.prefix-round input, .prefix-round select', function () {#}
         {#            var signel_olname = $("#single_olname").val();#}

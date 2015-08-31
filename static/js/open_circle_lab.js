@@ -2,21 +2,21 @@
  * Created by wlw on 15-2-26.
  */
 
-var lab_select = "";
-
-var get_week_day_select = function () {
-    var day = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
-    var val = [0, 1, 2, 3, 4, 5, 6];
-
-    var line = '<select name="weekday" class="number_menu">';
-    for (var i in day) {
-        line += "<option value=" + val[i] + ">" + day[i] + "</option>";
-    }
-
-    line += "</select>";
-
-    return line;
-};
+//var lab_select = "";
+//
+//var get_week_day_select = function () {
+//    var day = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+//    var val = [0, 1, 2, 3, 4, 5, 6];
+//
+//    var line = '<select name="weekday" class="number_menu">';
+//    for (var i in day) {
+//        line += "<option value=" + val[i] + ">" + day[i] + "</option>";
+//    }
+//
+//    line += "</select>";
+//
+//    return line;
+//};
 
 //var get_lab_c = function (lcid) {
 //    console.log(lcid);
@@ -117,22 +117,22 @@ $(document).ready(function () {
 //    }
 //});
 
-    $('#add_circle').click(function () {
-        var one_line =
-            '<tr class="detail_circle_line">' +
-            "<td>" + lab_select + "</td>" +
-            "<td>" + get_week_day_select() + "</td>" +
-            "<td>" + create_time('begin_time') + "</td>" +
-            "<td>" + create_time('end_time') + "</td>" +
-            '<td><input type="button" class="button delete_one_detail" value="删除"/></td>' +
-            '<td></td>' +
-            '</tr>';
-
-        $('#circle table').append(one_line);
-        add_number_menu();
-        add_no_empty();
-        $('.button').button();
-    });
+    //$('#add_circle').click(function () {
+    //    var one_line =
+    //        '<tr class="detail_circle_line">' +
+    //        "<td>" + lab_select + "</td>" +
+    //        "<td>" + get_week_day_select() + "</td>" +
+    //        "<td>" + create_time('begin_time') + "</td>" +
+    //        "<td>" + create_time('end_time') + "</td>" +
+    //        '<td><input type="button" class="button delete_one_detail" value="删除"/></td>' +
+    //        '<td></td>' +
+    //        '</tr>';
+    //
+    //    $('#circle table').append(one_line);
+    //    add_number_menu();
+    //    add_no_empty();
+    //    $('.button').button();
+    //});
 
     $('#circle_form').submit(function () {
         $(this).ajaxSubmit({

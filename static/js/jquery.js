@@ -7710,7 +7710,7 @@
     var rreturn = /\r/g;
 
     jQuery.fn.extend({
-        val: function (value) {
+        //val: function (value) {
             var hooks, ret, isFunction,
                 elem = this[0];
 

@@ -2,66 +2,66 @@
  * Created by wlw on 15-1-5.
  */
 
-var create_time = function (name) {
-    var time = '<select class="number_menu" name="' + name + '">';
-    var i = 8;
-    while (i <= 22) {
-        time += '<option value="' + i + '">' + i + '</option>';
-        ++i;
-    }
-    time += '</select>';
-    return time;
-};
-
-var one_line = '';
-
-var get_lab = function (lcid) {
-    var get_func = $.ajax({
-        url: '/get_lab_by_lcid/',
-        data: {
-            lcid: lcid
-        },
-        type: 'get',
-        dataType: 'json',
-        success: function (data) {
-            var inner_line = '<tr class="detail_one_line">' +
-                '<td>' +
-                '<select class="selectmenu" name="lid">';
-            for (var i in data) {
-                console.log(data[i]['lid'] + ': ' + data[i]['lname']);
-                inner_line += '<option value="' + data[i]['lid'] + '">' +
-                data[i]['lname'] +
-                '</option>';
-            }
-
-            inner_line += '</select>' +
-            '</td>' +
-            '<td>' +
-            '<input type="date" name="date" />' +
-            '</td>' +
-            '<td>' +
-            create_time('begin_time') +
-            '</td>' +
-            '<td>' +
-            create_time('end_time') +
-            '</td>' +
-            '<td>' +
-            '<input class="delete_one_detail" type="button" value="删除" />' +
-            '</td>' +
-            '<td class = "error">' +
-            '</td>' +
-            '</tr>';
-
-            console.log("c");
-
-            one_line = inner_line;
-            console.log("complete");
-        },
-        error: function () {
-            console.log("error");
-        }
-    });
-};
+//var create_time = function (name) {
+//    var time = '<select class="number_menu" name="' + name + '">';
+//    var i = 8;
+//    while (i <= 22) {
+//        time += '<option value="' + i + '">' + i + '</option>';
+//        ++i;
+//    }
+//    time += '</select>';
+//    return time;
+//};
+//
+//var one_line = '';
+//
+//var get_lab = function (lcid) {
+//    var get_func = $.ajax({
+//        url: '/get_lab_by_lcid/',
+//        data: {
+//            lcid: lcid
+//        },
+//        type: 'get',
+//        dataType: 'json',
+//        success: function (data) {
+//            var inner_line = '<tr class="detail_one_line">' +
+//                '<td>' +
+//                '<select class="selectmenu" name="lid">';
+//            for (var i in data) {
+//                console.log(data[i]['lid'] + ': ' + data[i]['lname']);
+//                inner_line += '<option value="' + data[i]['lid'] + '">' +
+//                data[i]['lname'] +
+//                '</option>';
+//            }
+//
+//            inner_line += '</select>' +
+//            '</td>' +
+//            '<td>' +
+//            '<input type="date" name="date" />' +
+//            '</td>' +
+//            '<td>' +
+//            create_time('begin_time') +
+//            '</td>' +
+//            '<td>' +
+//            create_time('end_time') +
+//            '</td>' +
+//            '<td>' +
+//            '<input class="delete_one_detail" type="button" value="删除" />' +
+//            '</td>' +
+//            '<td class = "error">' +
+//            '</td>' +
+//            '</tr>';
+//
+//            console.log("c");
+//
+//            one_line = inner_line;
+//            console.log("complete");
+//        },
+//        error: function () {
+//            console.log("error");
+//        }
+//    });
+//};
 
 var succcess_handle = function (data) {
     var $detail_list = $('.detail_one_line');
@@ -154,13 +154,13 @@ $(document).ready(function () {
     $(document).on('click','#single_add',function(){
         var tr=$("#single_tbody tr:first-child");
         $("#single_tbody").append(tr.clone().attr('style',''));
-        get_lab(1,$('#single_labcenter').val());
+        //get_lab(1,$('#single_labcenter').val());
     });
 
     $(document).on('click','#loop_add',function(){
-        var tr=$("#single_tbody tr:first-child");
+        var tr=$("#loop_tbody tr:first-child");
         $("#loop_tbody").append(tr.clone().attr('style',''));
-        get_lab(2,$('#loop_labcenter').val());
+        //get_lab(2,$('#loop_labcenter').val());
     });
 
     $(document).on('click', '.loop_delete, .single_delete', function () {
@@ -192,19 +192,18 @@ $(document).ready(function () {
     //});
 
     $('#submit').click(function () {
-        $('.error').empty();
-        var empty = false;
-        $('#onetime input').each(function () {
-            if (!$(this).val()) {
-                empty = true;
-                $(this).addClass('empty');
-            }
-        });
-
-        if (empty) {
-            return;
-        }
-
+        //$('.error').empty();
+        //var empty = false;
+        //$('#onetime input').each(function () {
+        //    if (!$(this).val()) {
+        //        empty = true;
+        //        //$(this).addClass('empty');
+        //    }
+        //});
+        //
+        //if (empty) {
+        //    return;
+        //}
         one_time_handle();
     });
 
