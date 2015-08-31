@@ -138,21 +138,33 @@ var circle_handle = function () {
 
 $(document).ready(function () {
 
-    var $lcid = $('#lcid');
-    get_lab($lcid.val());
+    //var $lcid = $('#lcid');
+    //get_lab($lcid.val());
 
-    $('#add_button').click(function () {
-        console.log("begin add");
-        $(this).closest('tr').before(one_line);
-        $('.selectmenu').selectmenu();
-        $('.number_menu').each(function () {
-            $(this).selectmenu().selectmenu("menuWidget").addClass("overflow");
-        });
-        $('input[type="button"]').button();
-        console.log("end add");
+    //$('#add_button').click(function () {
+    //    console.log("begin add");
+    //    $(this).closest('tr').before(one_line);
+    //    $('.selectmenu').selectmenu();
+    //    $('.number_menu').each(function () {
+    //        $(this).selectmenu().selectmenu("menuWidget").addClass("overflow");
+    //    });
+    //    $('input[type="button"]').button();
+    //    console.log("end add");
+    //});
+    $(document).on('click','#single_add',function(){
+        var tr=$("#single_tbody tr:first-child");
+        $("#single_tbody").append(tr.clone().attr('style',''));
+        get_lab(1,$('#single_labcenter').val());
     });
 
-    $(document).on('click', '.delete_one_detail', function () {
+    $(document).on('click','#loop_add',function(){
+        var tr=$("#single_tbody tr:first-child");
+        $("#loop_tbody").append(tr.clone().attr('style',''));
+        get_lab(2,$('#loop_labcenter').val());
+    });
+
+    $(document).on('click', '.loop_delete, .single_delete', function () {
+        get_lab(2,$('#loop_labcenter').val())
         console.log("begin delete this detail");
         $(this).closest('tr').remove();
         console.log("end delete this detail");
@@ -166,18 +178,18 @@ $(document).ready(function () {
     //    }
     //});
 
-    $(document).on('blur', 'input', function () {
-        var $this = $(this);
-        if (!$this.val()) {
-            console.log('input empty');
-            $this.addClass('empty');
-        } else {
-            console.log('input filed');
-            if ($this.hasClass('empty')) {
-                $this.removeClass('empty');
-            }
-        }
-    });
+    //$(document).on('blur', 'input', function () {
+    //    var $this = $(this);
+    //    if (!$this.val()) {
+    //        console.log('input empty');
+    //        $this.addClass('empty');
+    //    } else {
+    //        console.log('input filed');
+    //        if ($this.hasClass('empty')) {
+    //            $this.removeClass('empty');
+    //        }
+    //    }
+    //});
 
     $('#submit').click(function () {
         $('.error').empty();

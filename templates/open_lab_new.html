@@ -37,8 +37,7 @@
                     </div>
                     <div class="small-1 columns"></div>
                     <div class="small-2 columns left">
-                        <button id="add_button" class="tiny">增加教室</button>
-
+                        <button id="single_add" class="tiny">增加教室</button>
                     </div>
                     <div class="small-2 columns">
                         <button id="submit" class="tiny success" type="button">确认提交</button>
@@ -55,16 +54,16 @@
                     </tr>
                     </thead>
                     <tbody id="single_tbody">
-                    <tr>
+                    <tr style="display: none">
                         <td>
-                            <select id="single_labname" name="single_labname" class="medium">
+                            <select class="single_labname medium" name="single_labname">
                             </select>
                         </td>
                         <td>
-                            <input id="single_date" type="text">
+                            <input class="single_date" type="text">
                         </td>
                         <td>
-                            <select id="single_time_start" name="single_time_start" class="medium">
+                            <select class="single_time_start medium" name="single_time_start">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -84,7 +83,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="single_time_end" name="single_time_end" class="medium">
+                            <select class="single_time_end medium" name="single_time_end">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -109,14 +108,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <select id="single_labname" name="single_labname" class="medium">
+                            <select class="single_labname medium" name="single_labname">
                             </select>
                         </td>
                         <td>
-                            <input id="single_date" type="text">
+                            <input class="single_date" type="text">
                         </td>
                         <td>
-                            <select id="single_time_start" name="single_time_start" class="medium">
+                            <select class="single_time_start medium" name="single_time_start">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -136,7 +135,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="single_time_end" name="single_time_end" class="medium">
+                            <select class="single_time_end medium" name="single_time_end">
                                 <option value="" selected=""></option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -247,14 +246,13 @@
                     </tr>
                     </thead>
                     <tbody id="loop_tbody">
-
-                    <tr>
+                    <tr style="display: none">
                         <td>
-                            <select id="loop_labname" name="loop_labname" class="medium">
+                            <select class="loop_labname medium" name="loop_labname">
                             </select>
                         </td>
                         <td>
-                            <select name="loop_weekday" id="loop_weekday">
+                            <select name="loop_weekday" class="loop_weekday">
                                 <option value="" selected="">请选择周几</option>
                                 <option value="0">周一</option>
                                 <option value="1">周二</option>
@@ -267,7 +265,7 @@
                         </td>
 
                         <td>
-                            <select id="loop_time_start" name="loop_time_start" class="medium">
+                            <select class="loop_time_start medium" name="loop_time_start">
                                 <option value="" selected="">请选择开始时间</option>
                                 <option value="8">8:00</option>
                                 <option value="9">9:00</option>
@@ -287,7 +285,7 @@
                             </select>
                         </td>
                         <td>
-                            <select id="loop_time_end" name="loop_time_end" class="medium">
+                            <select class="loop_time_en medium" name="loop_time_end">
                                 <option value="" selected="">请选择结束时间</option>
                                 <option value="8">8:00</option>
                                 <option value="9">9:00</option>
@@ -307,7 +305,69 @@
                             </select>
                         </td>
                         <td>
-                            <button id="loop_add" class="tiny success">增加</button>
+                            <button class="tiny alert loop_delete">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="loop_labname medium" name="loop_labname">
+                            </select>
+                        </td>
+                        <td>
+                            <select name="loop_weekday" class="loop_weekday">
+                                <option value="" selected="">请选择周几</option>
+                                <option value="0">周一</option>
+                                <option value="1">周二</option>
+                                <option value="2">周三</option>
+                                <option value="3">周四</option>
+                                <option value="4">周五</option>
+                                <option value="5">周六</option>
+                                <option value="6">周日</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <select class="loop_time_start medium" name="loop_time_start">
+                                <option value="" selected="">请选择开始时间</option>
+                                <option value="8">8:00</option>
+                                <option value="9">9:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="loop_time_en medium" name="loop_time_end">
+                                <option value="" selected="">请选择结束时间</option>
+                                <option value="8">8:00</option>
+                                <option value="9">9:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="tiny alert loop_delete">删除</button>
                         </td>
                     </tr>
 
@@ -316,23 +376,23 @@
             </form>
         </section>
     </div>
-{#    <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}#}
-{#        <input type="hidden" name="olname" value=""/>#}
-{#        <input type="hidden" name="lcid" value=""/>#}
-{#        <input type="hidden" name="begin_week_number" value=""/>#}
-{#        <input type="hidden" name="end_week_number" value=""/>#}
-{#        <input type="hidden" name="lid" value=""/>#}
-{#        <input type="hidden" name="weekday" value=""/>#}
-{#        <input type="hidden" name="begin_time" value=""/>#}
-{#        <input type="hidden" name="end_time" value=""/>#}
-{#    </form>#}
-{#    <form id="single_form" action="" method="post">{% csrf_token %}#}
-{#        <input type="hidden" name="olname" value=""/>#}
-{#        <input type="hidden" name="lcid" value=""/>#}
-{#        <input type="hidden" name="lid" value=""/>#}
-{#        <input type="hidden" name="begin_time" value=""/>#}
-{#        <input type="hidden" name="end_time" value=""/>#}
-{#    </form>#}
+    {#    <form id="loop_form" action="../send_circle_open_lab/" method="post">{% csrf_token %}#}
+    {#        <input type="hidden" name="olname" value=""/>#}
+    {#        <input type="hidden" name="lcid" value=""/>#}
+    {#        <input type="hidden" name="begin_week_number" value=""/>#}
+    {#        <input type="hidden" name="end_week_number" value=""/>#}
+    {#        <input type="hidden" name="lid" value=""/>#}
+    {#        <input type="hidden" name="weekday" value=""/>#}
+    {#        <input type="hidden" name="begin_time" value=""/>#}
+    {#        <input type="hidden" name="end_time" value=""/>#}
+    {#    </form>#}
+    {#    <form id="single_form" action="" method="post">{% csrf_token %}#}
+    {#        <input type="hidden" name="olname" value=""/>#}
+    {#        <input type="hidden" name="lcid" value=""/>#}
+    {#        <input type="hidden" name="lid" value=""/>#}
+    {#        <input type="hidden" name="begin_time" value=""/>#}
+    {#        <input type="hidden" name="end_time" value=""/>#}
+    {#    </form>#}
 
     <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
     <script type="text/javascript" src="/static/js/foundation.min.js"></script>
@@ -513,23 +573,23 @@
         {##}
         {#            get_lab(2, $('#loop_labcenter').val());#}
         {##}
-{#                    $('#single_labcenter').change(function () {#}
-{#                        get_lab(1, $(this).val());#}
-{#                        var table = document.getElementById("single_t");#}
-{#                        while (table.rows.length != 2) {#}
-{#                            table.deleteRow(2);#}
-{#                        }#}
-{#                    });#}
-{#        #}
-{#                    $('#loop_labcenter').change(function () {#}
-{#                        get_lab(2, $(this).val());#}
-{#                        var table = document.getElementById("loop_t");#}
-{#                        while (table.rows.length != 2) {#}
-{#                            table.deleteRow(2);#}
-{#                        }#}
-{#                    });#}
-{#        #}
-{#                });#}
+        {#                    $('#single_labcenter').change(function () {#}
+        {#                        get_lab(1, $(this).val());#}
+        {#                        var table = document.getElementById("single_t");#}
+        {#                        while (table.rows.length != 2) {#}
+        {#                            table.deleteRow(2);#}
+        {#                        }#}
+        {#                    });#}
+        {#        #}
+        {#                    $('#loop_labcenter').change(function () {#}
+        {#                        get_lab(2, $(this).val());#}
+        {#                        var table = document.getElementById("loop_t");#}
+        {#                        while (table.rows.length != 2) {#}
+        {#                            table.deleteRow(2);#}
+        {#                        }#}
+        {#                    });#}
+        {#        #}
+        {#                });#}
         {##}
         {#        var get_lab = function (i, lcid) {#}
         {#            $.ajax({#}

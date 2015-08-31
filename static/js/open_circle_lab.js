@@ -59,16 +59,24 @@ var get_lab = function (i, lcid) {
         dataType: 'json',
         success: function (data) {
             if (i === 1) {
-                $('#single_labname').empty();
-                $('#single_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                $('.single_labname').empty();
+                $('.single_labname').each(function () {
+                    $(this).append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                });
                 for (var j = 0; j < data.length; j++) {
-                    $('#single_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                    $('.single_labname').each(function () {
+                        $(this).append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                    });
                 }
             } else {
-                $('#loop_labname').empty();
-                $('#loop_labname').append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                $('.loop_labname').empty();
+                $('.loop_labname').each(function () {
+                    $(this).append("<option value=\"\" selected=\"\">请选择实验室</option>");
+                });
                 for (var j = 0; j < data.length; j++) {
-                    $('#loop_labname').append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                    $('.loop_labname').each(function () {
+                        $(this).append("<option value=\"" + data[j].lid + "\">" + data[j].lname + "</option>");
+                    });
                 }
             }
         },
@@ -84,19 +92,19 @@ $(document).ready(function () {
     get_lab(1, $('#single_labcenter').val());
     get_lab(2, $('#loop_labcenter').val());
     $('#single_labcenter').change(function () {
+        //var table = document.getElementById("single_t");
+        //while (table.rows.length != 2) {
+        //    table.deleteRow(2);
+        //}
         get_lab(1, $(this).val());
-        var table = document.getElementById("single_t");
-        while (table.rows.length != 2) {
-            table.deleteRow(2);
-        }
     });
 
     $('#loop_labcenter').change(function () {
         get_lab(2, $(this).val());
-        var table = document.getElementById("loop_t");
-        while (table.rows.length != 2) {
-            table.deleteRow(2);
-        }
+        //var table = document.getElementById("loop_t");
+        //while (table.rows.length != 2) {
+        //    table.deleteRow(2);
+        //}
     });
 
     add_no_empty();
