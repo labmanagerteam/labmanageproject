@@ -148,10 +148,10 @@ $(document).ready(function () {
                     return false;
                 }
 
-                var lid_list = get_input('lid', arr);
-                var weekday_list = get_input('weekday', arr);
-                var begin_time_list = get_input('begin_time', arr);
-                var end_time_list = get_input('end_time', arr);
+                var lid_list = get_input('loop_labname', arr);
+                var weekday_list = get_input('loop_weekday', arr);
+                var begin_time_list = get_input('loop_time_start', arr);
+                var end_time_list = get_input('loop_time_end', arr);
 
                 for (var i = 0; i < lid_list.length; ++i) {
                     if (Number(begin_time_list[i]) >= Number(end_time_list[i])) {
