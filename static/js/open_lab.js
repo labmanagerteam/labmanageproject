@@ -66,7 +66,7 @@
 var succcess_handle = function (data) {
     var $detail_list = $('.detail_one_line');
     if (data[0]['result'] == 'e') {
-        alert("Their is some error");
+        alert("Theie is some error");
     } else if (data[0]['result'] == 's') {
         confirm('你的开放计划已经提交，请等待管理员审核');
         location.reload();
@@ -85,6 +85,9 @@ var one_time_handle = function () {
     var begin_list = new Array();
     var end_list = new Array();
     $('.detail_one_line').each(function () {
+        if($(this).css("display")=='none') {
+            return true;
+        }
         var lid = $(this).find('select[name="lid"]').val();
         var date = $(this).find('input[name="date"]').val();
         var begin_time = new Date(date);
@@ -110,6 +113,9 @@ var one_time_handle = function () {
     var lcid = $('#onetime select[name="lcid"]').val();
 
     console.log('lid_list:' + lid_list);
+    console.log('begin_list:' + begin_list);
+    console.log('end_list:' + end_list);
+    console.log('detail_list:' + detail_list);
 
     $.ajax({
         url: '/open_lab/send_open_lab/',
