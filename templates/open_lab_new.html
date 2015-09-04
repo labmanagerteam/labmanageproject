@@ -16,13 +16,70 @@
 
     <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="onetime">
+            <table id="one_help_add" style="display: none">
+                <tbody>
+                <tr class="detail_one_line" style="display: none">
+                    <td>
+                        <select class="single_labname medium" name="lid">
+                        </select>
+                    </td>
+                    <td>
+                        <input class="single_date" type="date" name="date">
+                    </td>
+                    <td>
+                        <select class="single_time_start medium" name="begin_time">
+                            <option value="" selected=""></option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="single_time_end medium" name="end_time">
+                            <option value="" selected=""></option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="single_delete tiny alert">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
             <form action="../send_open_lab/" method="post" class="">{% csrf_token %}
                 <div class="row collapse prefix-round">
                     <div class="small-1 columns">
                         <a href="#" class="button prefix">计划名称</a>
                     </div>
                     <div class="small-2 columns left">
-                        <input type="text" id="olname">
+                        <input type="text" id="olname" name="olname">
                     </div>
                     <div class="small-1 columns"></div>
                     <div class="small-1 columns">
@@ -54,58 +111,7 @@
                     </tr>
                     </thead>
                     <tbody id="single_tbody">
-                    <tr class="detail_one_line" style="display: none">
-                        <td>
-                            <select class="single_labname medium" name="lid">
-                            </select>
-                        </td>
-                        <td>
-                            <input class="single_date" type="date" name="date">
-                        </td>
-                        <td>
-                            <select class="single_time_start medium" name="begin_time">
-                                <option value="" selected=""></option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="single_time_end medium" name="end_time">
-                                <option value="" selected=""></option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="single_delete tiny alert">删除</button>
-                        </td>
-                    </tr>
+
                     <tr class="detail_one_line">
                         <td>
                             <select class="single_labname medium" name="lid">
@@ -185,6 +191,73 @@
         </section>
 
         <section role="tabpanel" aria-hidden="true" class="content" id="circle">
+            <table id="circle_help_add" style="display: none">
+                <tbody>
+                <tr style="display: none">
+                    <td>
+                        <select class="loop_labname medium" name="lid">
+                        </select>
+                    </td>
+                    <td>
+                        <select name="weekday" class="loop_weekday">
+                            <option value="" selected="">请选择周几</option>
+                            <option value="0">周一</option>
+                            <option value="1">周二</option>
+                            <option value="2">周三</option>
+                            <option value="3">周四</option>
+                            <option value="4">周五</option>
+                            <option value="5">周六</option>
+                            <option value="6">周日</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="loop_time_start medium" name="begin_time">
+                            <option value="" selected="">请选择开始时间</option>
+                            <option value="8">8:00</option>
+                            <option value="9">9:00</option>
+                            <option value="10">10:00</option>
+                            <option value="11">11:00</option>
+                            <option value="12">12:00</option>
+                            <option value="13">13:00</option>
+                            <option value="14">14:00</option>
+                            <option value="15">15:00</option>
+                            <option value="16">16:00</option>
+                            <option value="17">17:00</option>
+                            <option value="18">18:00</option>
+                            <option value="19">19:00</option>
+                            <option value="20">20:00</option>
+                            <option value="21">21:00</option>
+                            <option value="22">22:00</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="loop_time_en medium" name="end_time">
+                            <option value="" selected="">请选择结束时间</option>
+                            <option value="8">8:00</option>
+                            <option value="9">9:00</option>
+                            <option value="10">10:00</option>
+                            <option value="11">11:00</option>
+                            <option value="12">12:00</option>
+                            <option value="13">13:00</option>
+                            <option value="14">14:00</option>
+                            <option value="15">15:00</option>
+                            <option value="16">16:00</option>
+                            <option value="17">17:00</option>
+                            <option value="18">18:00</option>
+                            <option value="19">19:00</option>
+                            <option value="20">20:00</option>
+                            <option value="21">21:00</option>
+                            <option value="22">22:00</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="tiny alert loop_delete">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
             <form method="post" action="../send_circle_open_lab/" class="" id="circle_form">{% csrf_token %}
                 <div class="row collapse prefix-round">
                     <div class="small-1 columns">
@@ -198,7 +271,7 @@
                         <a href="#" class="button prefix">实验中心</a>
                     </div>
                     <div class="small-2 columns left">
-                        <select id="loop_labcenter" name="loop_labcenter" class="medium">
+                        <select id="loop_labcenter" name="lcid" class="medium">
                             {% for lab_center in lab_center_list %}
                                 <option value="{{ lab_center.lcid }}">{{ lab_center.lcname }}</option>
                             {% endfor %}
@@ -246,75 +319,14 @@
                     </tr>
                     </thead>
                     <tbody id="loop_tbody">
-                    <tr style="display: none">
-                        <td>
-                            <select class="loop_labname medium" name="loop_labname">
-                            </select>
-                        </td>
-                        <td>
-                            <select name="loop_weekday" class="loop_weekday">
-                                <option value="" selected="">请选择周几</option>
-                                <option value="0">周一</option>
-                                <option value="1">周二</option>
-                                <option value="2">周三</option>
-                                <option value="3">周四</option>
-                                <option value="4">周五</option>
-                                <option value="5">周六</option>
-                                <option value="6">周日</option>
-                            </select>
-                        </td>
 
-                        <td>
-                            <select class="loop_time_start medium" name="loop_time_start">
-                                <option value="" selected="">请选择开始时间</option>
-                                <option value="8">8:00</option>
-                                <option value="9">9:00</option>
-                                <option value="10">10:00</option>
-                                <option value="11">11:00</option>
-                                <option value="12">12:00</option>
-                                <option value="13">13:00</option>
-                                <option value="14">14:00</option>
-                                <option value="15">15:00</option>
-                                <option value="16">16:00</option>
-                                <option value="17">17:00</option>
-                                <option value="18">18:00</option>
-                                <option value="19">19:00</option>
-                                <option value="20">20:00</option>
-                                <option value="21">21:00</option>
-                                <option value="22">22:00</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select class="loop_time_en medium" name="loop_time_end">
-                                <option value="" selected="">请选择结束时间</option>
-                                <option value="8">8:00</option>
-                                <option value="9">9:00</option>
-                                <option value="10">10:00</option>
-                                <option value="11">11:00</option>
-                                <option value="12">12:00</option>
-                                <option value="13">13:00</option>
-                                <option value="14">14:00</option>
-                                <option value="15">15:00</option>
-                                <option value="16">16:00</option>
-                                <option value="17">17:00</option>
-                                <option value="18">18:00</option>
-                                <option value="19">19:00</option>
-                                <option value="20">20:00</option>
-                                <option value="21">21:00</option>
-                                <option value="22">22:00</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="tiny alert loop_delete">删除</button>
-                        </td>
-                    </tr>
                     <tr>
                         <td>
-                            <select class="loop_labname medium" name="loop_labname">
+                            <select class="loop_labname medium" name="lid">
                             </select>
                         </td>
                         <td>
-                            <select name="loop_weekday" class="loop_weekday">
+                            <select name="weekday" class="loop_weekday">
                                 <option value="" selected="">请选择周几</option>
                                 <option value="0">周一</option>
                                 <option value="1">周二</option>
@@ -327,7 +339,7 @@
                         </td>
 
                         <td>
-                            <select class="loop_time_start medium" name="loop_time_start">
+                            <select class="loop_time_start medium" name="begin_time">
                                 <option value="" selected="">请选择开始时间</option>
                                 <option value="8">8:00</option>
                                 <option value="9">9:00</option>
@@ -347,7 +359,7 @@
                             </select>
                         </td>
                         <td>
-                            <select class="loop_time_en medium" name="loop_time_end">
+                            <select class="loop_time_en medium" name="end_time">
                                 <option value="" selected="">请选择结束时间</option>
                                 <option value="8">8:00</option>
                                 <option value="9">9:00</option>
@@ -399,15 +411,15 @@
     <script type="text/javascript" src="/static/js/jquery.form.js"></script>
     <script type="text/javascript" src="/static/js/open_lab.js"></script>
     <script type="text/javascript" src="/static/js/open_circle_lab.js"></script>
-{#    <script type="text/javascript" src="/static/js/jquery.cxcalendar.js"></script>#}
+    {#    <script type="text/javascript" src="/static/js/jquery.cxcalendar.js"></script>#}
     <script>
         $(document).foundation();
-{#        $.cxCalendar.defaults.startDate = 2000;#}
-{#        $.cxCalendar.defaults.language = {#}
-{#            monthList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],#}
-{#            weekList: ['日', '一', '二', '三', '四', '五', '六']#}
-{#        };#}
-{#        $(".single_date").cxCalendar();#}
+        {#        $.cxCalendar.defaults.startDate = 2000;#}
+        {#        $.cxCalendar.defaults.language = {#}
+        {#            monthList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],#}
+        {#            weekList: ['日', '一', '二', '三', '四', '五', '六']#}
+        {#        };#}
+        {#        $(".single_date").cxCalendar();#}
 
         {#        $(document).on('change', '.prefix-round input, .prefix-round select', function () {#}
         {#            var signel_olname = $("#single_olname").val();#}

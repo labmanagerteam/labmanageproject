@@ -110,12 +110,14 @@ var one_time_handle = function () {
     });
 
     var olname = $('#onetime input[name="olname"]').val();
-    var lcid = $('#onetime select[name="lcid"]').val();
+    var lcid = $('#onetime select[name="single_labcenter"]').val();
 
     console.log('lid_list:' + lid_list);
     console.log('begin_list:' + begin_list);
     console.log('end_list:' + end_list);
     console.log('detail_list:' + detail_list);
+    console.log('olname:' + olname);
+    console.log('lcid:' + lcid);
 
     $.ajax({
         url: '/open_lab/send_open_lab/',
@@ -158,13 +160,13 @@ $(document).ready(function () {
     //    console.log("end add");
     //});
     $(document).on('click','#single_add',function(){
-        var tr=$("#single_tbody tr:first-child");
+        var tr=$("table#one_help_add tr:first-child");
         $("#single_tbody").append(tr.clone().attr('style',''));
         //get_lab(1,$('#single_labcenter').val());
     });
 
     $(document).on('click','#loop_add',function(){
-        var tr=$("#loop_tbody tr:first-child");
+        var tr=$("table#cicle_halp_add tr:first-child");
         $("#loop_tbody").append(tr.clone().attr('style',''));
         //get_lab(2,$('#loop_labcenter').val());
     });

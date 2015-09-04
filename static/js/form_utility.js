@@ -3,6 +3,7 @@
  */
 
 var get_input = function (name, arr) {
+    
     var l = [];
     console.log(name + ':');
     for (var i in arr) {
