@@ -23,7 +23,7 @@ var get_conflict_lab_olid_list = function () {
 
 };
 
-var check_open_str = "/check_open_lab";
+var check_open_str = "/open_lab/open_lab_check";
 
 var success_handler = function (data) {
     if (data['result'] == "ok") {
@@ -39,7 +39,8 @@ var error_handler = function () {
 };
 
 $(document).ready(function () {
-    $("#accept").click(function () {
+
+    $(document).on('click',"#accept",function(){
         $.ajax({
             url: check_open_str + "/accept/",
             data: {
@@ -58,7 +59,26 @@ $(document).ready(function () {
         });
     });
 
-    $("#refuse").click(function () {
+    //$("#accept").click(function () {
+    //    $.ajax({
+    //        url: check_open_str + "/accept/",
+    //        data: {
+    //            now_open_lab: get_now_open_lab_olid(),
+    //            conflict_list: get_conflict_lab_olid_list(),
+    //            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+    //        },
+    //        type: 'post',
+    //        dataType: 'json',
+    //        success: function (data) {
+    //            success_handler(data);
+    //        },
+    //        error: function () {
+    //            error_handler();
+    //        }
+    //    });
+    //});
+
+    $(document).on('click',"#refuse",function(){
         $.ajax({
             url: check_open_str + "/refuse/",
             data: {
@@ -75,4 +95,22 @@ $(document).ready(function () {
             }
         });
     });
+
+    //$("#refuse").click(function () {
+    //    $.ajax({
+    //        url: check_open_str + "/refuse/",
+    //        data: {
+    //            now_open_lab: get_now_open_lab_olid(),
+    //            csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+    //        },
+    //        type: 'post',
+    //        dataType: 'json',
+    //        success: function (data) {
+    //            success_handler(date);
+    //        },
+    //        error: function () {
+    //            error_handler();
+    //        }
+    //    });
+    //});
 });

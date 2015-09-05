@@ -69,7 +69,12 @@ def send_open_lab(request):
 
 
 def check_open_lab(request):
-    return render(request, "open_lab_check.html")
+    result = get_all_unchecked_open_lab(0, -1)
+    if result['result'] == 'no_more':
+        r = []
+    else:
+        r = result['uc_ol']
+    return render(request, "open_lab_check.html", locals())
 
 
 def get_uncheck_open_lab(request):
@@ -109,7 +114,7 @@ def get_detail_open_lab(request, olid):
                     'detail': get_open_lab_detail_by_olid(c[OLID], c[TYPE])
                 })
         print "conflict_list: %s" % conflict_list
-        return render(request, "check_open_lab_detail.html", locals())
+        return render(request, "open_lab_check_detail.html", locals())
 
 
 NOW_OPEN_LAB = 'now_open_lab'

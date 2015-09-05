@@ -2,9 +2,12 @@
 {# 2015.5.4 #}
 {% extends "base.html" %}
 {% block staticfiles %}
-    {% load staticfiles %}
-    <script src="{% static "js/check_open_lab.js" %}"></script>
-    <script src="{% static "js/check_user_order.js" %}"></script>
+{#    {% load staticfiles %}#}
+{#    <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>#}
+{#    {% load staticfiles %}#}
+{#    <script src="{% static "js/check_open_lab_detail.js" %}"></script>#}
+{#    <script src="{% static "js/check_open_lab.js" %}"></script>#}
+{#    <script src="{% static "js/check_user_order.js" %}"></script>#}
 {% endblock %}
 {% block body %}
     <ul class="tabs nice" data-tab role="tablist">
@@ -18,6 +21,9 @@
     <form action="" method="post">{% csrf_token %}
         <div class="tabs-content">
             <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+                {% if not r %}
+                    <p>暂无</p>
+                {% else %}
                 <table class="row">
                     <thead>
                     <tr>
@@ -31,9 +37,22 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                        {% for t in r %}
+                            <tr>
+                                <td>{{ t.olname }}</td>
+                                <td>{{ t.uname }}</td>
+                                <td>{{ t.lcname }}</td>
+                                <td>{{ t.type }}</td>
+                                <td>{{ t.begin_date_time }}</td>
+                                <td>{{ t.end_date_time }}</td>
+                                <td>
+                                    <a class="tiny button toModel" data-reveal-id="myModal" data-reveal-ajax="detail/{{ t.olid }}/">详情</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                {% endif %}
 
                 <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
                      role="dialog">
@@ -73,4 +92,7 @@
     <script>
         $(document).foundation();
     </script>
+    {% load staticfiles %}
+    <script src="{% static "js/check_open_lab_detail.js" %}"></script>
+    <script src="{% static "js/check_user_order.js" %}"></script>
 {% endblock %}

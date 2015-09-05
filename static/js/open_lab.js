@@ -120,7 +120,7 @@ var one_time_handle = function () {
     console.log('lcid:' + lcid);
 
     $.ajax({
-        url: '/open_lab/send_open_lab/',
+        url: 'send_open_lab/',
         data: {
             lcid: lcid,
             olname: olname,
