@@ -7,7 +7,7 @@ options = {
                 $(this).val("");
             });
             $('select').val("");
-            location.reload();
+            //location.reload();
         } else {
             confirm(data['msg']);
         }
