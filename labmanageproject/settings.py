@@ -62,7 +62,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'labmanage',
         'USER': 'root',
-        'PASSWORD': '13qbbddw',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': 3306,
     }
