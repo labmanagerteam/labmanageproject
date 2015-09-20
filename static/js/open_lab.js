@@ -166,7 +166,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click','#loop_add',function(){
-        var tr=$("table#cicle_halp_add tr:first-child");
+        var tr=$("table#circle_help_add tr:first-child");
         $("#loop_tbody").append(tr.clone().attr('style',''));
         //get_lab(2,$('#loop_labcenter').val());
     });
