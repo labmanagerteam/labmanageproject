@@ -10,17 +10,17 @@
 {#    <script src="{% static "js/check_user_order.js" %}"></script>#}
 {% endblock %}
 {% block body %}
-    <ul class="tabs nice" data-tab role="tablist">
+    <ul class="tabs nice" data-tab role="tablist" data-options="deep_linking:true">
         <li class="tab-title active" role="presentational">
-            <a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">开放计划</a>
+            <a href="#plan" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">开放计划</a>
         </li>
         <li class="tab-title" role="presentational">
-            <a href="#panel2-2" role="tab" tabindex="0" aria-selected="false" controls="panel2-2">学生预约</a>
+            <a href="#stu_app" role="tab" tabindex="0" aria-selected="false" controls="panel2-2">学生预约</a>
         </li>
     </ul>
     <form action="" method="post">{% csrf_token %}
         <div class="tabs-content">
-            <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+            <section role="tabpanel" aria-hidden="false" class="content active" id="plan">
                 {% if not r %}
                     <p>暂无</p>
                 {% else %}
@@ -62,7 +62,7 @@
                     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
                 </div>
             </section>
-            <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+            <section role="tabpanel" aria-hidden="true" class="content" id="stu_app">
                 <table class="row">
                     <thead>
                     <tr>

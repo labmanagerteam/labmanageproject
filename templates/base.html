@@ -25,15 +25,15 @@
             $('input[type="input"]').attr("required", "true");
         };
 
-{#        $(document).ready(function () {#}
-{#            add_no_empty();#}
-{#            $('.delete').click(function () {#}
-{#                var $this = $(this);#}
-{#                do_delete($(this), 'delete/', function () {#}
-{#                    $this.closest('tr').remove();#}
-{#                });#}
-{#            });#}
-{#        });#}
+        $(document).ready(function () {
+            add_no_empty();
+            $('.delete').click(function () {
+                var $this = $(this);
+                do_delete($(this), 'delete/', function () {
+                    $this.closest('tr').remove();
+                });
+            });
+        });
 
     </script>
     {% block staticfiles %}{% endblock %}

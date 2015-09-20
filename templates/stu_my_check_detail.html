@@ -16,10 +16,10 @@
                         <tr>
                         {% ifequal this_open_lab.type '单次' %}
                             {% display_open_one_lab_detail detail %}
-                            <td><input class="order tiny" type="button" value="预约"/></td>
+                            <td><input class="success button order tiny" type="button" value="预约"/></td>
                         {% else %}
                             {% display_circle_open_lab_detail detail %}
-                            <td><input class="order_circle tiny" type="button" value="预约"/></td>
+                            <td><input class="order_circle tiny success button" type="button" value="预约"/></td>
                         {% endifequal %}
                         </tr>
 
