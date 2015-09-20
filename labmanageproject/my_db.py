@@ -333,6 +333,11 @@ class semister:
     def get_week(date):
         return semister.get(**{'date': date})[0][1]
 
+    @staticmethod
+    def clear():
+        sql = "delete from semister"
+        do_sql(sql, [])
+
 
 class circle_open_lab_detail:
     COLDID = "coldid"
