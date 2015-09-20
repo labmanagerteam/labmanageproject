@@ -38,6 +38,7 @@ def set_semster_action(begin_date, end_date):
         now_date += one_day
 
     print 'semister:%s' % r
+    # semister.clear()
     semister.add_list(r)
 
 
