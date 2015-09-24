@@ -28,7 +28,7 @@
             <td><input type="text" name="lid" placeholder="id"></td>
             <td><input type="text" name="lname" placeholder="name"></td>
             <td><input type="text" name="lnumber" placeholder="number"></td>
-            <td><button class="tiny success">New</button></td>
+            <td><button class="tiny success">增加</button></td>
          </form>
     </tr>
       {% for l in lab_list %}
@@ -38,7 +38,7 @@
                     <td>{{ l.lid }}</td>
                     <td>{{ l.lname }}</td>
                     <td>{{ l.number }}</td>
-                    <td><button class="tiny alert delete">Delete</button></td>
+                    <td><button class="tiny alert delete">删除</button></td>
                 </tr>
       {% endfor %}
     </tbody>
